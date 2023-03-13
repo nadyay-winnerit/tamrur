@@ -1,25 +1,28 @@
 package pages;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
 public class LoginPage {
     WebDriver driver;
 
     //Locator for userName input
-    private By userNameInput = By.cssSelector("input[name=userName]");
+    private final By userNameInput = By.cssSelector("input[name=userName]");
 
     //Locator for password input
-    private By passwordInput = By.cssSelector("input[name=password]");
+    private final By passwordInput = By.cssSelector("input[name=password]");
 
     //Locator for connection button
-    private By connectionButton = By.tagName("button");
+    private final By connectionButton = By.tagName("button");
 
     //Locator for remember check box
-    private By rememberCheckBox = By.cssSelector("input[name=remember]");
+    private final By rememberCheckBox = By.cssSelector("input[name=remember]");
 
     //Locator for forgotPassword link
-    private By forgotPasswordLink = By.linkTest("שכחתי סיסמא");
+    private final By forgotPasswordLink = By.linkText("שכחתי סיסמא");
 
     //Locator for newUser link
-    private By newUserLink = By.linkTest("משתמש חדש?");
+    private final By newUserLink = By.linkText("משתמש חדש?");
 
 
     //constructor
@@ -32,7 +35,7 @@ public class LoginPage {
      *
      * @param str - Password string to enter
      */
-    public void PassWordSendKeys(String str) {
+    public void passWordSendKeys(String str) {
         driver.findElement(passwordInput).sendKeys(str);
     }
 
@@ -48,7 +51,7 @@ public class LoginPage {
     /**
      * The func click on connectionButton
      */
-    public void ConnectionButtonClick() {
+    public void connectionButtonClick() {
         driver.findElement(connectionButton).click();
     }
 
