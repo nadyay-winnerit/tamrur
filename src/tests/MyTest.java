@@ -16,7 +16,7 @@ public class MyTest {
 
     @BeforeClass
     public static void beforeClass() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\User\\IdeaProjects\\tamrur\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "resources\\chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
         options.addArguments("-incognito");
         driver = new ChromeDriver(options);
