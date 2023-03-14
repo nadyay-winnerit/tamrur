@@ -1,0 +1,5 @@
+/shelf/
+bin/**/*
+.idea/workspace.xml
+.idea/uiDesigner.xml
+.idea/encodings.xml
