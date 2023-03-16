@@ -4,20 +4,19 @@ import org.junit.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import pages.ContactUsPage;
 import pages.LoginPage;
 import pages.RegisterUserPage;
 
 import java.util.concurrent.TimeUnit;
 
-public class testNewRegisterUser {
+public class TestNewRegisterUser {
     private static WebDriver driver;
     LoginPage loginPage=new LoginPage(driver);
     RegisterUserPage registerUserPage=new RegisterUserPage(driver);
 
     @BeforeClass
     public static void beforeClass() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\שרי\\Desktop\\Aotomation\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "resources\\chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
         options.addArguments("-incognito");
         driver = new ChromeDriver(options);

@@ -1,5 +1,6 @@
 package pages;
 
+import objects.pages.RegisterUserPageData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
@@ -18,6 +19,11 @@ public class RegisterUserPage {
     //constructor
     public RegisterUserPage(WebDriver driver) {
         this.driver = driver;
+    }
+
+    public void fillPage(RegisterUserPageData data){
+        driver.findElement(emailInput).sendKeys(data.getEmailInput());
+        driver.findElement(fNameInput).sendKeys(data.getFNameInput());
     }
 
     /**
