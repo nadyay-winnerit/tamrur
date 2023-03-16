@@ -1,15 +1,8 @@
 package tests;
 
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.openqa.selenium.Alert;
+import org.junit.*;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.chrome.*;
 import pages.ContactUsPage;
 
 import java.util.concurrent.TimeUnit;
@@ -20,7 +13,7 @@ public class ContactUsTest {
 
     @BeforeClass
     public static void beforeClass() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\שרי\\Desktop\\Aotomation\\chromedriver.exe"); //
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\שרי\\Desktop\\Aotomation\\chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
         options.addArguments("-incognito");
         driver = new ChromeDriver(options);
