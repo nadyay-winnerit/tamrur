@@ -20,7 +20,7 @@ public class ContactUsTest {
 
     @BeforeClass
     public static void beforeClass() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\שרי\\Desktop\\Aotomation\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\שרי\\Desktop\\Aotomation\\chromedriver.exe"); //
         ChromeOptions options = new ChromeOptions();
         options.addArguments("-incognito");
         driver = new ChromeDriver(options);
