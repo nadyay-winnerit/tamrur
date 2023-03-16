@@ -45,7 +45,6 @@ public class testNewRegisterUser {
         registerUserPage.lrSelectByValue("0: 1");
         registerUserPage.checkActive();
         Thread.sleep(4000);
-        // לא עובד
         registerUserPage.SaveButtonClick();
     }
 

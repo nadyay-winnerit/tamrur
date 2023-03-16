@@ -12,7 +12,7 @@ public class RegisterUserPage {
     private By lrSelect = By.cssSelector("select[name=lr]");
 
     private By activeInput = By.cssSelector("input[name=active]");
-    private By saveButton = By.className("btn btn-primary");
+    private By saveButton = By.cssSelector("button[class*=btn-primary");
 
 
     //constructor
