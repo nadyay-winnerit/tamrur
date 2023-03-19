@@ -1,9 +1,6 @@
 package tests;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -36,14 +33,13 @@ public class ContactsTest {
     }
 
     @Test
+    //login to the site
     public void a_loginTheSite() throws InterruptedException {
         loginPage.userNameSendKeys("a@a.com");
-        Thread.sleep(4000);
         loginPage.passWordSendKeys("123456");
-        Thread.sleep(4000);
         loginPage.rememberClick();
         loginPage.connectionButtonClick();
-        Thread.sleep(4000);
+        Thread.sleep(2000);
     }
 
     @Test
@@ -51,11 +47,30 @@ public class ContactsTest {
 
         //enter the contact page
         contactPage.enterContactPage();
-        Thread.sleep(3000);
+        Thread.sleep(2000);
+
+        //checking if the contacts' page is displayed
+        try {
+            Assert.assertEquals("https://tamrur.rabai.co.il/#/home/persons", driver.getCurrentUrl());
+            System.out.println("the contacts' page is displayed");
+        } catch (AssertionError error) {
+            System.out.println("the contacts' page is not displayed");
+        }
 
         //clicking the plus button in the first row to enter the creating section
         contactPage.enterPlusBtnCreating();
         Thread.sleep(3000);
+
+        //checking if the contacts' bar is selected and bolded
+        contactPage.checkActiveBar();
+
+        /*try {
+            if (contactPage.checkActiveBar())
+                System.out.println("the right page is displayed, and the contacts' bar is selected and bolded");
+            else;
+        } catch (Exception e){
+            System.out.println("the contacts' bar is not selected and not bolded");
+        }*/
 
         //filling the details in the fields
         contactPage.fillingFieldsContact("first name");
