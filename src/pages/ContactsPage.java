@@ -1,7 +1,9 @@
 package pages;
 
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public class ContactsPage {
 
@@ -38,6 +40,11 @@ public class ContactsPage {
     //button to create the new contact
     private By createContactBtn= By.xpath("/html/body/app-root/app-default/div[1]/div[2]/app-case/form/div/div[2]/app-case-contact-persons/div[2]/ul/li[1]/form/div[6]/div[2]/button");
 
+    //the bar archive that selected when the contacts' page is displayed
+    private By selectedActiveBar= By.cssSelector("div.card-header a.active");
+
+    //the contacts' bar
+    private By contactsBar= By.xpath("/html/body/app-root/app-default/div[1]/div[2]/app-case/form/div/div[1]/section/ul/li[3]/a");
 
     //Methods
 
@@ -49,6 +56,23 @@ public class ContactsPage {
     //clicking the plus button in the first row to enter the creating section
     public void enterPlusBtnCreating(){
         driver.findElement(plusBtnNewContact).click();
+    }
+
+    //checking if the contacts' bar is selected and bolded
+    public void checkActiveBar(){
+        String activeBarText= driver.findElement(selectedActiveBar).getText();
+        String contactBarText= driver.findElement(contactsBar).getText();
+
+        /*if (activeBarText == contactBarText)
+            return true;
+        else return false;*/
+
+        try {
+            Assert.assertEquals(contactBarText, activeBarText);
+            System.out.println("the right page is displayed, and the contacts' bar is selected and bolded");
+        } catch (AssertionError e){
+            System.out.println(e.getMessage());
+        }
     }
 
     //filling the contact's details in the fields respectively
@@ -76,7 +100,7 @@ public class ContactsPage {
     }
 
 
-    //console- creating xpaths and cssSelectros
+    //console-creating xpaths and cssSelectros
     /**
      * $x("//a[contains(@class,'active')][.='פרטי פניה']") פונקציה ליצירת איקס פאת, היא עם דולר ואיקס בהתלחה
      * [a.nav-link.pointer.active]
