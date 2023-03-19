@@ -1,79 +1,59 @@
 package pages;
 
+import infra.UiElement;
+import objects.pages.LoginPageData;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 
 public class LoginPage {
-    WebDriver driver;
-
-    //Locator for userName input
-    private final By userNameInput = By.cssSelector("input[name=userName]");
-
-    //Locator for password input
-    private final By passwordInput = By.cssSelector("input[name=password]");
-
-    //Locator for connection button
-    private final By connectionButton = By.tagName("button");
-
-    //Locator for remember check box
-    private final By rememberCheckBox = By.cssSelector("input[name=remember]");
-
-    //Locator for forgotPassword link
-    private final By forgotPasswordLink = By.linkText("שכחתי סיסמא");
-
-    //Locator for newUser link
-    private final By newUserLink = By.linkText("משתמש חדש?");
 
 
-    //constructor
-    public LoginPage(WebDriver driver) {
-        this.driver = driver;
-    }
+    UiElement userNameUi = new UiElement("שם משתמש", By.cssSelector("input[name=userName]"));
+    UiElement passWordUi = new UiElement("ססמא", By.cssSelector("input[name=password]"));
+    UiElement rememberCheckBoxUi = new UiElement("זכור אותי", By.cssSelector("input[name=remember]"));
+    UiElement connectionButtonUi = new UiElement("התחבר", By.tagName("button"));
+    UiElement forgotPasswordLinkUi = new UiElement("שכחתי ססמא", By.linkText("שכחתי סיסמא"));
+    UiElement newUserLinkUi = new UiElement("משתמש חדש?", By.linkText("משתמש חדש?"));
 
     /**
-     * The func gets password string and enter it in password field
+     * The func gets data obj and fill the login page with it
      *
-     * @param str - Password string to enter
+     * @param data
      */
-    public void passWordSendKeys(String str) {
-        driver.findElement(passwordInput).sendKeys(str);
+    public void fillPage(LoginPageData data) {
+        userNameUi.input(data.getUserNameUi());
+        passWordUi.input(data.getPassWordUi());
+        if (data.getRememberCheckBoxUi())
+            rememberCheckBoxUi.click();
+
     }
 
-    /**
-     * The func gets string userName and enter it in password field
-     *
-     * @param str - userName string to enter
-     */
-    public void userNameSendKeys(String str) {
-        driver.findElement(userNameInput).sendKeys(str);
-    }
 
     /**
      * The func click on connectionButton
      */
     public void connectionButtonClick() {
-        driver.findElement(connectionButton).click();
+        connectionButtonUi.click();
     }
 
     /**
      * The func click on remember check Box
      */
     public void rememberClick() {
-        driver.findElement(rememberCheckBox).click();
+        rememberCheckBoxUi.click();
     }
 
     /**
      * The func click on forgotPassword link
      */
     public void forgotPasswordLinkClick() {
-        driver.findElement(forgotPasswordLink).click();
+        forgotPasswordLinkUi.click();
     }
 
     /**
-     * The func click on forgotPassword link
+     * The func click on newUser link
      */
     public void newUserLinkClick() {
-        driver.findElement(newUserLink).click();
+        newUserLinkUi.click();
     }
 
 
