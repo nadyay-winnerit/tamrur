@@ -2,12 +2,14 @@ package objects.pages;
 
 public class RegisterUserPageData {
 
-
+    private String id;
     private String emailInput;
     private String fNameInput;
     private String pwdInput;
     private String lrSelect;
     private String activeInput;
+
+    public String getId() {return id;}
 
     public String getEmailInput() {
       return  emailInput;
@@ -48,4 +50,6 @@ public class RegisterUserPageData {
     public void setActiveInput(String activeInput) {
         this.activeInput = activeInput;
     }
+
+    public void setId(String id) {this.id = id;}
 }
