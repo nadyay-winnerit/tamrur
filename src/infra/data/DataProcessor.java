@@ -51,9 +51,9 @@ public class DataProcessor {
         System.out.println(objects);
         RegisterUserPageData t=((RegisterUserPageData) (objects.get(0)));
         RegisterUserPageData t2=((RegisterUserPageData) (objects.get(1)));
-        System.out.println( "email "+t2.getEmailInput()+"   fname "+t2.getFNameInput()+"   pwc "+t2.getPwdInput()+"  lr"+t2.getLrSelect()+"  active"+t2.getActiveInput());
+        System.out.println( "email "+t2.getEmailInput()+"   fname "+t2.getFNameInput()+"   pwd "+t2.getPwdInput()+"  lr"+t2.getLrSelect()+"  active"+t2.getActiveInput());
 
-        System.out.println( "email "+t.getEmailInput()+"   fname "+t.getFNameInput()+"   pwc "+t.getPwdInput()+"  lr"+t.getLrSelect()+"  active"+t.getActiveInput());
+        System.out.println( "email "+t.getEmailInput()+"   fname "+t.getFNameInput()+"   pwd "+t.getPwdInput()+"  lr"+t.getLrSelect()+"  active"+t.getActiveInput());
     }
 
 }
