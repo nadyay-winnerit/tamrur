@@ -1,6 +1,8 @@
 package objects.pages;
 
-public class LoginPageData {
+import objects.BaseData;
+
+public class LoginPageData extends BaseData {
 
     private String userNameUi;
     private String passWordUi;

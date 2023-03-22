@@ -1,15 +1,14 @@
 package objects.pages;
 
-public class RegisterUserPageData {
+import objects.BaseData;
 
-    private String id;
+public class RegisterUserPageData extends BaseData {
+
     private String emailInput;
     private String fNameInput;
     private String pwdInput;
     private String lrSelect;
     private String activeInput;
-
-    public String getId() {return id;}
 
     public String getEmailInput() {
       return  emailInput;
@@ -51,5 +50,4 @@ public class RegisterUserPageData {
         this.activeInput = activeInput;
     }
 
-    public void setId(String id) {this.id = id;}
 }
