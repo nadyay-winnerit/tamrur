@@ -1,63 +1,44 @@
 package tests;
 
-import org.junit.*;
+import infra.Browser;
+import infra.TableWe;
+import objects.pages.LoginPageData;
+import org.junit.AfterClass;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
 import org.junit.runners.MethodSorters;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import pages.LoginPage;
-
-import java.util.concurrent.TimeUnit;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MyTest {
-    private static WebDriver driver;
-    private LoginPage loginPage = new LoginPage(driver);
-
-    @BeforeClass
-    public static void beforeClass() {
-        System.setProperty("webdriver.chrome.driver", "resources\\chromedriver.exe");
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("-incognito");
-        driver = new ChromeDriver(options);
-        driver.manage().timeouts().implicitlyWait(8, TimeUnit.SECONDS);
-        driver.manage().window().maximize();
-        driver.get("https://tamrur.rabai.co.il/#/account/login");
-    }
 
     @Test
     public void test_1() throws InterruptedException {
-        loginPage.userNameSendKeys("a@a.com");
-        Thread.sleep(4000);
-        loginPage.passWordSendKeys("123456");
-        Thread.sleep(4000);
-        loginPage.rememberClick();
+        TableWe tableWe = new TableWe("table", By.tagName("tbody"));
+        LoginPage loginPage = new LoginPage();
+        LoginPageData loginPageData = new LoginPageData();
+        loginPageData.setUserNameUi("auto@mation.com");
+        loginPageData.setPassWordUi("mation");
+        loginPageData.setRememberCheckBoxUi(true);
+        //List<Object> objects = DataProcessor.readCSV(LoginPageData.class);
+        loginPage.fillPage(loginPageData);
         loginPage.connectionButtonClick();
-        Thread.sleep(4000);
+        Thread.sleep(2002);
+        //click on תיקים רפואיים
+        Browser.driver().findElement(By.cssSelector("a.nav-link.active[ng-reflect-router-link='/home/dashboard']")).click();
+        Thread.sleep(2022);
+        WebElement row = Browser.driver().findElement(By.xpath("/html[1]//table[1]/tbody[1]/tr[4]"));
+        //int i = tableWe.searchRowIndex(tableWe.getElement().findElements(By.tagName("tr")).get(4));
+        int i = tableWe.searchRowIndex(row);
+        System.out.println(i);
 
-    }
-
-    @Test
-    public void test_2() throws InterruptedException {
-        loginPage.forgotPasswordLinkClick();
-        Thread.sleep(4000);
-
-    }
-
-    @Test
-    public void test_3() throws InterruptedException {
-        loginPage.newUserLinkClick();
-        Thread.sleep(4000);
-    }
-
-    @After
-    public void afterTest() {
-        driver.navigate().to("https://tamrur.rabai.co.il/#/account/login");
     }
 
 
     @AfterClass
     public static void afterClass() {
-        driver.quit();
+        Browser.close();
     }
 }
