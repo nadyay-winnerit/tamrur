@@ -39,7 +39,7 @@ public class Reporter {
                 "\n" +
                 "<body style='text-align: left;'>\n" +
                 "    <table style='background-color: ivory'>\n" +
-                "        <tr style='background-color: peachpuff, text-align: left;'>\n" +
+                "        <tr style='background-color: peachpuff; text-align: left;'>\n" +
                 "            <th>Date</th>\n" +
                 "            <th>Severity</th>\n" +
                 "            <th>Message</th>\n" +

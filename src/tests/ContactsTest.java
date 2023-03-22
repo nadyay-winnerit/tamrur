@@ -1,5 +1,6 @@
 package tests;
 
+import infra.Reporter;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.WebDriver;
@@ -17,7 +18,7 @@ public class ContactsTest {
 
     private static WebDriver driver;
     private ContactsPage contactPage = new ContactsPage(driver);
-    private LoginPage loginPage= new LoginPage(driver);
+    //private LoginPage loginPage= new LoginPage(driver);
 
     @BeforeClass
     public static void beforeClass() {
@@ -32,15 +33,15 @@ public class ContactsTest {
         driver.get("https://tamrur.rabai.co.il/#/account/login");
     }
 
-    @Test
-    //login to the site
-    public void a_loginTheSite() throws InterruptedException {
-        loginPage.userNameSendKeys("a@a.com");
-        loginPage.passWordSendKeys("123456");
-        loginPage.rememberClick();
-        loginPage.connectionButtonClick();
-        Thread.sleep(2000);
-    }
+//    @Test
+//    //login to the site
+//    public void a_loginTheSite() throws InterruptedException {
+//        loginPage.userNameSendKeys("a@a.com");
+//        loginPage.passWordSendKeys("123456");
+//        loginPage.rememberClick();
+//        loginPage.connectionButtonClick();
+//        Thread.sleep(2000);
+//    }
 
     @Test
     public void b_fillingDetails() throws InterruptedException {
@@ -84,6 +85,18 @@ public class ContactsTest {
         contactPage.fillingFieldsContact("create");
         Thread.sleep(3000);
 
+    }
+
+    @Test
+    public void tryReporter(){
+        int a=10, b=4;
+
+        Reporter.reporter().message("hello");
+        Reporter.reporter().error("xxxxx");
+        Reporter r= Reporter.reporter();
+
+        r.message("ggjkh");
+        r.result("abc", a%b==0);
     }
 
     @AfterClass

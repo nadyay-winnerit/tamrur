@@ -12,7 +12,7 @@ public class Run {
         r.result("abc", a%b==0);  // like- if(a%b == 0)
 
         //complete the writing to the html file
-        Reporter.reporter().completionHtmlFile();
+        //Reporter.reporter().completionHtmlFile();
 
 
     }
