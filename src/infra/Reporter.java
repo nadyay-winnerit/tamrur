@@ -14,10 +14,10 @@ public class Reporter {
     private static Reporter reporter;
     private static SimpleDateFormat sdf= new SimpleDateFormat("HH:mm:ss dd-MM-yyyy");
     private File html;
+    private static int errCounter= 0;
 
-    public static Reporter reporter(){  //check if a report is existed
+    public static Reporter reporter(){  //Check if a report has already been created
         if(reporter == null) {
-            System.out.println("@@@@@@@@");
             reporter = new Reporter();
         }
         return reporter;
@@ -25,80 +25,49 @@ public class Reporter {
 
     //constructor
     private Reporter(){
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!");
-
         //create a new html file, it's name is with the current time
-        html= new File(new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date())+".html");
+        SimpleDateFormat reporterTS= new SimpleDateFormat("yyyyMMdd_HHmmss");
+        html= new File(reporterTS.format(new Date())+".html");
 
         //write the start text to the file
-        try {
-            FileUtils.writeStringToFile(this.html, "<!DOCTYPE html>\n" +
-                    "<html>\n" +
-                    "<head>\n" +
-                    "    <title>Reporter</title>\n" +
-                    "</head>\n" +
-                    "\n" +
-                    "<body>\n" +
-                    "    <table>\n" +
-                    "        <tr>\n" +
-                    "            <th>Date</th>\n" +
-                    "            <th>Severity</th>\n" +
-                    "            <th>Message</th>\n" +
-                    "        </tr>\n", StandardCharsets.UTF_8, true);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        /*try {
-            new FileWriter(html).write("<!DOCTYPE html>\n" +
-                    "<html>\n" +
-                    "<head>\n" +
-                    "    <title>Reporter</title>\n" +
-                    "</head>\n" +
-                    "\n" +
-                    "<body>\n" +
-                    "    <table>\n" +
-                    "        <tr>\n" +
-                    "            <th>Date</th>\n" +
-                    "            <th>Severity</th>\n" +
-                    "            <th>Message</th>\n" +
-                    "        </tr>\n" +
-                    "    </table>\n" +
-                    "</body>\n" +
-                    "\n" +
-                    "</html>");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-            // titles(th): date-time , severity, message
-        }*/
+        appendHtml("<!DOCTYPE html>\n" +
+                "<html>\n" +
+                "<head>\n" +
+                "    <title >Reporter</title>\n" +
+                "\n" +
+                "</head>\n" +
+                "\n" +
+                "<body style='text-align: left;'>\n" +
+                "    <table style='background-color: ivory'>\n" +
+                "        <tr style='background-color: peachpuff, text-align: left;'>\n" +
+                "            <th>Date</th>\n" +
+                "            <th>Severity</th>\n" +
+                "            <th>Message</th>\n" +
+                "        </tr>\n");
     }
 
-    //methods
+    //Methods
 
     public void message(String msg){
         System.out.println("enter to message");
-        try {
-            FileUtils.writeStringToFile(this.html, "<tr>\n" +
-                    "<td>["+ sdf.format(new Date()) +"] </td>\n " +
-                    "<td class= error>[INFO] </td>\n" +
-                    "<td>"+msg+"</td>\n" +
-                    "</tr>\n", StandardCharsets.UTF_8, true);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        appendHtml("<tr>\n" +
+                "<td>["+ sdf.format(new Date()) +"] </td>\n " +
+                "<td class= error>[INFO] </td>\n" +
+                "<td>"+msg+"</td>\n" +
+                "</tr>\n");
     }
 
     public void error(String errMsg){
         System.out.println("enter to error");
-        try {
-            FileUtils.writeStringToFile(this.html, "<tr>\n" +
-                    "<td>["+ sdf.format(new Date()) +"] </td>\n " +
-                    "<td class= error>[ERROR] </td>\n" +
-                    "<td>"+ errMsg +"</td>\n" +
-                    "</tr>\n", StandardCharsets.UTF_8, true);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
+        //counter to count the error's number
+        errCounter++;
+
+        appendHtml("<tr style=\"color: red\">\n" +
+                "<td>["+ sdf.format(new Date()) +"] </td>\n " +
+                "<td class= error>[ERROR] </td>\n" +
+                "<td>"+ errMsg +"</td>\n" +
+                "</tr>\n");
     }
 
     public void result(String rsltMsg, boolean result){
@@ -108,7 +77,27 @@ public class Reporter {
         else error(rsltMsg);
     }
 
-    //complete the file - write the end of the table, body and html
+    //get the text to write in the html file, save The sending function clear, without TRY/CATCH
+    public void appendHtml(String str){
+        try {
+            FileUtils.writeStringToFile(this.html, str, StandardCharsets.UTF_8, true);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //check if there are no errors, return true. if there are any errors, return false
+    public boolean ifNoErrors(){
+        if(errCounter == 0)
+            return true;
+        else return false;
+    }
+
+
+    /**complete the file - write the end of the table, body and html
+     *
+     *  !!!צריך למצוא דרך איך לקרוא לפונקציה הזו לא מהראשי, אלא מתוך המחלקה הנוכחית!!!!
+     */
     public void completionHtmlFile(){
         try {
             FileUtils.writeStringToFile(this.html, "\n</table>\n" +
