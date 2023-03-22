@@ -1,7 +1,7 @@
 package tests;
 
 import infra.Browser;
-import objects.TableWe;
+import infra.TableWe;
 import objects.pages.LoginPageData;
 import org.junit.AfterClass;
 import org.junit.FixMethodOrder;
@@ -22,6 +22,7 @@ public class MyTest {
         loginPageData.setUserNameUi("auto@mation.com");
         loginPageData.setPassWordUi("mation");
         loginPageData.setRememberCheckBoxUi(true);
+        //List<Object> objects = DataProcessor.readCSV(LoginPageData.class);
         loginPage.fillPage(loginPageData);
         loginPage.connectionButtonClick();
         Thread.sleep(2002);

@@ -1,6 +1,5 @@
-package objects;
+package infra;
 
-import infra.UiElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
