@@ -37,7 +37,6 @@ public class DataProcessor {
                        Method method = clazz.getDeclaredMethod(NamesOfMethods.get(j), String.class);
                        method.invoke(o,rows.get(i)[j]);
              }
-                System.out.println();
                 result.add(o);
             }
 } catch (Throwable e) {
@@ -51,6 +50,9 @@ public class DataProcessor {
         List<Object> objects = DataProcessor.readCSV(RegisterUserPageData.class);
         System.out.println(objects);
         RegisterUserPageData t=((RegisterUserPageData) (objects.get(0)));
+        RegisterUserPageData t2=((RegisterUserPageData) (objects.get(1)));
+        System.out.println( "email "+t2.getEmailInput()+"   fname "+t2.getFNameInput()+"   pwc "+t2.getPwdInput()+"  lr"+t2.getLrSelect()+"  active"+t2.getActiveInput());
+
         System.out.println( "email "+t.getEmailInput()+"   fname "+t.getFNameInput()+"   pwc "+t.getPwdInput()+"  lr"+t.getLrSelect()+"  active"+t.getActiveInput());
     }
 
