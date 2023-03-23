@@ -27,10 +27,10 @@ public class DataProcessor {
             System.out.println("resources\\csv\\" + classPath + ".csv");
             CSVReader csvReader = new CSVReader(reader, '|');
             List<String[]> rows = csvReader.readAll();
-            List<String> NamesOfMethods = new ArrayList<>();
+            List<String> namesOfMethods = new ArrayList<>();
             String row = null;
             for (int k = 0; k < rows.get(0).length; k++) {
-                NamesOfMethods.add("set" + StringUtils.capitalize((rows.get(0)[k]).trim()));
+                namesOfMethods.add("set" + StringUtils.capitalize((rows.get(0)[k]).trim()));
             }
             Method[] methodList = clazz.getMethods();
             for (int i = 1; i < rows.size(); i++) {
@@ -40,8 +40,8 @@ public class DataProcessor {
                     Method method = null;
                     for (Method m : methodList) {
                         System.out.println(m.getName());
-                        System.out.println(NamesOfMethods.get(j));
-                        if (m.getName().equals(NamesOfMethods.get(j))) {
+                        System.out.println(namesOfMethods.get(j));
+                        if (m.getName().equals(namesOfMethods.get(j))) {
                             method = m;
                             break;
                         }
@@ -49,7 +49,7 @@ public class DataProcessor {
                     System.out.println(method.getParameterTypes()[0]);
                     if (method.getParameterTypes()[0] == String.class) {
                         method.invoke(o, (rows.get(i)[j]).trim());
-                    } else if (method.getParameterTypes()[0].asSubclass(BaseData.class) == method.getParameterTypes()[0]) {
+                    } else if (BaseData.class.isAssignableFrom(method.getParameterTypes()[0])) {
                         BaseData parameterOfSetter = null;
                         List<BaseData> csv = readCSV(method.getParameterTypes()[0].asSubclass(BaseData.class));
                         for (BaseData bd : csv) {
