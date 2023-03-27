@@ -1,6 +1,7 @@
 package tests;
 
 import infra.Browser;
+import infra.TableCell;
 import infra.TableWe;
 import objects.pages.LoginPageData;
 import org.junit.AfterClass;
@@ -8,15 +9,22 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import pages.LoginPage;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MyTest {
 
     @Test
     public void test_1() throws InterruptedException {
-        TableWe tableWe = new TableWe("table", By.tagName("tbody"));
+        List<Integer> listNumberRows = new ArrayList<>();
+        Map<String, String> map = new HashMap<>();
+        List<TableCell> tableCells = new ArrayList<>();
+        TableWe tableWe = new TableWe("table", By.tagName("table"));
         LoginPage loginPage = new LoginPage();
         LoginPageData loginPageData = new LoginPageData();
         loginPageData.setUserNameUi("auto@mation.com");
@@ -29,10 +37,17 @@ public class MyTest {
         //click on תיקים רפואיים
         Browser.driver().findElement(By.cssSelector("a.nav-link.active[ng-reflect-router-link='/home/dashboard']")).click();
         Thread.sleep(2022);
-        WebElement row = Browser.driver().findElement(By.xpath("/html[1]//table[1]/tbody[1]/tr[4]"));
-        //int i = tableWe.searchRowIndex(tableWe.getElement().findElements(By.tagName("tr")).get(4));
-        int i = tableWe.searchRowIndex(row);
-        System.out.println(i);
+        //tableCells.add(new TableCell("שם מטופל","אליהו הנביא",false));
+        tableCells.add(new TableCell("סטטוס", "תיק חדש", true));
+        tableCells.add(new TableCell("שם מטופל", "נחום לוי", false));
+        //tableCells.add(new TableCell("מספר","1",false));
+        listNumberRows = tableWe.search(tableCells);
+        System.out.println(tableWe.validate(tableCells, 2));
+        for (int num : listNumberRows) {
+            System.out.print(num + " ,");
+        }
+        System.out.println("=========================");
+        System.out.println(listNumberRows);
 
     }
 

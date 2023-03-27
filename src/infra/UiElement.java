@@ -32,6 +32,20 @@ public class UiElement {
         }
     }
 
+    public String read() {
+        String str = null;
+
+
+        str = element.getText();
+        if (str == null) {
+
+
+        }
+        return str;
+
+
+    }
+
     public boolean isExists() {
         findElement();
         return this.element != null;
