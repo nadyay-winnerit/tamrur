@@ -35,14 +35,16 @@ public class UiElement {
     public String read() {
         String str = null;
 
-
         str = element.getText();
-        if (str == null) {
+        if (str == null || str.isEmpty()) {
+            str = element.getAttribute("value");
 
+        }
+        if (str == null || str.isEmpty()) {
+            str = element.getAttribute("innerHTML");
 
         }
         return str;
-
 
     }
 

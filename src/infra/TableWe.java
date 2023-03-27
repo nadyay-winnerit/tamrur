@@ -42,10 +42,9 @@ public class TableWe extends UiElement {
                     strText = caseSelect(td);
 
                 } else
-                    strText = td.getText();
+                    strText = td.getText().trim();
 
-                assert strText != null;
-                if (!tableCell.value.equals(strText.trim())) {
+                if (!tableCell.value.equals(strText)) {
                     flag = false;
                     break;
                 }
@@ -75,11 +74,12 @@ public class TableWe extends UiElement {
             String valueTD;
             if (tableCell.isSelect) {
                 valueTD = caseSelect(tdList.get(indexColumn));
-                if (valueTD != null)
-                    bool = (valueTD.equals(tableCell.value));
+
+                bool = (tableCell.value.equals(valueTD));
 
             } else bool = (tdList.get(indexColumn).getText().trim().equals(tableCell.value));
-
+            if (!bool)
+                break;
         }
         return bool;
     }
@@ -105,7 +105,7 @@ public class TableWe extends UiElement {
 
         for (WebElement listItem : options) {
             if (listItem.isSelected())
-                return listItem.getText();
+                return listItem.getText().trim();
 
         }
         return null;
