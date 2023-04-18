@@ -21,13 +21,10 @@ public class DataProcessor {
         List<BaseData> result = new ArrayList<>();
         try {
             String classPath = clazz.getName().replace("objects.", "").replace(".", "\\");
-            System.out.println("resources\\csv\\" + classPath + ".csv");
             Reader reader = new FileReader("resources\\csv\\" + classPath + ".csv");
-            System.out.println("resources\\csv\\" + classPath + ".csv");
             CSVReader csvReader = new CSVReader(reader, '|');
             List<String[]> rows = csvReader.readAll();
             List<String> namesOfMethods = new ArrayList<>();
-            String row = null;
             for (int k = 0; k < rows.get(0).length; k++) {
                 namesOfMethods.add("set" + StringUtils.capitalize((rows.get(0)[k]).trim()));
             }
@@ -38,14 +35,11 @@ public class DataProcessor {
                 for (int j = 0; j < (rows.get(i)).length; j++) {
                     Method method = null;
                     for (Method m : methodList) {
-                        System.out.println(m.getName());
-                        System.out.println(namesOfMethods.get(j));
                         if (m.getName().equals(namesOfMethods.get(j))) {
                             method = m;
                             break;
                         }
                     }
-                   System.out.println(method.getName());
                     if (method.getParameterTypes()[0] == String.class) {
                         String value= getValue ((rows.get(i)[j]).trim());
                         method.invoke(o,value);
@@ -62,17 +56,14 @@ public class DataProcessor {
                     }else{
                         throw new Exception("UNKNOWN TYPE");
                     }
-
                 }
                 result.add(o);
             }
         } catch (Throwable e) {
-
             throw new RuntimeException(e);
         }
         return result;
     }
-//ללא התיחסות למקרים שתבנית לא נכונה
     private static String getValue(String str) {
         Random random=new Random();
         String value=str;
@@ -102,22 +93,20 @@ public class DataProcessor {
         }
         return value;
     }
-
    public static String getAlphaNumericString(int n)
     {
-        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        String alphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 + "0123456789"
                 + "abcdefghijklmnopqrstuvxyz"
                 +" ,:!@#$%^&*()_+-;?<>";
         StringBuilder sb = new StringBuilder(n);
         for (int i = 0; i < n; i++) {
-            int index = (int)(AlphaNumericString.length() * Math.random());
-            sb.append(AlphaNumericString.charAt(index));
+            int index = (int)(alphaNumericString.length() * Math.random());
+            sb.append(alphaNumericString.charAt(index));
         }
         return sb.toString();
     }
-
-    //retutn string in format dayOfMonth/month/year
+    //return string in format dayOfMonth/month/year
     public static String getDate(String str) {
         String[] splitList = null;
         Calendar calendar = Calendar.getInstance();
@@ -139,7 +128,6 @@ public class DataProcessor {
                 } else {
                     calendar.add(Calendar.MONTH, n);
                 }
-
             } else if (s.endsWith("D")) {
                 int n = Integer.parseInt(StringUtils.remove(s, 'D'));
                 int i = str.indexOf(s) - 1;
@@ -148,27 +136,17 @@ public class DataProcessor {
                 } else {
                     calendar.add(Calendar.DAY_OF_MONTH, n);
                 }
-
             }
         }
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH)+1;// Jan = 0, dec = 11
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-        System.out.println(dayOfMonth+"/"+month+"/"+year);
         return dayOfMonth+"/"+month+"/"+year;
     }
 
 
     public static void main(String[] args) {
         List<BaseData> objects = DataProcessor.readCSV(TestNewRegisterUserData.class);
-
        System.out.println(objects);
-//        System.out.println(getValue("[RANDOM_N_100_1001]"));
-//        System.out.println(getValue("[RANDOM_S_50]"));
-       System.out.println(getValue("[TODAY-18Y+1M-9D]"));
-        System.out.println(getValue("[TODAY]"));
-
-
-
     }
 }
