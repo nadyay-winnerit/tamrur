@@ -1,3 +1,4 @@
-id|description|registerUserPageData
-11|test1|2
-22  |test2|1
+id|description|registerUserPageData|date|string|number
+11|test1|2|[TODAY]|[RANDOM_S_50]|[RANDOM_N_100_1000]
+22  |test2|1|[TODAY-18Y+1M-2D]||
+3A||2|[TODAY_-18Y_+1M]||
