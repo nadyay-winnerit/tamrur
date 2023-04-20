@@ -19,8 +19,8 @@ public class Browser {
             driver = new ChromeDriver(options);
             driver.manage().timeouts().implicitlyWait(100, TimeUnit.MILLISECONDS);
             driver.manage().window().maximize();
-            driver.get(Config.server);
-            System.out.println("GOTO --> " + Config.server);
+            driver.get(Config.getConfig(Prop.URL));
+            System.out.println("GOTO --> " +Config.getConfig(Prop.URL));
         }
         return driver;
     }
