@@ -15,7 +15,7 @@ public class UiElement {
     protected WebElement element;
 
     //אתחול הרוט מסוג UiElement הוא בעצם יכיל אלמנט שכבר אותר, וממנו יהיה אפשר להמשיך למצוא עוד אלמנטים אחריו
-    private UiElement root= new UiElement(null, null);
+    private UiElement root= null;
 
     public static Reporter reporter= Reporter.reporter();
 
@@ -83,17 +83,18 @@ public class UiElement {
             //איפה אני מאתחלת את הרוט?????
             //אפשרות 2
             //צריך לטפל באם הרוט הוא נאל
-            By _by= new ByChained(root.by, by );
+            //By _by= new ByChained(root.by, by );
             //List<WebElement> elements = Browser.driver().findElements(_by);צריך להיות ככה אחרי הרוט של האפשרות השניה
 
             //אפשרות 1
             //////////
             SearchContext _root= Browser.driver();
 
+            //אם הרוט ריק, זה אומר שלא נמצא אלמנט עדיין, אז הוא מאתחל אותו בדרייבר
             if(root == null){  //זה נכון?
-                _root= this.root;
+                this.root= _root;  // האם הרוט חייב להיום יואייאלמנט? הוא לא יכול להיות וובאלמנט?
             } else {
-                root.findElement(); //מציב בתוך הרוט את האלמנט שכבר נמצא
+                root.findElement(); // מציב בתוך הרוט את האלמנט שכבר נמצא, אבל הוא יכול לשלוח לאותה פונקציה שהוא נמצא בה?
                 _root= root.element;  //זה נכון?
             }
             /////////////
