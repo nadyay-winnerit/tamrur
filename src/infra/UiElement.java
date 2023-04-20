@@ -1,7 +1,10 @@
 package infra;
 
+import infra.reporter.Reporter;
 import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.pagefactory.ByChained;
 
 import java.util.List;
 
@@ -10,6 +13,11 @@ public class UiElement {
     private final By by;
     private final String desc;
     protected WebElement element;
+
+    //אתחול הרוט מסוג UiElement הוא בעצם יכיל אלמנט שכבר אותר, וממנו יהיה אפשר להמשיך למצוא עוד אלמנטים אחריו
+    private UiElement root= null;
+
+    public static Reporter reporter= Reporter.reporter();
 
     public UiElement(String desc, By by) {
         this.desc = desc;
@@ -21,7 +29,6 @@ public class UiElement {
     }
 
     public void click() {
-
         findElement();
         System.out.println("Click on the element [" + this.desc + "]");
         element.click();
@@ -38,14 +45,13 @@ public class UiElement {
         str = element.getText();
         if (str == null || str.isEmpty()) {
             str = element.getAttribute("value");
-
         }
+
         if (str == null || str.isEmpty()) {
             str = element.getAttribute("innerHTML");
-
         }
-        return str;
 
+        return str;
     }
 
     public boolean isExists() {
@@ -57,6 +63,7 @@ public class UiElement {
         if (str == null) {
             return;
         }
+
         findElement();
         System.out.println("Input to element [" + this.desc + "] with value [" + str + "]");
         element.clear();
@@ -72,6 +79,27 @@ public class UiElement {
     protected void findElement() {
         int count = 10;
         while (count-- > 0) {
+
+            //איפה אני מאתחלת את הרוט?????
+            //אפשרות 2
+            //צריך לטפל באם הרוט הוא נאל
+            //By _by= new ByChained(root.by, by );
+            //List<WebElement> elements = Browser.driver().findElements(_by);צריך להיות ככה אחרי הרוט של האפשרות השניה
+
+            //אפשרות 1
+            //////////
+            SearchContext _root= Browser.driver();
+
+            //אם הרוט ריק, זה אומר שלא נמצא אלמנט עדיין, אז הוא מאתחל אותו בדרייבר
+            if(root == null){  //זה נכון?
+                this.root= _root;  // האם הרוט חייב להיום יואייאלמנט? הוא לא יכול להיות וובאלמנט?
+            } else {
+                root.findElement(); // מציב בתוך הרוט את האלמנט שכבר נמצא, אבל הוא יכול לשלוח לאותה פונקציה שהוא נמצא בה?
+                _root= root.element;  //זה נכון?
+            }
+            /////////////
+
+            // List<WebElement> elements = _root.findElements(this.by);  צריך להיות ככה אחרי הרוט של האפשרות הראשונה
             List<WebElement> elements = Browser.driver().findElements(this.by);
             if (!elements.isEmpty()) {
                 this.element = elements.get(0);
