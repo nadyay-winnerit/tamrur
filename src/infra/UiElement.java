@@ -1,6 +1,6 @@
 package infra;
 
-import infra.reporter.Reporter;
+//import infra.reporter.Reporter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
@@ -73,8 +73,27 @@ public class UiElement {
         } catch (Throwable t) {
             t.printStackTrace();
         }
-
     }
+    public void validateText(String str) {
+        if (str == null) {
+            return;
+        }
+        if (isExists()==false){
+            reporter.error("The element [" + this.desc + "] is not exists");
+            return;
+        }
+        reporter.result("ValidateText: element Text ["+this.element.getText()+"] ,current Text ["+str+"]",this.element.getText().equals(str));
+    }
+
+    public void validateExists() {
+        if (isExists() == false) {
+            reporter.error("The element [" + this.desc + "] is not exists");
+        }
+        reporter.message("The element [" + this.desc + "] is exists");
+    }
+
+
+
 
     protected void findElement() {
         int count = 10;
@@ -92,7 +111,7 @@ public class UiElement {
 
             //אם הרוט ריק, זה אומר שלא נמצא אלמנט עדיין, אז הוא מאתחל אותו בדרייבר
             if(root == null){  //זה נכון?
-                this.root= _root;  // האם הרוט חייב להיום יואייאלמנט? הוא לא יכול להיות וובאלמנט?
+                //this.root= _root;  // האם הרוט חייב להיום יואייאלמנט? הוא לא יכול להיות וובאלמנט?
             } else {
                 root.findElement(); // מציב בתוך הרוט את האלמנט שכבר נמצא, אבל הוא יכול לשלוח לאותה פונקציה שהוא נמצא בה?
                 _root= root.element;  //זה נכון?
