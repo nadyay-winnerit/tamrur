@@ -8,7 +8,7 @@ public class LoginPage {
 
 
     UiElement userNameUi = new UiElement("שם משתמש", By.cssSelector("input[name=userName]"));
-    UiElement passWordUi = new UiElement("ססמא", By.cssSelector("input[name=password]"));
+    UiElement passWordUi = new UiElement("ססמא", By.cssSelector("input[name='password']"));
     UiElement rememberCheckBoxUi = new UiElement("זכור אותי", By.cssSelector("input[name=remember]"));
     UiElement connectionButtonUi = new UiElement("התחבר", By.tagName("button"));
     UiElement forgotPasswordLinkUi = new UiElement("שכחתי ססמא", By.linkText("שכחתי סיסמא"));

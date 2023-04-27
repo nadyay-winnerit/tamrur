@@ -4,7 +4,6 @@ import infra.reporter.Reporter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.pagefactory.ByChained;
 
 import java.util.List;
 
@@ -88,19 +87,20 @@ public class UiElement {
 
             //אפשרות 1
             //////////
-            SearchContext _root= Browser.driver();
+            SearchContext _root = Browser.driver();
 
             //אם הרוט ריק, זה אומר שלא נמצא אלמנט עדיין, אז הוא מאתחל אותו בדרייבר
-            if(root == null){  //זה נכון?
-                this.root= _root;  // האם הרוט חייב להיום יואייאלמנט? הוא לא יכול להיות וובאלמנט?
-            } else {
+            if (root != null) {  //זה נכון?
+
+                //    _root=Browser.driver();  // האם הרוט חייב להיום יואייאלמנט? הוא לא יכול להיות וובאלמנט?
+                //} else {
                 root.findElement(); // מציב בתוך הרוט את האלמנט שכבר נמצא, אבל הוא יכול לשלוח לאותה פונקציה שהוא נמצא בה?
-                _root= root.element;  //זה נכון?
+                _root = root.element;  //זה נכון?
             }
             /////////////
 
-            // List<WebElement> elements = _root.findElements(this.by);  צריך להיות ככה אחרי הרוט של האפשרות הראשונה
-            List<WebElement> elements = Browser.driver().findElements(this.by);
+            List<WebElement> elements = _root.findElements(this.by); // צריך להיות ככה אחרי הרוט של האפשרות הראשונה
+            //List<WebElement> elements = Browser.driver().findElements(this.by);
             if (!elements.isEmpty()) {
                 this.element = elements.get(0);
                 break;
