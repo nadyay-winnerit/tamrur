@@ -1,14 +1,9 @@
 package infra.test;
 
-import infra.Browser;
-import infra.reporter.Reporter;
+import infra.*;
 import objects.BaseData;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TestRule;
-import org.junit.rules.TestWatcher;
+import org.junit.*;
+import org.junit.rules.*;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
@@ -71,7 +66,7 @@ public abstract class TestBase {
             Browser.driver().close();
         }
     };
-}
+
 
 
 
@@ -91,7 +86,7 @@ public abstract class TestBase {
         reporter.message("enter test ["+ testData.getId() + "] in [" + this.getClass().getSimpleName() +"]");
 
         //before every test the errors counter should be reset
-        reporter.resetErrorCounter();
+//        reporter.resetErrorCounter();
     }
 
     @After
