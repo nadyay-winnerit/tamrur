@@ -67,7 +67,6 @@ public class UiElement {
         findElement();
         System.out.println("Input to element [" + this.desc + "] with value [" + str + "]");
         element.clear();
-        element.sendKeys(str);
         try {
             Thread.sleep(1500);
         } catch (Throwable t) {
@@ -78,18 +77,14 @@ public class UiElement {
         if (str == null) {
             return;
         }
-        if (isExists()==false){
+        if (isExists() == false) {
             reporter.error("The element [" + this.desc + "] is not exists");
             return;
         }
-        reporter.result("ValidateText: element Text ["+this.element.getText()+"] ,current Text ["+str+"]",this.element.getText().equals(str));
+        reporter.result("ValidateText: element Text [" + this.element.getText() + "] ,current Text [" + str + "]", this.element.getText().equals(str));
     }
-
     public void validateExists() {
-        if (isExists() == false) {
-            reporter.error("The element [" + this.desc + "] is not exists");
-        }
-        reporter.message("The element [" + this.desc + "] is exists");
+        reporter.result("validateExists:The element [" + this.desc + "] exists="+isExists() ,isExists());
     }
 
 
