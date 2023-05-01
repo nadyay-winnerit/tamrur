@@ -1,13 +1,12 @@
 package tests;
 
-import infra.Reporter;
+import infra.reporter.Reporter;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import pages.ContactsPage;
-import pages.LoginPage;
 
 import java.util.concurrent.TimeUnit;
 
@@ -88,15 +87,15 @@ public class ContactsTest {
     }
 
     @Test
-    public void tryReporter(){
-        int a=10, b=4;
+    public void tryReporter() {
+        int a = 10, b = 4;
 
-        Reporter.reporter().message("hello");
-        Reporter.reporter().error("xxxxx");
-        Reporter r= Reporter.reporter();
+        Reporter.reporter().message("hello", null);
+        Reporter.reporter().error("xxxxx", null);
+        Reporter r = Reporter.reporter();
 
-        r.message("ggjkh");
-        r.result("abc", a%b==0);
+        r.message("ggjkh", null);
+        r.result("abc", null, a % b == 0);
     }
 
     @AfterClass

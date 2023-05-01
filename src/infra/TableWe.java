@@ -69,12 +69,10 @@ public class TableWe extends UiElement {
         WebElement tr = element.findElement(By.cssSelector("tr:nth-child(" + numLine + ")"));
         List<WebElement> tdList = tr.findElements(By.cssSelector("td"));
         for (TableCell tableCell : list) {
-
             int indexColumn = getColumnIndex(tableCell.column);
             String valueTD;
             if (tableCell.isSelect) {
                 valueTD = caseSelect(tdList.get(indexColumn));
-
                 bool = (tableCell.value.equals(valueTD));
 
             } else bool = (tdList.get(indexColumn).getText().trim().equals(tableCell.value));
@@ -109,8 +107,6 @@ public class TableWe extends UiElement {
 
         }
         return null;
-
     }
-
 
 }

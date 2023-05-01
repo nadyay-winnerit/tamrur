@@ -3,13 +3,6 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
-        <entry key="\bin\production\tamrur\LoginPageData.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="|" />
-            </Attribute>
-          </value>
-        </entry>
         <entry key="\bin\production\tamrur\csv\pages\RegisterUserPageData.csv">
           <value>
             <Attribute>
@@ -17,14 +10,14 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="\resources\LoginPageData.csv">
+        <entry key="\resources\csv\pages\RegisterUserPageData.csv">
           <value>
             <Attribute>
               <option name="separator" value="|" />
             </Attribute>
           </value>
         </entry>
-        <entry key="\resources\csv\pages\RegisterUserPageData.csv">
+        <entry key="\resources\csv\tests\TestNewRegisterUserData.csv">
           <value>
             <Attribute>
               <option name="separator" value="|" />
