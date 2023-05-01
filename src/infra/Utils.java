@@ -7,7 +7,7 @@ public class Utils {
         try {
             Thread.sleep(millisecond);
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 

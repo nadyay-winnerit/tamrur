@@ -1,6 +1,6 @@
 package infra.data;
 
-import infra.test.SuiteBase;
+//import infra.test.SuiteBase;
 import objects.BaseData;
 import objects.tests.TestNewRegisterUserData;
 import org.jooq.tools.csv.CSVReader;
@@ -64,13 +64,14 @@ public class DataProcessor {
             throw new RuntimeException(e);
         }
 
-        if () {  //איך אני עושה?- שואל האם נכנס לסוויטה ומביא לה רק את המידע הנחוץ לה
-            for (BaseData r : result) {
-                if (r.getId() ==) {  //איך אני ניגשת לid של המופע שאותו אני צריכה בשביל הסוויטה? מאיפה אני מקבלת אותו?
-                    SuiteBase.currentTestId = r.getId();
-                }
-            }
-        }
+
+//        if () {  //איך אני עושה?- שואל האם נכנס לסוויטה ומביא לה רק את המידע הנחוץ לה
+//            for (BaseData r : result) {
+//                if (r.getId() ==) {  //איך אני ניגשת לid של המופע שאותו אני צריכה בשביל הסוויטה? מאיפה אני מקבלת אותו?
+//                    SuiteBase.currentTestId = r.getId();
+//                }
+//            }
+//        }
 
         return result;
     }

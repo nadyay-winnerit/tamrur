@@ -1,32 +1,48 @@
 package infra;
 
-import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 public class Config {
-    private static Properties properties;
-    public static String getConfig(Prop prop) {
+    private static Config config = null;
 
-        if (properties==null) {
-            try {
-                properties = new Properties();
-                FileInputStream in = new FileInputStream("config.properties");
-                properties.load(in);
-                in.close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+    private Properties properties;
+    private Config()
+    {
+        try {
+            properties = new Properties();
+            FileInputStream in = new FileInputStream("config.properties");
+            properties.load(in);
+            in.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        return properties.getProperty(prop.toString());
     }
+    public static Config getInstance()
+    {
+        if (config == null)
+            config = new Config();
+        return config;
+    }
+
+    public String getValueOfProperty(Prop prop){
+        return properties.getProperty(prop.name());
+    }
+    public void setValueOfProperty(Prop Key,String value){
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream("config.properties");
+            properties.setProperty(Key.name(), value);
+            properties.store(out, null);
+            out.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
 }

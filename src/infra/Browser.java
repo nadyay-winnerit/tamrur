@@ -1,5 +1,6 @@
 package infra;
 
+import infra.reporter.Reporter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -10,6 +11,7 @@ public class Browser {
 
 
     private static WebDriver driver;
+    private static Reporter reporter = Reporter.reporter();
 
     public static WebDriver driver() {
         if (driver == null) {
@@ -19,8 +21,8 @@ public class Browser {
             driver = new ChromeDriver(options);
             driver.manage().timeouts().implicitlyWait(100, TimeUnit.MILLISECONDS);
             driver.manage().window().maximize();
-            driver.get(Config.getConfig(Prop.URL));
-            System.out.println("GOTO --> " +Config.getConfig(Prop.URL));
+            driver.get(Config.getInstance().getValueOfProperty(Prop.URL));
+            System.out.println("GOTO --> " +Config.getInstance().getValueOfProperty(Prop.URL));
         }
         return driver;
     }
