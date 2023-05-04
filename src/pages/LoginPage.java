@@ -1,6 +1,6 @@
 package pages;
 
-import infra.UiElement;
+import infra.ui.UiElement;
 import objects.pages.LoginPageData;
 import org.openqa.selenium.By;
 

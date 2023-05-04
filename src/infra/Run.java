@@ -11,7 +11,6 @@ public class Run {
         Reporter.reporter().closeLevel();
         Reporter.reporter().error("fail after close level1", null);
         Reporter.reporter().result("ok ", "info info", true);
-
         Reporter.reporter().openLevel("open another level1", "image change");
         Reporter.reporter().message("msg inside level1", null);
         Reporter.reporter().openLevel("open level2 inside level 1", "image change");
@@ -32,6 +31,8 @@ public class Run {
         Reporter.reporter().message("msg2 parent after close", "more more");
         Reporter.reporter().message("msg3 parent after close", "more more");
         Reporter.reporter().result(" parent error", null, false);
+
+
         // Reporter.reporter().error("xxxxx");
 //        Reporter r= Reporter.reporter();
 //

@@ -1,5 +1,6 @@
 package infra;
 
+import infra.ui.UiElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -19,6 +20,7 @@ public class TableWe extends UiElement {
      * @param tableCells
      * @return -list numbers of rows
      */
+
     public List<Integer> search(List<TableCell> tableCells) {
         super.findElement();
         List<Integer> listIndexRows = new ArrayList<>();

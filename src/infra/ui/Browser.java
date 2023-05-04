@@ -1,5 +1,7 @@
-package infra;
+package infra.ui;
 
+import infra.Config;
+import infra.Prop;
 import infra.reporter.Reporter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -22,9 +24,13 @@ public class Browser {
             driver.manage().timeouts().implicitlyWait(100, TimeUnit.MILLISECONDS);
             driver.manage().window().maximize();
             driver.get(Config.getInstance().getValueOfProperty(Prop.URL));
-            System.out.println("GOTO --> " +Config.getInstance().getValueOfProperty(Prop.URL));
+            System.out.println("GOTO --> " + Config.getInstance().getValueOfProperty(Prop.URL));
         }
         return driver;
+    }
+
+    public static boolean isOpen() {
+        return driver != null;
     }
 
     public static void close() {

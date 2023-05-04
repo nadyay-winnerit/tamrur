@@ -1,8 +1,17 @@
 package infra.reporter;
 
+import infra.AutomationException;
+import infra.ui.Browser;
 import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
@@ -20,15 +29,16 @@ public class Reporter {
     private int id = 1;
     private List<Integer> listLevelId = new ArrayList<>();
 
-//    private static Robot robot;
-//    private static Rectangle rectangle = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
-//    static {
-//        try {
-//            ImageUtils.robot = new Robot();
-//        } catch (AWTException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    private static Robot robot;
+    private static Rectangle rectangle = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
+
+    static {
+        try {
+            robot = new Robot();
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static Reporter reporter() {  //Check if a report has already been created
         if (reporter == null) {
@@ -58,7 +68,6 @@ public class Reporter {
                 "function showLevel(getLevelId){" +
                 "\ndocument.querySelector(\"tr[levelId='\"+getLevelId+\"']>td>img[src*='levelExpanded.png'][onclick]\").style.display='inline-block';" +
                 "\ndocument.querySelector(\"tr[levelId='\"+getLevelId+\"']>td>img[src*='level.png'][onclick]\").style.display='none';" +
-                //"\nvar myArrayRows=document.querySelectorAll(\"tr[levelId^='\"+getLevelId+\"_']\");" +
                 "\nvar myArrayRows=document.querySelectorAll(\"tr[parentId='\"+getLevelId+\"']\");" +
                 "\nfor(i=0;i<myArrayRows.length;i++)" +
                 "\nmyArrayRows[i].style.display='table-row'}\n" +
@@ -67,7 +76,14 @@ public class Reporter {
                 "\ndocument.querySelector(\"tr[levelId='\" +getLevelId+ \"']>td>img[src*='levelExpanded.png'][onclick]\").style.display='none';" +
                 "\n var myArrayRows=document.querySelectorAll(\"tr[parentId^='\"+getLevelId+\"']\");" +
                 "\nfor(i=0;i<myArrayRows.length;i++)" +
-                "\nmyArrayRows[i].style.display='none' " +
+                "\n{" +
+                "\nvar imgElement = myArrayRows[i].querySelector(\" td img[src*='levelExpanded.png']\")" +
+                "\n if(imgElement!=null)" +
+                "\n {imgElement.style.display='none';" +
+                "\n  myArrayRows[i].querySelector(\" td img[src*='level.png']\").style.display='inline-block';}" +
+                "\nmyArrayRows[i].style.display='none';" +
+
+                "\n}" +
                 " }\n" +
                 "    </script>\n" +
                 "</head>\n" +
@@ -76,7 +92,7 @@ public class Reporter {
                 "    <table>\n" +
                 "        <tr>\n" +
                 "            <td><b>Date:</b></td>\n" +
-                "            <td>" + sdf1.format(new Date()) + "</td>\n" +
+                "            <td>" + sdf2.format(new Date()) + "</td>\n" +
                 "        </tr>\n" +
                 "        <tr>\n" +
                 "            <td><b></b></td>\n" +
@@ -97,16 +113,37 @@ public class Reporter {
     //Methods
 
     public void message(String msg, String moreInfo) {
-        //update the last place in a list (add 1)
+        _reportRow(msg, moreInfo, true, false);
+
+    }
+
+    public void error(String errMsg, String moreInfo) {
+        //counter to count the error's number
+        errCounter++;
+        _reportRow(errMsg, moreInfo, false, false);
+    }
+
+    public void openLevel(String msg, String moreInfo) {
+        _reportRow(msg, moreInfo, true, true);
+        listLevelId.add(0);
+    }
+
+    private String _createRowHtml(String msg, String moreInfo, boolean isPass, boolean isOpen) {
         listLevelId.set(listLevelId.size() - 1, listLevelId.get(listLevelId.size() - 1) + 1);
         String levelId = getLevelId();
         String parentId = getParentId();
-        appendHtml("<tr id=" + id + " levelId='" + levelId + "' parentId='" + parentId + "' style='display: " + isOuter(parentId) + "'>\n" +
-                "        <td><img src='../resources/reporter/passed.png'/></td>\n" +
-                "        <td>" + levelImage(false, levelId, parentId) + msg + "</td>\n" +
-                "        <td>" + sdf1.format(new Date()) + "</td>\n"
-                + "<td/>");
-
+        String date = sdf1.format(new Date());
+        String imgSrc = (isPass ? "passed.png" : "failed.png");
+        appendHtml("<tr id='" + id + "' levelId='" + levelId + "' parentId='" + parentId + "' style='display: " + isOuter(parentId) + "'>\n" +
+                "        <td><img src='../resources/reporter/" + imgSrc + "'/></td>\n" +
+                "        <td>" + levelImage(isOpen, levelId, parentId) + msg + "</td>\n" +
+                "        <td>" + date + "</td>\n" +
+                (!isPass ? "        <td><img id='" + id + "' src='../resources/reporter/screenshot.png' onclick='showScreenshot(this)'/>\n" +
+                        "            <div screen id='" + id + "_screen' style='display: none;'><img id='_" + id + "_screen' src='../resources/reporter/close.png'\n" +
+                        "                                                                  width='18' style='float: right;'\n" +
+                        "                                                                  onclick='closeWindow(this)'/> <img\n" +
+                        "                    src='screenshots/screenshot_" + id + ".png' width='100%' height='100%'/></div>\n" +
+                        "        </td>" : "<td/>"));
         if (moreInfo != null)
             moreInfo(moreInfo);
         else
@@ -114,48 +151,40 @@ public class Reporter {
         appendHtml("</tr>");
 
         id++;
+        return date;
     }
 
     private String getParentId() {
         ArrayList<Integer> srcList = new ArrayList<>(listLevelId);
         srcList.remove(listLevelId.size() - 1);
-        return getReplaceToString(srcList.toString());
+        return getReplaceToString(srcList);
     }
 
     private String getLevelId() {
 
-        return getReplaceToString(listLevelId.toString());
+        return getReplaceToString(listLevelId);
     }
 
-    private String getReplaceToString(String toString) {
-        return toString.replace("[", "").replace("]", "")
+
+    public void error(String errMsg, String moreInfo, Throwable e) {
+        String moreInfoWithThrowable;
+        moreInfoWithThrowable = (moreInfo != null ? moreInfo : "");
+        moreInfoWithThrowable += "/n/r " + AutomationException.printAble(e);
+        errCounter++;
+        _reportRow(errMsg, moreInfoWithThrowable, false, false);
+
+    }
+
+    private String getReplaceToString(List<Integer> list) {
+        String str = list.toString();
+        return str.replace("[", "").replace("]", "")
                 .replace(", ", "_");
     }
 
     public void closeLevel() {
-        //listLevelId.set(listLevelId.size() - 1, 0);
         listLevelId.remove(listLevelId.size() - 1);
     }
 
-    public void openLevel(String msg, String moreInfo) {
-        listLevelId.set(listLevelId.size() - 1, listLevelId.get(listLevelId.size() - 1) + 1);
-        String levelId = getLevelId();
-        String parentId = getParentId();
-        listLevelId.add(0);
-        System.out.println("enter to message");
-        appendHtml("<tr id=" + id + " levelId='" + levelId + "' parentId='" + parentId + "' style='display: " + isOuter(parentId) + "'>\n" +
-                "        <td><img src='../resources/reporter/passed.png'/></td>\n" +
-                "        <td>" + levelImage(true, levelId, parentId) + msg + "</td>\n" +
-                "        <td>" + sdf1.format(new Date()) + "</td>\n"
-                + "<td/>");
-        if (moreInfo != null)
-            moreInfo(moreInfo);
-        else
-            appendHtml("<td/>");
-        appendHtml("</tr>");
-
-        id++;
-    }
 
     private void moreInfo(String moreInfo) {
         appendHtml("<td>&nbsp;&nbsp;<img id=" + id + " src='../resources/reporter/more.png' width='18' onclick='showMoreInfo(this)'/>\n" +
@@ -169,35 +198,8 @@ public class Reporter {
                 "        </td>");
     }
 
-    public void error(String errMsg, String moreInfo) {
-
-
-        //counter to count the error's number
-        errCounter++;
-        listLevelId.set(listLevelId.size() - 1, listLevelId.get(listLevelId.size() - 1) + 1);
-        String levelId = getLevelId();
-        String parentId = getParentId();
-        appendHtml("<tr id=" + id + " levelId='" + levelId + "' style='display: " + isOuter(parentId) + ";'>\n" +
-                "        <td><img src='../resources/reporter/failed.png'/></td>\n" +
-                "        <td>" + levelImage(false, levelId, parentId) + errMsg + "</td>\n" +
-                "        <td>" + sdf1.format(new Date()) + "</td>\n" +
-                "        <td><img id='" + id + "' src='../resources/reporter/screenshot.png' onclick='showScreenshot(this)'/>\n" +
-                "            <div screen id='" + id + "_screen' style='display: none;'><img id='_" + id + "_screen' src='../resources/reporter/close.png'\n" +
-                "                                                                  width='18' style='float: right;'\n" +
-                "                                                                  onclick='closeWindow(this)'/> <img\n" +
-                "                    src='screenshots/screenshot_" + id + ".png' width='100%' height='100%'/></div>\n" +
-                "        </td>");
-        if (moreInfo != null)
-            moreInfo(moreInfo);
-        else
-            appendHtml("</td>");
-        appendHtml("</tr>");
-
-        id++;
-    }
 
     public void result(String rsltMsg, String moreInfo, boolean result) {
-        System.out.println("enter to result");
         if (result)
             message(rsltMsg, moreInfo);
         else error(rsltMsg, moreInfo);
@@ -222,7 +224,6 @@ public class Reporter {
 
     public String isOuter(String parentId) {
         String style;
-        //if (listLevelId.size() == 1 || (listLevelId.size() == 2 && listLevelId.get(listLevelId.size() - 1) == 0))
         if (parentId.trim().isEmpty())
             style = "table-row";
         else
@@ -230,48 +231,41 @@ public class Reporter {
         return style;
     }
 
+
     //get the text to write in the html file, save The sending function clear, without TRY/CATCH
-    public void appendHtml(String str) {
+    private void appendHtml(String msg) {
         try {
-            FileUtils.writeStringToFile(this.html, str, StandardCharsets.UTF_8, true);
+
+            FileUtils.writeStringToFile(this.html, msg, StandardCharsets.UTF_8, true);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
+    private void _reportRow(String msg, String moreInfo, boolean isPass, boolean isOpen) {
+
+        String date = _createRowHtml(msg, moreInfo, isPass, isOpen);//האם יש ענין להחזיר את הdate
+
+        System.out.println("[" + date + "][" + (isPass ? "MSG" : "ERR") + "]" + msg + (moreInfo == null ? "" : "\r\n\t" + moreInfo));
+    }
+
 
     //check if there are no errors, return true. if there are any errors, return false
     public boolean ifNoErrors() {
-        if (errCounter == 0)
-            return true;
-        else return false;
-    }
-
-
-    /**
-     * complete the file - write the end of the table, body and html
-     * <p>
-     * !!!צריך למצוא דרך איך לקרוא לפונקציה הזו לא מהראשי, אלא מתוך המחלקה הנוכחית!!!!
-     */
-    public void completionHtmlFile() {
-        try {
-            FileUtils.writeStringToFile(this.html, "\n</table>\n" +
-                    "</body>\n" +
-                    "\n" +
-                    "</html>", StandardCharsets.UTF_8, true);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return errCounter == 0;
     }
 
     //func to take Screenshot
-   /* public static void takeScreenshot(int id) {
+    public static void takeScreenshot(int id) {
+        if (!Browser.isOpen())
+            return;
         String screenshotFileName = "reporter/screenshots/screenshot_" + id + ".png";
         try {
             byte[] _screenshot;
             try {
                 _screenshot = ((TakesScreenshot) Browser.driver()).getScreenshotAs(OutputType.BYTES);
             } catch (Throwable t) {
-                BufferedImage img = ImageUtils.robot.createScreenCapture(ImageUtils.rectangle);
+                BufferedImage img = robot.createScreenCapture(rectangle);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 ImageIO.write(img, "png", baos);
                 baos.flush();
@@ -296,6 +290,6 @@ public class Reporter {
         } catch (Throwable e) {
             e.printStackTrace();
         }
-    }*/
-
+    }
 }
+
