@@ -263,6 +263,10 @@ public class Reporter {
         }
     }
 
+    public void resetErrorCounter() {
+        errCounter = 0;
+    }
+
     //func to take Screenshot
    /* public static void takeScreenshot(int id) {
         String screenshotFileName = "reporter/screenshots/screenshot_" + id + ".png";

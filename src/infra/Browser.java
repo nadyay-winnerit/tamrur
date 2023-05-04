@@ -22,13 +22,15 @@ public class Browser {
             driver.manage().timeouts().implicitlyWait(100, TimeUnit.MILLISECONDS);
             driver.manage().window().maximize();
             driver.get(Config.getInstance().getValueOfProperty(Prop.URL));
-            System.out.println("GOTO --> " +Config.getInstance().getValueOfProperty(Prop.URL));
+            System.out.println("GOTO --> " + Config.getInstance().getValueOfProperty(Prop.URL));
         }
         return driver;
     }
 
     public static void close() {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
     }
 
 

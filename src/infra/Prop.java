@@ -1,5 +1,9 @@
 package infra;
 
 public enum Prop {
-    URL
+    SUITECASE,
+    TESTCASE,
+    URL,
+    //
+    ;
 }
