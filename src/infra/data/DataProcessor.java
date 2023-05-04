@@ -1,6 +1,10 @@
 package infra.data;
 
 //import infra.test.SuiteBase;
+
+import infra.Config;
+import infra.Prop;
+import infra.Utils;
 import objects.BaseData;
 import objects.tests.TestNewRegisterUserData;
 import org.jooq.tools.csv.CSVReader;
@@ -9,15 +13,16 @@ import java.io.FileReader;
 import java.io.Reader;
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
 
-import static java.util.Calendar.DATE;
-
 public class DataProcessor {
 
-    public static List<BaseData> readCSV(Class<? extends BaseData> clazz) {
+    public static String currentTestId;
+
+    public static BaseData currentTestData;
+
+    private static List<BaseData> readCSV(Class<? extends BaseData> clazz) {
 
         List<BaseData> result = new ArrayList<>();
         try {
@@ -42,8 +47,8 @@ public class DataProcessor {
                         }
                     }
                     if (method.getParameterTypes()[0] == String.class) {
-                        String value= getValue ((rows.get(i)[j]).trim());
-                        method.invoke(o,value);
+                        String value = getValue((rows.get(i)[j]).trim());
+                        method.invoke(o, value);
                     } else if (BaseData.class.isAssignableFrom(method.getParameterTypes()[0])) {
                         BaseData parameterOfSetter = null;
                         List<BaseData> csv = readCSV((Class<? extends BaseData>) method.getParameterTypes()[0]);
@@ -54,7 +59,7 @@ public class DataProcessor {
                             }
                         }
                         method.invoke(o, parameterOfSetter);
-                    }else{
+                    } else {
                         throw new Exception("UNKNOWN TYPE");
                     }
                 }
@@ -64,59 +69,106 @@ public class DataProcessor {
             throw new RuntimeException(e);
         }
 
-
-//        if () {  //איך אני עושה?- שואל האם נכנס לסוויטה ומביא לה רק את המידע הנחוץ לה
-//            for (BaseData r : result) {
-//                if (r.getId() ==) {  //איך אני ניגשת לid של המופע שאותו אני צריכה בשביל הסוויטה? מאיפה אני מקבלת אותו?
-//                    SuiteBase.currentTestId = r.getId();
-//                }
-//            }
-//        }
-
         return result;
     }
-    private static String getValue(String str) {
-        Random random=new Random();
-        String value=str;
-        String[] splitList= null;
-        if(str.startsWith("[")&&str.endsWith("]")){
-             if (str.startsWith("[TODAY")){
-                 //[TODAY-18Y+1M-2D]
-                 value=getDate(str);
-             } else if (str.startsWith("[RANDOM")) {
-                 //[RANDOM_N_100_1000]
-                 if (str.startsWith("[RANDOM_N")){
-                     splitList=str.split("_");
-                     int origin= Integer.parseInt(splitList[2]);
-                     int bound= Integer.parseInt(splitList[3].substring(0,splitList[3].length()-1));
-                     int n = bound - origin;
-                     if (n > 0) {
-                         return String.valueOf(random.nextInt(n) + origin);
-                     }
-                  //[RANDOM_S_50]
-                 } else if (str.startsWith("[RANDOM_S")) {
-                     splitList=str.split("_");
-                     int n= Integer.parseInt(splitList[2].substring(0,splitList[2].length()-1));
-                     return getAlphaNumericString(n);
-                 }
 
-             }
+    public static List<Object[]> createTestData(Class<? extends BaseData> clazz) {
+        List<BaseData> csvData = readCSV(clazz);
+        List<BaseData> filteredResult = new ArrayList<>();
+        List<Object[]> data = new ArrayList<>();
+
+        if (currentTestData != null) {
+            data.add(new Object[]{currentTestData.getId(), currentTestData});
+            currentTestData = null;
+            return data;
+        }
+
+        String testCase = Config.getInstance().getValueOfProperty(Prop.TESTCASE);
+        if (!Utils.isNullOrEmpty(currentTestId) || !Utils.isNullOrEmpty(testCase)) {
+            for (BaseData dataObj : csvData) {
+                if (dataObj.getId().equals(currentTestId) || dataObj.getId().equals(testCase)) {
+                    filteredResult.add(dataObj);
+                }
+            }
+        } else {
+            filteredResult.addAll(csvData);
+        }
+
+        currentTestId = null;
+
+        for (BaseData d : filteredResult) {
+            data.add(new Object[]{d.getId(), d});
+        }
+
+        return data;
+
+    }
+
+    public static List<Object[]> createSuiteData(Class<? extends BaseData> clazz) {
+
+        List<BaseData> csvData = readCSV(clazz);
+        List<BaseData> filteredResult = new ArrayList<>();
+        String suiteCase = Config.getInstance().getValueOfProperty(Prop.SUITECASE);
+        if (!Utils.isNullOrEmpty(suiteCase)) {
+            for (BaseData dataObj : csvData) {
+                if (dataObj.getId().equals(suiteCase)) {
+                    filteredResult.add(dataObj);
+                }
+            }
+        } else {
+            filteredResult.addAll(csvData);
+        }
+
+        List<Object[]> data = new ArrayList<>();
+        for (BaseData d : filteredResult) {
+            data.add(new Object[]{d.getId(), d});
+        }
+        return data;
+    }
+
+    private static String getValue(String str) {
+        Random random = new Random();
+        String value = str;
+        String[] splitList = null;
+        if (str.startsWith("[") && str.endsWith("]")) {
+            if (str.startsWith("[TODAY")) {
+                //[TODAY-18Y+1M-2D]
+                value = getDate(str);
+            } else if (str.startsWith("[RANDOM")) {
+                //[RANDOM_N_100_1000]
+                if (str.startsWith("[RANDOM_N")) {
+                    splitList = str.split("_");
+                    int origin = Integer.parseInt(splitList[2]);
+                    int bound = Integer.parseInt(splitList[3].substring(0, splitList[3].length() - 1));
+                    int n = bound - origin;
+                    if (n > 0) {
+                        return String.valueOf(random.nextInt(n) + origin);
+                    }
+                    //[RANDOM_S_50]
+                } else if (str.startsWith("[RANDOM_S")) {
+                    splitList = str.split("_");
+                    int n = Integer.parseInt(splitList[2].substring(0, splitList[2].length() - 1));
+                    return getAlphaNumericString(n);
+                }
+
+            }
         }
         return value;
     }
-   public static String getAlphaNumericString(int n)
-    {
+
+    public static String getAlphaNumericString(int n) {
         String alphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 + "0123456789"
                 + "abcdefghijklmnopqrstuvxyz"
-                +" ,:!@#$%^&*()_+-;?<>";
+                + " ,:!@#$%^&*()_+-;?<>";
         StringBuilder sb = new StringBuilder(n);
         for (int i = 0; i < n; i++) {
-            int index = (int)(alphaNumericString.length() * Math.random());
+            int index = (int) (alphaNumericString.length() * Math.random());
             sb.append(alphaNumericString.charAt(index));
         }
         return sb.toString();
     }
+
     //return string in format dayOfMonth/month/year
     public static String getDate(String str) {
         String[] splitList = null;
@@ -150,14 +202,15 @@ public class DataProcessor {
             }
         }
         int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH)+1;// Jan = 0, dec = 11
+        int month = calendar.get(Calendar.MONTH) + 1;// Jan = 0, dec = 11
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-        return dayOfMonth+"/"+month+"/"+year;
+        return dayOfMonth + "/" + month + "/" + year;
     }
 
 
     public static void main(String[] args) {
-        List<BaseData> objects = DataProcessor.readCSV(TestNewRegisterUserData.class);
-       System.out.println(objects);
+        currentTestId = "22";
+        List<Object[]> objects = DataProcessor.createSuiteData(TestNewRegisterUserData.class);
+        System.out.println(objects);
     }
 }

@@ -255,6 +255,10 @@ public class Reporter {
         return errCounter == 0;
     }
 
+    public void resetErrorCounter() {
+        errCounter = 0;
+    }
+
     //func to take Screenshot
     public static void takeScreenshot(int id) {
         if (!Browser.isOpen())

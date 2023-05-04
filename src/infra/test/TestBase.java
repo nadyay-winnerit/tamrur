@@ -1,50 +1,28 @@
 package infra.test;
 
 import infra.Browser;
-import infra.Utils;
-import infra.data.DataProcessor;
 import infra.reporter.Reporter;
 import objects.BaseData;
-import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.rules.TestRule;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
-import org.junit.runner.JUnitCore;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.model.Statement;
 
-//@RunWith(@Sui)
-//@Suite.SuiteClasses({CONTACTTEST.class,})
-
 @RunWith(Parameterized.class)
-public abstract class SuiteBase {
+public abstract class TestBase {
 
+    private BaseData testData;
     public static Reporter report = Reporter.reporter();
 
-    public SuiteBase(String testCase,BaseData data) {
+    public TestBase(String testCase,BaseData testData) {
+        this.testData = testData;
     }
 
     @Test
-    public abstract void suite();
-
-    protected void runTest(Class<? extends TestBase> testClass, String testId) {
-        if (!Utils.isNullOrEmpty(testId)) {
-            DataProcessor.currentTestId = testId;
-            JUnitCore.runClasses(testClass);
-
-        }
-    }
-
-    protected void runTest(Class<? extends TestBase> testClass, BaseData dataId) {
-        if (dataId != null) {
-            DataProcessor.currentTestData = dataId;
-            JUnitCore.runClasses(testClass);
-
-        }
-    }
+    public abstract void test();
 
     @Rule
     public TestRule junitRule = new TestWatcher() {
@@ -100,7 +78,4 @@ public abstract class SuiteBase {
 
     public void after() {
     }
-
 }
-
-
