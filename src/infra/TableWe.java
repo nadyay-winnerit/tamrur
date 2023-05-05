@@ -1,11 +1,9 @@
 package infra;
 
 import infra.ui.UiElement;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class TableWe extends UiElement {
 
@@ -26,15 +24,15 @@ public class TableWe extends UiElement {
         List<Integer> listIndexRows = new ArrayList<>();
         boolean flag;
         WebElement tr, td;
-        outerFor:
+        //outerFor:
         for (int i = 1; i <= getCountRows(); i++) {
             tr = this.element.findElement(By.cssSelector("tbody tr:nth-child(" + i + ")"));
             flag = true;
             for (TableCell tableCell : tableCells) {
                 int indexColumn = getColumnIndex(tableCell.column);
                 if (indexColumn == -1) {
-                    System.out.println("The received key is invalid for this table");
-                    break outerFor;
+                    throw new AutomationException("The received key is invalid for this table", null);
+                    //break outerFor;
                 }
 
                 td = tr.findElement(By.cssSelector("td:nth-child(" + (indexColumn + 1) + ")"));

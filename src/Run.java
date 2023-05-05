@@ -1,5 +1,3 @@
-package infra;
-
 import infra.reporter.Reporter;
 
 public class Run {

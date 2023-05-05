@@ -14,6 +14,7 @@ public abstract class BasePage {
     public abstract boolean assertDisplay();
 
     public void finish() {
+        // Check if there is any error on the page
         Reporter.reporter().closeLevel();
 
     }

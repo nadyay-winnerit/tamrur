@@ -1,11 +1,9 @@
 package infra.ui;
 
-import infra.Config;
-import infra.Prop;
+import infra.*;
 import infra.reporter.Reporter;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.chrome.*;
 
 import java.util.concurrent.TimeUnit;
 
@@ -24,7 +22,7 @@ public class Browser {
             driver.manage().timeouts().implicitlyWait(100, TimeUnit.MILLISECONDS);
             driver.manage().window().maximize();
             driver.get(Config.getInstance().getValueOfProperty(Prop.URL));
-            System.out.println("GOTO --> " + Config.getInstance().getValueOfProperty(Prop.URL));
+            reporter.message("GOTO --> " + Config.getInstance().getValueOfProperty(Prop.URL), null);
         }
         return driver;
     }

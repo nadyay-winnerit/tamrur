@@ -6,7 +6,7 @@ public class AutomationException extends RuntimeException {
 
     public AutomationException(String message, Throwable cause) {
         super(message, cause);
-        Reporter.reporter().error(message, null);
+        Reporter.reporter().error(message, null, this);
     }
 
     public static String printAble(Throwable e) {

@@ -1,20 +1,14 @@
 package infra.data;
 
-//import infra.test.SuiteBase;
-
-import infra.Config;
-import infra.Prop;
-import infra.Utils;
+import infra.*;
 import objects.BaseData;
 import objects.tests.TestNewRegisterUserData;
+import org.apache.commons.lang3.StringUtils;
 import org.jooq.tools.csv.CSVReader;
 
-import java.io.FileReader;
-import java.io.Reader;
+import java.io.*;
 import java.lang.reflect.Method;
 import java.util.*;
-
-import org.apache.commons.lang3.StringUtils;
 
 public class DataProcessor {
 
@@ -73,8 +67,6 @@ public class DataProcessor {
     }
 
     public static List<Object[]> createTestData(Class<? extends BaseData> clazz) {
-        List<BaseData> csvData = readCSV(clazz);
-        List<BaseData> filteredResult = new ArrayList<>();
         List<Object[]> data = new ArrayList<>();
 
         if (currentTestData != null) {
@@ -83,11 +75,14 @@ public class DataProcessor {
             return data;
         }
 
+        List<BaseData> csvData = readCSV(clazz);
+        List<BaseData> filteredResult = new ArrayList<>();
         String testCase = Config.getInstance().getValueOfProperty(Prop.TESTCASE);
         if (!Utils.isNullOrEmpty(currentTestId) || !Utils.isNullOrEmpty(testCase)) {
             for (BaseData dataObj : csvData) {
                 if (dataObj.getId().equals(currentTestId) || dataObj.getId().equals(testCase)) {
                     filteredResult.add(dataObj);
+                    break;
                 }
             }
         } else {

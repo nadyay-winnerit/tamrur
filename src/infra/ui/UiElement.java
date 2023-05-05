@@ -1,9 +1,8 @@
 package infra.ui;
 
+import infra.Utils;
 import infra.reporter.Reporter;
-import org.openqa.selenium.By;
-import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 
 import java.util.List;
 
@@ -23,25 +22,26 @@ public class UiElement {
         this.by = by;
     }
 
+    public UiElement root(UiElement root) {
+        this.root = root;
+        return this;
+    }
+
     public WebElement getElement() {
         return element;
     }
 
     public void click() {
+        reporter.hasScreenshot().message("Click on the element [" + this.desc + "]", by.toString());
         findElement();
-        System.out.println("Click on the element [" + this.desc + "]");
         element.click();
-        try {
-            Thread.sleep(1000);
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
+        //Utils.sleepMS(500);
+        reporter.takeScreenshot();
     }
 
     public String read() {
-        String str = null;
+        String str = element.getText();
 
-        str = element.getText();
         if (str == null || str.isEmpty()) {
             str = element.getAttribute("value");
         }
@@ -63,15 +63,12 @@ public class UiElement {
             return;
         }
 
+        reporter.hasScreenshot().message("Input to element [" + this.desc + "] with value [" + str + "]", by.toString());
         findElement();
-        System.out.println("Input to element [" + this.desc + "] with value [" + str + "]");
         element.clear();
         element.sendKeys(str);
-        try {
-            Thread.sleep(1500);
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
+        //Utils.sleep(1);
+        reporter.takeScreenshot();
     }
 
     public void validateText(String str) {
@@ -79,17 +76,19 @@ public class UiElement {
             return;
         }
         if (isExists() == false) {
-            reporter.error("The element [" + this.desc + "] is not exists", null);
+            reporter.error("The element [" + this.desc + "] is not exists", str + "\r\n" + by.toString());
             return;
         }
-        reporter.result("ValidateText: element Text [" + this.element.getText() + "] ,current Text [" + str + "]", null, this.element.getText().equals(str));
+        reporter.result("ValidateText: element Text [" + this.element.getText() + "] ,current Text [" + str + "]"
+                , by.toString()
+                , this.element.getText().equals(str));
     }
 
     public void validateExists() {
-        if (isExists() == false) {
-            reporter.error("The element [" + this.desc + "] is not exists", null);
+        if (isExists()) {
+            reporter.message("The element [" + this.desc + "] is exists", by.toString());
         }
-        reporter.message("The element [" + this.desc + "] is exists", null);
+        reporter.error("The element [" + this.desc + "] is not exists", by.toString());
     }
 
 
@@ -97,37 +96,24 @@ public class UiElement {
         int count = 10;
         while (count-- > 0) {
 
-            //איפה אני מאתחלת את הרוט?????
+            //אפשרות 1
+            SearchContext _root = Browser.driver();
+            //אם הרוט ריק, זה אומר שלא נמצא אלמנט עדיין, אז הוא מאתחל אותו בדרייבר
+            if (root != null) {
+                root.findElement(); // מציב בתוך הרוט את האלמנט שכבר נמצא, אבל הוא יכול לשלוח לאותה פונקציה שהוא נמצא בה?
+                _root = root.element;
+            }
+            List<WebElement> elements = _root.findElements(this.by);//  צריך להיות ככה אחרי הרוט של האפשרות הראשונה
+
             //אפשרות 2
-            //צריך לטפל באם הרוט הוא נאל
             //By _by= new ByChained(root.by, by );
             //List<WebElement> elements = Browser.driver().findElements(_by);צריך להיות ככה אחרי הרוט של האפשרות השניה
 
-            //אפשרות 1
-            //////////
-            SearchContext _root = Browser.driver();
-
-            //אם הרוט ריק, זה אומר שלא נמצא אלמנט עדיין, אז הוא מאתחל אותו בדרייבר
-            if (root != null) {  //זה נכון?
-
-                //    _root=Browser.driver();  // האם הרוט חייב להיום יואייאלמנט? הוא לא יכול להיות וובאלמנט?
-                //} else {
-                root.findElement(); // מציב בתוך הרוט את האלמנט שכבר נמצא, אבל הוא יכול לשלוח לאותה פונקציה שהוא נמצא בה?
-                _root = root.element;  //זה נכון?
-            }
-            /////////////
-
-            List<WebElement> elements = _root.findElements(this.by);//  צריך להיות ככה אחרי הרוט של האפשרות הראשונה
-//            List<WebElement> elements = Browser.driver().findElements(this.by);
             if (!elements.isEmpty()) {
                 this.element = elements.get(0);
                 break;
             }
-            try {
-                Thread.sleep(500);
-            } catch (Throwable t) {
-                t.printStackTrace();
-            }
+            Utils.sleepMS(500);
         }
     }
 }

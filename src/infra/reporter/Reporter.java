@@ -3,21 +3,17 @@ package infra.reporter;
 import infra.AutomationException;
 import infra.ui.Browser;
 import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.*;
 
 import javax.imageio.ImageIO;
+import java.awt.Rectangle;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.*;
 
 public class Reporter {
 
@@ -28,6 +24,7 @@ public class Reporter {
     private static int errCounter = 0;
     private int id = 1;
     private List<Integer> listLevelId = new ArrayList<>();
+    private boolean hasScreenshot;
 
     private static Robot robot;
     private static Rectangle rectangle = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
@@ -114,7 +111,6 @@ public class Reporter {
 
     public void message(String msg, String moreInfo) {
         _reportRow(msg, moreInfo, true, false);
-
     }
 
     public void error(String errMsg, String moreInfo) {
@@ -128,7 +124,12 @@ public class Reporter {
         listLevelId.add(0);
     }
 
-    private String _createRowHtml(String msg, String moreInfo, boolean isPass, boolean isOpen) {
+    public Reporter hasScreenshot() {
+        this.hasScreenshot = true;
+        return this;
+    }
+
+    private String _createRowHtml(String msg, String moreInfo, boolean isPass, boolean isLevel) {
         listLevelId.set(listLevelId.size() - 1, listLevelId.get(listLevelId.size() - 1) + 1);
         String levelId = getLevelId();
         String parentId = getParentId();
@@ -136,22 +137,31 @@ public class Reporter {
         String imgSrc = (isPass ? "passed.png" : "failed.png");
         appendHtml("<tr id='" + id + "' levelId='" + levelId + "' parentId='" + parentId + "' style='display: " + isOuter(parentId) + "'>\n" +
                 "        <td><img src='../resources/reporter/" + imgSrc + "'/></td>\n" +
-                "        <td>" + levelImage(isOpen, levelId, parentId) + msg + "</td>\n" +
-                "        <td>" + date + "</td>\n" +
-                (!isPass ? "        <td><img id='" + id + "' src='../resources/reporter/screenshot.png' onclick='showScreenshot(this)'/>\n" +
-                        "            <div screen id='" + id + "_screen' style='display: none;'><img id='_" + id + "_screen' src='../resources/reporter/close.png'\n" +
-                        "                                                                  width='18' style='float: right;'\n" +
-                        "                                                                  onclick='closeWindow(this)'/> <img\n" +
-                        "                    src='screenshots/screenshot_" + id + ".png' width='100%' height='100%'/></div>\n" +
-                        "        </td>" : "<td/>"));
-        if (moreInfo != null)
-            moreInfo(moreInfo);
-        else
-            appendHtml("<td/>");
+                "        <td>" + levelImage(isLevel, levelId, parentId) + msg + "</td>\n" +
+                "        <td>" + date + "</td>\n");
+        screenshot(isPass || hasScreenshot);
+        if (!isPass) {
+            takeScreenshot();
+        }
+        moreInfo(moreInfo);
         appendHtml("</tr>");
 
         id++;
         return date;
+    }
+
+    private void screenshot(boolean hasScreenshot) {
+        this.hasScreenshot = false;
+        if (!hasScreenshot) {
+            appendHtml("<td/>");
+            return;
+        }
+        appendHtml("        <td><img id='" + id + "' src='../resources/reporter/screenshot.png' onclick='showScreenshot(this)'/>\n" +
+                "            <div screen id='" + id + "_screen' style='display: none;'><img id='_" + id + "_screen' src='../resources/reporter/close.png'\n" +
+                "                                                                  width='18' style='float: right;'\n" +
+                "                                                                  onclick='closeWindow(this)'/> <img\n" +
+                "                    src='screenshots/screenshot_" + id + ".png' width='100%' height='100%'/></div>\n" +
+                "        </td>");
     }
 
     private String getParentId() {
@@ -161,32 +171,29 @@ public class Reporter {
     }
 
     private String getLevelId() {
-
         return getReplaceToString(listLevelId);
     }
 
+    private String getReplaceToString(List<Integer> list) {
+        return list.toString().replace("[", "").replace("]", "").replace(", ", "_");
+    }
 
     public void error(String errMsg, String moreInfo, Throwable e) {
-        String moreInfoWithThrowable;
-        moreInfoWithThrowable = (moreInfo != null ? moreInfo : "");
+        String moreInfoWithThrowable = (moreInfo != null ? moreInfo : "");
         moreInfoWithThrowable += "/n/r " + AutomationException.printAble(e);
         errCounter++;
         _reportRow(errMsg, moreInfoWithThrowable, false, false);
-
-    }
-
-    private String getReplaceToString(List<Integer> list) {
-        String str = list.toString();
-        return str.replace("[", "").replace("]", "")
-                .replace(", ", "_");
     }
 
     public void closeLevel() {
         listLevelId.remove(listLevelId.size() - 1);
     }
 
-
     private void moreInfo(String moreInfo) {
+        if (moreInfo == null) {
+            appendHtml("<td/>");
+            return;
+        }
         appendHtml("<td>&nbsp;&nbsp;<img id=" + id + " src='../resources/reporter/more.png' width='18' onclick='showMoreInfo(this)'/>\n" +
                 "            <div info id='" + id + "_info' style='display: none;'><img id='_" + id + "_info' src='../resources/reporter/close.png'\n" +
                 "                                                              width='18' style='float: right;'\n" +
@@ -202,22 +209,20 @@ public class Reporter {
     public void result(String rsltMsg, String moreInfo, boolean result) {
         if (result)
             message(rsltMsg, moreInfo);
-        else error(rsltMsg, moreInfo);
+        else
+            error(rsltMsg, moreInfo);
     }
 
     public String levelImage(boolean open, String levelId, String parentId) {
-        String levelImage;
         StringBuilder allIndent = new StringBuilder();
         allIndent.append("<img src='../resources/reporter/levelIndent.png'/>".repeat(listLevelId.size() - 1));
+        String levelImage;
         if (open) {
             levelImage = "<img src='../resources/reporter/level.png' style='display: inline-block' onclick='showLevel(\"" + levelId + "\")'/>";
-
             levelImage += "<img src='../resources/reporter/levelExpanded.png' style='display: none' onclick='hideLevel(\"" + levelId + "\")'/>";
-
         } else {
             levelImage = "<img src='../resources/reporter/levelIndent.png'/>";
             levelImage += "<img src='../resources/reporter/levelIndent.png'/>";
-
         }
         return allIndent + levelImage;
     }
@@ -242,9 +247,9 @@ public class Reporter {
         }
     }
 
-    private void _reportRow(String msg, String moreInfo, boolean isPass, boolean isOpen) {
+    private void _reportRow(String msg, String moreInfo, boolean isPass, boolean isLevel) {
 
-        String date = _createRowHtml(msg, moreInfo, isPass, isOpen);//האם יש ענין להחזיר את הdate
+        String date = _createRowHtml(msg, moreInfo, isPass, isLevel);//האם יש ענין להחזיר את הdate
 
         System.out.println("[" + date + "][" + (isPass ? "MSG" : "ERR") + "]" + msg + (moreInfo == null ? "" : "\r\n\t" + moreInfo));
     }
@@ -260,7 +265,7 @@ public class Reporter {
     }
 
     //func to take Screenshot
-    public static void takeScreenshot(int id) {
+    public void takeScreenshot() {
         if (!Browser.isOpen())
             return;
         String screenshotFileName = "reporter/screenshots/screenshot_" + id + ".png";

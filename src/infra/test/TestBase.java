@@ -1,13 +1,12 @@
 package infra.test;
 
-import infra.Browser;
+import infra.AutomationException;
 import infra.reporter.Reporter;
+import infra.ui.Browser;
 import objects.BaseData;
 import org.junit.*;
-import org.junit.rules.TestRule;
-import org.junit.rules.TestWatcher;
-import org.junit.runner.Description;
-import org.junit.runner.RunWith;
+import org.junit.rules.*;
+import org.junit.runner.*;
 import org.junit.runners.Parameterized;
 import org.junit.runners.model.Statement;
 
@@ -55,14 +54,14 @@ public abstract class TestBase {
         @Override
         protected void succeeded(Description description) {
             if (!report.ifNoErrors()) {
-                report.error("the test has been failed", null);
+                throw new AutomationException("the test ended, but has errors", null);
             }
         }
 
         @Override
         protected void failed(Throwable e, Description description) {
             //if the test failed, the reporter writes an error msg, and counts the errors
-            Assert.fail("the test failed");
+            throw new AutomationException("the test has been failed", e);
         }
 
         @Override

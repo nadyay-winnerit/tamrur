@@ -1,11 +1,10 @@
 package pages;
 
-import infra.ui.UiElement;
+import infra.ui.*;
 import objects.pages.LoginPageData;
 import org.openqa.selenium.By;
 
-public class LoginPage {
-
+public class LoginPage extends BasePage {
 
     UiElement userNameUi = new UiElement("שם משתמש", By.cssSelector("input[name=userName]"));
     UiElement passWordUi = new UiElement("ססמא", By.cssSelector("input[name='password']"));
@@ -13,6 +12,11 @@ public class LoginPage {
     UiElement connectionButtonUi = new UiElement("התחבר", By.tagName("button"));
     UiElement forgotPasswordLinkUi = new UiElement("שכחתי ססמא", By.linkText("שכחתי סיסמא"));
     UiElement newUserLinkUi = new UiElement("משתמש חדש?", By.linkText("משתמש חדש?"));
+
+    @Override
+    public boolean assertDisplay() {
+        return false;
+    }
 
     /**
      * The func gets data obj and fill the login page with it

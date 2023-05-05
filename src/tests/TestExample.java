@@ -1,9 +1,7 @@
 package tests;
 
 import infra.data.DataProcessor;
-import objects.suite.SuiteExampleData;
 import infra.test.TestBase;
-import objects.BaseData;
 import objects.tests.TestExampleData;
 import org.junit.runners.Parameterized;
 
@@ -20,11 +18,17 @@ public class TestExample extends TestBase {
 
     @Parameterized.Parameters(name = "{index}::{0}")
     public static Collection data() {
-        return DataProcessor.createTestData(SuiteExampleData.class);
+        return DataProcessor.createTestData(TestExampleData.class);
     }
 
     @Override
     public void test() {
-        System.out.println(testData);
+//         new LoginPage().fillPage(testData.getLoginPageData()).validatePage().finish();
+//         new HomePage().fillPage(testData.getLoginPageData()).finish();
+//         new LoginPage().fillPage(testData.getLoginPageData()).finalAct();
+//         new LoginPage().fillPage(testData.getLoginPageData()).finalAct();
+//         new LoginPage().fillPage(testData.getLoginPageData()).finalAct();
+//        logout();
+//        new LoginPage().fillPage(testData.getLoginPageData()).validatePage().finalAct();
     }
 }
