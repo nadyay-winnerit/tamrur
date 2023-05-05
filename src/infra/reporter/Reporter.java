@@ -56,32 +56,82 @@ public class Reporter {
                 "<head><title>Reporter</title>\n" +
                 "    <link rel='icon' type='image/png' href='../resources/reporter/icon.png'>\n" +
                 "    <style type='text/css'>\n" +
-                "                #tree tr:hover {            background-color: #efefef;        }        th, td {            padding: 5px 7px 5px 7px;        }        th {            color: dodgerblue;            border-bottom: 2px solid #c5c5c5;        }        img[onclick] {            cursor: pointer;        }        pre {            white-space: pre-wrap;            overflow: auto;            height: auto;            max-height: 700px;        }        div[screen] {            position: absolute;            z-index: 1000;            width: 80%;            height: 80%;            top: 100px;            left: 150px;            background-color: #f5f5f5;            padding: 20px;            border: #cccccc;            border-style: solid;            box-shadow: 10px 5px #dddddd;        }        div[info] {            position: absolute;            z-index: 1000;            width: 80%;            height: 700px;            top: 100px;            left: 150px;            background-color: #f5f5f5;            padding: 20px;            border: #cccccc;            border-style: solid;            box-shadow: 10px 5px #dddddd;        }\n" +
+                "        #tree tr:hover {\n" +
+                "            background-color: #efefef;\n" +
+                "        }\n" +
+                "        th, td {\n" +
+                "            padding: 5px 7px 5px 7px;\n" +
+                "        }\n" +
+                "        th {\n" +
+                "            color: dodgerblue;\n" +
+                "            border-bottom: 2px solid #c5c5c5;\n" +
+                "        }\n" +
+                "        img[onclick] {\n" +
+                "            cursor: pointer;\n" +
+                "        }\n" +
+                "        pre {\n" +
+                "            white-space: pre-wrap;\n" +
+                "            overflow: auto;\n" +
+                "            height: auto;\n" +
+                "            max-height: 700px;\n" +
+                "        }\n" +
+                "        div[screen] {\n" +
+                "            position: absolute;\n" +
+                "            z-index: 1000;\n" +
+                "            width: 80%;\n" +
+                "            height: 80%;\n" +
+                "            top: 100px;\n" +
+                "            left: 150px;\n" +
+                "            background-color: #f5f5f5;\n" +
+                "            padding: 20px;\n" +
+                "            border: #cccccc;\n" +
+                "            border-style: solid;\n" +
+                "            box-shadow: 10px 5px #dddddd;\n" +
+                "        }\n" +
+                "        div[info] {\n" +
+                "            position: absolute;\n" +
+                "            z-index: 1000;\n" +
+                "            width: 80%;\n" +
+                "            height: 700px;\n" +
+                "            top: 100px;\n" +
+                "            left: 150px;\n" +
+                "            background-color: #f5f5f5;\n" +
+                "            padding: 20px;\n" +
+                "            border: #cccccc;\n" +
+                "            border-style: solid;\n" +
+                "            box-shadow: 10px 5px #dddddd;\n" +
+                "        }\n" +
                 "    </style>\n" +
                 "    <script type='text/javascript'>\n" +
-                "                function showMoreInfo(elm) {            document.getElementById(elm.id + '_info').style.display = 'block';        }     \n" +
-                "   function showScreenshot(elm) {            document.getElementById(elm.id + '_screen').style.display = 'block';        }     \n  " +
-                " function closeWindow(elm) {            document.getElementById(elm.id.substring(1)).style.display = 'none';        }\n" +
-                "function showLevel(getLevelId){" +
-                "\ndocument.querySelector(\"tr[levelId='\"+getLevelId+\"']>td>img[src*='levelExpanded.png'][onclick]\").style.display='inline-block';" +
-                "\ndocument.querySelector(\"tr[levelId='\"+getLevelId+\"']>td>img[src*='level.png'][onclick]\").style.display='none';" +
-                "\nvar myArrayRows=document.querySelectorAll(\"tr[parentId='\"+getLevelId+\"']\");" +
-                "\nfor(i=0;i<myArrayRows.length;i++)" +
-                "\nmyArrayRows[i].style.display='table-row'}\n" +
-                "function hideLevel(getLevelId){ " +
-                "\n document.querySelector(\"tr[levelId='\"+getLevelId+\"' ]>td>img[src*='level.png'][onclick]\").style.display='inline-block';" +
-                "\ndocument.querySelector(\"tr[levelId='\" +getLevelId+ \"']>td>img[src*='levelExpanded.png'][onclick]\").style.display='none';" +
-                "\n var myArrayRows=document.querySelectorAll(\"tr[parentId^='\"+getLevelId+\"']\");" +
-                "\nfor(i=0;i<myArrayRows.length;i++)" +
-                "\n{" +
-                "\nvar imgElement = myArrayRows[i].querySelector(\" td img[src*='levelExpanded.png']\")" +
-                "\n if(imgElement!=null)" +
-                "\n {imgElement.style.display='none';" +
-                "\n  myArrayRows[i].querySelector(\" td img[src*='level.png']\").style.display='inline-block';}" +
-                "\nmyArrayRows[i].style.display='none';" +
-
-                "\n}" +
-                " }\n" +
+                "        function showMoreInfo(elm) {\n" +
+                "            document.getElementById(elm.id + '_info').style.display = 'block';\n" +
+                "        }\n" +
+                "        function showScreenshot(elm) {\n" +
+                "            document.getElementById(elm.id + '_screen').style.display = 'block';\n" +
+                "        }\n" +
+                "        function closeWindow(elm) {\n" +
+                "            document.getElementById(elm.id.substring(1)).style.display = 'none';\n" +
+                "        }\n" +
+                "        function showLevel(getLevelId) {\n" +
+                "            document.querySelector(\"tr[levelId='\"+getLevelId+\"']>td>img[src*='levelExpanded.png'][onclick]\").style.display='inline-block';\n" +
+                "            document.querySelector(\"tr[levelId='\"+getLevelId+\"']>td>img[src*='level.png'][onclick]\").style.display='none';\n" +
+                "            var myArrayRows=document.querySelectorAll(\"tr[parentId='\"+getLevelId+\"']\");\n" +
+                "            for(i=0;i<myArrayRows.length;i++)\n" +
+                "                myArrayRows[i].style.display='table-row';\n" +
+                "            }\n" +
+                "        function hideLevel(getLevelId) {\n" +
+                "            document.querySelector(\"tr[levelId='\"+getLevelId+\"' ]>td>img[src*='level.png'][onclick]\").style.display='inline-block';\n" +
+                "            document.querySelector(\"tr[levelId='\" +getLevelId+ \"']>td>img[src*='levelExpanded.png'][onclick]\").style.display='none';\n" +
+                "            var myArrayRows=document.querySelectorAll(\"tr[parentId^='\"+getLevelId+\"']\");\n" +
+                "            for(i=0;i<myArrayRows.length;i++) {\n" +
+                "                var imgElement = myArrayRows[i].querySelector(\" td img[src*='levelExpanded.png']\")\n" +
+                "                if(imgElement!=null) {\n" +
+                "                    imgElement.style.display='none';\n" +
+                "                    myArrayRows[i].querySelector(\" td img[src*='level.png']\").style.display='inline-block';\n" +
+                "                }\n" +
+                "                myArrayRows[i].style.display='none';\n" +
+                "            }\n" +
+                "        }\n" +
                 "    </script>\n" +
                 "</head>\n" +
                 "<body style='text-align: left; font-family: tahoma;'>\n" +
@@ -90,6 +140,10 @@ public class Reporter {
                 "        <tr>\n" +
                 "            <td><b>Date:</b></td>\n" +
                 "            <td>" + sdf2.format(new Date()) + "</td>\n" +
+                "        </tr>\n" +
+                "        <tr>\n" +
+                "            <td><b>Errors Count:</b></td>\n" +
+                "            <td>" + errCounter + "</td>\n" +
                 "        </tr>\n" +
                 "        <tr>\n" +
                 "            <td><b></b></td>\n" +
@@ -104,7 +158,7 @@ public class Reporter {
                 "        <th width='96'>Timestamp</th>\n" +
                 "        <th width='20'>&nbsp;&nbsp;&nbsp;&nbsp;</th>\n" +
                 "        <th width='20'>More</th>\n" +
-                "    </tr>");
+                "    </tr>\n");
     }
 
     //Methods
@@ -134,15 +188,17 @@ public class Reporter {
         String levelId = getLevelId();
         String parentId = getParentId();
         String date = sdf1.format(new Date());
-        String imgSrc = (isPass ? "passed.png" : "failed.png");
+
         appendHtml("<tr id='" + id + "' levelId='" + levelId + "' parentId='" + parentId + "' style='display: " + isOuter(parentId) + "'>\n" +
-                "        <td><img src='../resources/reporter/" + imgSrc + "'/></td>\n" +
-                "        <td>" + levelImage(isLevel, levelId, parentId) + msg + "</td>\n" +
+                "        <td><img src='../resources/reporter/" + (isPass ? "passed.png" : "failed.png") + "'/></td>\n" +
+                "        <td>" + levelImage(isLevel, levelId) + msg + "</td>\n" +
                 "        <td>" + date + "</td>\n");
-        screenshot(isPass || hasScreenshot);
+
+        screenshot(!isPass || hasScreenshot);
         if (!isPass) {
             takeScreenshot();
         }
+
         moreInfo(moreInfo);
         appendHtml("</tr>");
 
@@ -156,26 +212,13 @@ public class Reporter {
             appendHtml("<td/>");
             return;
         }
-        appendHtml("        <td><img id='" + id + "' src='../resources/reporter/screenshot.png' onclick='showScreenshot(this)'/>\n" +
-                "            <div screen id='" + id + "_screen' style='display: none;'><img id='_" + id + "_screen' src='../resources/reporter/close.png'\n" +
-                "                                                                  width='18' style='float: right;'\n" +
-                "                                                                  onclick='closeWindow(this)'/> <img\n" +
-                "                    src='screenshots/screenshot_" + id + ".png' width='100%' height='100%'/></div>\n" +
-                "        </td>");
-    }
-
-    private String getParentId() {
-        ArrayList<Integer> srcList = new ArrayList<>(listLevelId);
-        srcList.remove(listLevelId.size() - 1);
-        return getReplaceToString(srcList);
-    }
-
-    private String getLevelId() {
-        return getReplaceToString(listLevelId);
-    }
-
-    private String getReplaceToString(List<Integer> list) {
-        return list.toString().replace("[", "").replace("]", "").replace(", ", "_");
+        appendHtml("<td><img id='" + id + "' src='../resources/reporter/screenshot.png' onclick='showScreenshot(this)'/>\n" +
+                "    <div screen id='" + id + "_screen' style='display: none;'>\n" +
+                "        <img id='_" + id + "_screen' src='../resources/reporter/close.png'" +
+                "             width='18' style='float: right;' onclick='closeWindow(this)'/>\n" +
+                "        <img src='screenshots/screenshot_" + id + ".png' width='100%' height='100%'/>\n" +
+                "    </div>\n" +
+                "</td>");
     }
 
     public void error(String errMsg, String moreInfo, Throwable e) {
@@ -195,14 +238,12 @@ public class Reporter {
             return;
         }
         appendHtml("<td>&nbsp;&nbsp;<img id=" + id + " src='../resources/reporter/more.png' width='18' onclick='showMoreInfo(this)'/>\n" +
-                "            <div info id='" + id + "_info' style='display: none;'><img id='_" + id + "_info' src='../resources/reporter/close.png'\n" +
-                "                                                              width='18' style='float: right;'\n" +
-                "                                                              onclick='closeWindow(this)'/>\n" +
-                "                <div><pre>" + moreInfo + "\n" +
-                "</pre>\n" +
-                "                </div>\n" +
-                "            </div>\n" +
-                "        </td>");
+                "    <div info id='" + id + "_info' style='display: none;'>\n" +
+                "        <img id='_" + id + "_info' src='../resources/reporter/close.png'" +
+                "              width='18' style='float: right;' onclick='closeWindow(this)'/>\n" +
+                "        <div><pre>" + moreInfo + "</pre></div>\n" +
+                "    </div>\n" +
+                "</td>");
     }
 
 
@@ -213,9 +254,23 @@ public class Reporter {
             error(rsltMsg, moreInfo);
     }
 
-    public String levelImage(boolean open, String levelId, String parentId) {
+    private String getParentId() {
+        ArrayList<Integer> srcList = new ArrayList<>(listLevelId);
+        srcList.remove(listLevelId.size() - 1);
+        return getReplaceToString(srcList);
+    }
+
+    private String getLevelId() {
+        return getReplaceToString(listLevelId);
+    }
+
+    private String getReplaceToString(List<Integer> list) {
+        return list.toString().replace("[", "").replace("]", "").replace(", ", "_");
+    }
+
+    private String levelImage(boolean open, String levelId) {
         StringBuilder allIndent = new StringBuilder();
-        allIndent.append("<img src='../resources/reporter/levelIndent.png'/>".repeat(listLevelId.size() - 1));
+        allIndent.append("<img src='../resources/reporter/levelIndent.png'/>");//.repeat(listLevelId.size() - 1));
         String levelImage;
         if (open) {
             levelImage = "<img src='../resources/reporter/level.png' style='display: inline-block' onclick='showLevel(\"" + levelId + "\")'/>";
@@ -227,7 +282,7 @@ public class Reporter {
         return allIndent + levelImage;
     }
 
-    public String isOuter(String parentId) {
+    private String isOuter(String parentId) {
         String style;
         if (parentId.trim().isEmpty())
             style = "table-row";
@@ -236,11 +291,9 @@ public class Reporter {
         return style;
     }
 
-
     //get the text to write in the html file, save The sending function clear, without TRY/CATCH
     private void appendHtml(String msg) {
         try {
-
             FileUtils.writeStringToFile(this.html, msg, StandardCharsets.UTF_8, true);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -253,7 +306,6 @@ public class Reporter {
 
         System.out.println("[" + date + "][" + (isPass ? "MSG" : "ERR") + "]" + msg + (moreInfo == null ? "" : "\r\n\t" + moreInfo));
     }
-
 
     //check if there are no errors, return true. if there are any errors, return false
     public boolean ifNoErrors() {
