@@ -1,6 +1,6 @@
 package infra.ui;
 
-import infra.*;
+import infra.general.*;
 import infra.reporter.Reporter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.*;

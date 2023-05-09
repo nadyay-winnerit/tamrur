@@ -1,5 +1,6 @@
-package infra;
+package infra.ui.components;
 
+import infra.general.AutomationException;
 import infra.ui.UiElement;
 import org.openqa.selenium.*;
 

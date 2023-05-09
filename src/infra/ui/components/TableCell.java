@@ -1,4 +1,4 @@
-package infra;
+package infra.ui.components;
 
 public class TableCell {
     String column;

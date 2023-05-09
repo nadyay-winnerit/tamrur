@@ -1,4 +1,4 @@
-package infra;
+package infra.general;
 
 import infra.reporter.Reporter;
 

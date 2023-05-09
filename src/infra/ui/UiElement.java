@@ -1,6 +1,6 @@
 package infra.ui;
 
-import infra.Utils;
+import infra.general.Utils;
 import infra.reporter.Reporter;
 import org.openqa.selenium.*;
 
@@ -32,11 +32,11 @@ public class UiElement {
     }
 
     public void click() {
-        reporter.hasScreenshot().message("Click on the element [" + this.desc + "]", by.toString());
+//        reporter.hasScreenshot().message("Click on the element [" + this.desc + "]", by.toString());
         findElement();
         element.click();
         //Utils.sleepMS(500);
-        reporter.takeScreenshot();
+//        reporter.takeScreenshot();
     }
 
     public String read() {
@@ -63,12 +63,12 @@ public class UiElement {
             return;
         }
 
-        reporter.hasScreenshot().message("Input to element [" + this.desc + "] with value [" + str + "]", by.toString());
+//        reporter.hasScreenshot().message("Input to element [" + this.desc + "] with value [" + str + "]", by.toString());
         findElement();
         element.clear();
         element.sendKeys(str);
         //Utils.sleep(1);
-        reporter.takeScreenshot();
+//        reporter.takeScreenshot();
     }
 
     public void validateText(String str) {

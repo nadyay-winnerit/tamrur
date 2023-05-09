@@ -1,6 +1,6 @@
 package infra.test;
 
-import infra.AutomationException;
+import infra.general.AutomationException;
 import infra.reporter.Reporter;
 import infra.ui.Browser;
 import objects.BaseData;

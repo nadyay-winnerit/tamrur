@@ -1,7 +1,7 @@
 package infra.test;
 
-import infra.*;
 import infra.data.DataProcessor;
+import infra.general.*;
 import infra.reporter.Reporter;
 import infra.ui.Browser;
 import objects.BaseData;

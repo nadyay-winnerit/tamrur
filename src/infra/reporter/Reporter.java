@@ -1,24 +1,19 @@
 package infra.reporter;
 
-import infra.AutomationException;
+import infra.general.AutomationException;
 import infra.ui.Browser;
 import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.*;
 
 import javax.imageio.ImageIO;
+import java.awt.Rectangle;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class Reporter {
 
@@ -33,6 +28,8 @@ public class Reporter {
 
     private int id = 1;
     private List<Integer> listLevelId = new ArrayList<>();
+
+    private boolean hasScreenshot;
 
     private static Robot robot;
     private static Rectangle rectangle = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
@@ -64,44 +61,111 @@ public class Reporter {
                 "<head><title>Reporter</title>\n" +
                 "    <link rel='icon' type='image/png' href='../resources/reporter/icon.png'>\n" +
                 "    <style type='text/css'>\n" +
-                "                #tree tr:hover {            background-color: #efefef;        }        th, td {            padding: 5px 7px 5px 7px;        }        th {            color: dodgerblue;            border-bottom: 2px solid #c5c5c5;        }        img[onclick] {            cursor: pointer;        }        pre {            white-space: pre-wrap;            overflow: auto;            height: auto;            max-height: 700px;        }        div[screen] {            position: absolute;            z-index: 1000;            width: 80%;            height: 80%;            top: 100px;            left: 150px;            background-color: #f5f5f5;            padding: 20px;            border: #cccccc;            border-style: solid;            box-shadow: 10px 5px #dddddd;        }        div[info] {            position: absolute;            z-index: 1000;            width: 80%;            height: 700px;            top: 100px;            left: 150px;            background-color: #f5f5f5;            padding: 20px;            border: #cccccc;            border-style: solid;            box-shadow: 10px 5px #dddddd;        }\n" +
+                "        #tree tr:hover {\n" +
+                "            background-color: #efefef;\n" +
+                "        }\n" +
+                "        #tree tr[error='true']:hover {\n" +
+                "            background-color: #ffefef;\n" +
+                "        }\n" +
+                "        th, td {\n" +
+                "            padding: 5px 7px 5px 7px;\n" +
+                "        }\n" +
+                "        th {\n" +
+                "            color: dodgerblue;\n" +
+                "            border-bottom: 2px solid #c5c5c5;\n" +
+                "        }\n" +
+                "        img[onclick] {\n" +
+                "            cursor: pointer;\n" +
+                "        }\n" +
+                "        pre {\n" +
+                "            white-space: pre-wrap;\n" +
+                "            overflow: auto;\n" +
+                "            height: auto;\n" +
+                "            max-height: 700px;\n" +
+                "        }\n" +
+                "        div[screen] {\n" +
+                "            position: absolute;\n" +
+                "            z-index: 1000;\n" +
+                "            width: 80%;\n" +
+                "            height: 80%;\n" +
+                "            top: 100px;\n" +
+                "            left: 150px;\n" +
+                "            background-color: #f5f5f5;\n" +
+                "            padding: 20px;\n" +
+                "            border: #cccccc;\n" +
+                "            border-style: solid;\n" +
+                "            box-shadow: 10px 5px #dddddd;\n" +
+                "        }\n" +
+                "        div[info] {\n" +
+                "            position: absolute;\n" +
+                "            z-index: 1000;\n" +
+                "            width: 80%;\n" +
+                "            height: 700px;\n" +
+                "            top: 100px;\n" +
+                "            left: 150px;\n" +
+                "            background-color: #f5f5f5;\n" +
+                "            padding: 20px;\n" +
+                "            border: #cccccc;\n" +
+                "            border-style: solid;\n" +
+                "            box-shadow: 10px 5px #dddddd;\n" +
+                "        }\n" +
                 "    </style>\n" +
                 "    <script type='text/javascript'>\n" +
-                "                function showMoreInfo(elm) {            document.getElementById(elm.id + '_info').style.display = 'block';        }     \n" +
-                "   function showScreenshot(elm) {            document.getElementById(elm.id + '_screen').style.display = 'block';        }     \n  " +
-                " function closeWindow(elm) {            document.getElementById(elm.id.substring(1)).style.display = 'none';        }\n" +
-                "function showLevel(getLevelId){" +
-                "\ndocument.querySelector(\"tr[levelId='\"+getLevelId+\"']>td>img[src*='levelExpanded.png'][onclick]\").style.display='inline-block';" +
-                "\ndocument.querySelector(\"tr[levelId='\"+getLevelId+\"']>td>img[src*='level.png'][onclick]\").style.display='none';" +
-                "\nvar myArrayRows=document.querySelectorAll(\"tr[parentId='\"+getLevelId+\"']\");" +
-                "\nfor(i=0;i<myArrayRows.length;i++)" +
-                "\nmyArrayRows[i].style.display='table-row'}\n" +
-                " function openErrorsFun() {  " +
-                "\nvar myArrayRows=document.querySelectorAll(\"tr[error='\"+true+\"']\");" +
-                "\nfor(i=0;i<myArrayRows.length;i++)" +
-                "\nmyArrayRows[i].style.display='table-row'}\n" +
-                "function hideLevel(getLevelId){ " +
-                "\n document.querySelector(\"tr[levelId='\"+getLevelId+\"' ]>td>img[src*='level.png'][onclick]\").style.display='inline-block';" +
-                "\ndocument.querySelector(\"tr[levelId='\" +getLevelId+ \"']>td>img[src*='levelExpanded.png'][onclick]\").style.display='none';" +
-                "\n var myArrayRows=document.querySelectorAll(\"tr[parentId^='\"+getLevelId+\"']\");" +
-                "\nfor(i=0;i<myArrayRows.length;i++)" +
-                "\n{" +
-                "\nvar imgElement = myArrayRows[i].querySelector(\" td img[src*='levelExpanded.png']\")" +
-                "\n if(imgElement!=null)" +
-                "\n {imgElement.style.display='none';" +
-                "\n  myArrayRows[i].querySelector(\" td img[src*='level.png']\").style.display='inline-block';}" +
-                "\nmyArrayRows[i].style.display='none';" +
-
-                "\n}" +
-                " }\n" +
+                "        function showMoreInfo(elm) {\n" +
+                "            document.getElementById(elm.id + '_info').style.display = 'block';\n" +
+                "        }\n" +
+                "        function showScreenshot(elm) {\n" +
+                "            document.getElementById(elm.id + '_screen').style.display = 'block';\n" +
+                "        }\n" +
+                "        function closeWindow(elm) {\n" +
+                "            document.getElementById(elm.id.substring(1)).style.display = 'none';\n" +
+                "        }\n" +
+                "        function showLevel(getLevelId) {\n" +
+                "            document.querySelector(\"tr[levelId='\"+getLevelId+\"']>td>img[src*='levelExpanded.png'][onclick]\").style.display='inline-block';\n" +
+                "            document.querySelector(\"tr[levelId='\"+getLevelId+\"']>td>img[src*='level.png'][onclick]\").style.display='none';\n" +
+                "            var myArrayRows=document.querySelectorAll(\"tr[parentId='\"+getLevelId+\"']\");\n" +
+                "            for(i=0;i<myArrayRows.length;i++)\n" +
+                "                myArrayRows[i].style.display='table-row';\n" +
+                "            }\n" +
+                "        function hideLevel(getLevelId) {\n" +
+                "            document.querySelector(\"tr[levelId='\"+getLevelId+\"']>td>img[src*='level.png'][onclick]\").style.display='inline-block';\n" +
+                "            document.querySelector(\"tr[levelId='\" +getLevelId+ \"']>td>img[src*='levelExpanded.png'][onclick]\").style.display='none';\n" +
+                "            var myArrayRows=document.querySelectorAll(\"tr[parentId^='\"+getLevelId+\"']\");\n" +
+                "            for(i=0;i<myArrayRows.length;i++) {\n" +
+                "                var imgElement = myArrayRows[i].querySelector(\"img[src*='levelExpanded.png']\")\n" +
+                "                if(imgElement!=null) {\n" +
+                "                    imgElement.style.display='none';\n" +
+                "                    myArrayRows[i].querySelector(\"img[src*='level.png']\").style.display='inline-block';\n" +
+                "                }\n" +
+                "                myArrayRows[i].style.display='none';\n" +
+                "            }\n" +
+                "        }\n" +
+                "        function openErrorsFun() {\n" +
+                "            var myArrayRows=document.querySelectorAll(\"tr[error]\");\n" +
+                "            for(i=0;i<myArrayRows.length;i++)\n" +
+                "                myArrayRows[i].style.display='none';\n" +
+                "            var myArrayRows=document.querySelectorAll(\"tr[error='true']\");\n" +
+                "            for(i=0;i<myArrayRows.length;i++) {\n" +
+                "                myArrayRows[i].style.display='table-row';\n" +
+                "                var imgElement = myArrayRows[i].querySelector(\"img[src*='level.png']\")\n" +
+                "                if(imgElement!=null) {\n" +
+                "                    imgElement.style.display='none';\n" +
+                "                    myArrayRows[i].querySelector(\"img[src*='levelExpanded.png']\").style.display='inline-block';\n" +
+                "                }\n" +
+                "            }\n" +
+                "        }\n" +
                 "    </script>\n" +
                 "</head>\n" +
                 "<body style='text-align: left; font-family: tahoma;'>\n" +
                 "<div>\n" +
                 "    <table>\n" +
                 "        <tr>\n" +
-                "            <td><b>Date:</b></td>\n" +
-                "            <td>" + sdf2.format(new Date()) + "</td>\n" +
+                "            <td>Date:</td>\n" +
+                "            <td><b>" + sdf2.format(new Date()) + "</b></td>\n" +
+                "        </tr>\n" +
+                "        <tr>\n" +
+                "            <td>Errors:</td>\n" +
+                "            <td id='errorCounter'><b>" + errCounter + "</b></td>\n" +
                 "        </tr>\n" +
                 "        <tr>\n" +
                 "            <td><b></b></td>\n" +
@@ -116,7 +180,7 @@ public class Reporter {
                 "        <th width='96'>Timestamp</th>\n" +
                 "        <th width='20'>&nbsp;&nbsp;&nbsp;&nbsp;</th>\n" +
                 "        <th width='20'>More</th>\n" +
-                "    </tr>");
+                "    </tr>\n");
     }
 
     //Methods
@@ -138,32 +202,55 @@ public class Reporter {
         listLevelId.add(0);
     }
 
-    private String _createRowHtml(String msg, String moreInfo, boolean isPass, boolean isOpen) {
+    public Reporter hasScreenshot() {
+        this.hasScreenshot = true;
+        return this;
+    }
+
+    private String _createRowHtml(String msg, String moreInfo, boolean isPass, boolean isLevel) {
         listLevelId.set(listLevelId.size() - 1, listLevelId.get(listLevelId.size() - 1) + 1);
         String levelId = getLevelId();
         String parentId = getParentId();
         String date = sdf1.format(new Date());
         String imgSrc = (isPass ? "passed.png" : "failed.png");
-        appendHtml("<tr id='" + id + "' levelId='" + levelId + "' parentId='" + parentId + "' style='display: " + isOuter(parentId) + "' error='false'>\n" +
+        appendHtml("<tr id='" + id + "' levelId='" + levelId + "' parentId='" + parentId + "' style='display: " + isOuter(parentId) + "' error='" + !isPass + "'>\n" +
                 "        <td><img id='" + id + "_img' src='../resources/reporter/" + imgSrc + "'/></td>\n" +
-                "        <td>" + levelImage(isOpen, levelId, parentId) + msg + "</td>\n" +
-                "        <td>" + date + "</td>\n" +
-                (!isPass ? "        <td><img id='" + id + "' src='../resources/reporter/screenshot.png' onclick='showScreenshot(this)'/>\n" +
-                        "            <div screen id='" + id + "_screen' style='display: none;'><img id='_" + id + "_screen' src='../resources/reporter/close.png'\n" +
-                        "                                                                  width='18' style='float: right;'\n" +
-                        "                                                                  onclick='closeWindow(this)'/> <img\n" +
-                        "                    src='screenshots/screenshot_" + id + ".png' width='100%' height='100%'/></div>\n" +
-                        "        </td>" : "<td/>"));
-        if (moreInfo != null)
-            moreInfo(moreInfo);
-        else
-            appendHtml("<td/>");
+                "        <td>" + levelImage(isLevel, levelId) + msg + "</td>\n" +
+                "        <td>" + date + "</td>\n");
+
+        screenshot(Browser.isOpen() && (!isPass || hasScreenshot));
+        if (!isPass) {
+            takeScreenshot();
+        }
+
+        moreInfo(moreInfo);
         appendHtml("</tr>");
-        if (isOpen) {
+
+        if (isLevel) {
             curPathStack.add(id);
         }
+
+        appendHtml("<script>\n" +
+                "document.getElementById('errorCounter').innerHTML = '<b>" + errCounter + "</b>'\n" +
+                "</script>\n");
+
         id++;
         return date;
+    }
+
+    private void screenshot(boolean hasScreenshot) {
+        this.hasScreenshot = false;
+        if (!hasScreenshot) {
+            appendHtml("<td/>");
+            return;
+        }
+        appendHtml("<td><img id='" + id + "' src='../resources/reporter/screenshot.png' onclick='showScreenshot(this)'/>\n" +
+                "    <div screen id='" + id + "_screen' style='display: none;'>\n" +
+                "        <img id='_" + id + "_screen' src='../resources/reporter/close.png'" +
+                "             width='18' style='float: right;' onclick='closeWindow(this)'/>\n" +
+                "        <img src='screenshots/screenshot_" + id + ".png' width='100%' height='100%'/>\n" +
+                "    </div>\n" +
+                "</td>");
     }
 
     private String getParentId() {
@@ -177,18 +264,14 @@ public class Reporter {
     }
 
     public void error(String errMsg, String moreInfo, Throwable e) {
-        String moreInfoWithThrowable;
-        moreInfoWithThrowable = (moreInfo != null ? moreInfo : "");
-        moreInfoWithThrowable += "/n/r " + AutomationException.printAble(e);
+        String moreInfoWithThrowable = (moreInfo != null ? moreInfo : "") + "/n/r " + AutomationException.printAble(e);
         errCounter++;
         _reportRow(errMsg, moreInfoWithThrowable, false, false);
         changeOuterLevelToError();
     }
 
     private String getReplaceToString(List<Integer> list) {
-        String str = list.toString();
-        return str.replace("[", "").replace("]", "")
-                .replace(", ", "_");
+        return list.toString().replace("[", "").replace("]", "").replace(", ", "_");
     }
 
     public void closeLevel() {
@@ -198,28 +281,32 @@ public class Reporter {
 
 
     private void moreInfo(String moreInfo) {
+        if (moreInfo == null) {
+            appendHtml("<td/>");
+            return;
+        }
         appendHtml("<td>&nbsp;&nbsp;<img id=" + id + " src='../resources/reporter/more.png' width='18' onclick='showMoreInfo(this)'/>\n" +
-                "            <div info id='" + id + "_info' style='display: none;'><img id='_" + id + "_info' src='../resources/reporter/close.png'\n" +
-                "                                                              width='18' style='float: right;'\n" +
-                "                                                              onclick='closeWindow(this)'/>\n" +
-                "                <div><pre>" + moreInfo + "\n" +
-                "</pre>\n" +
-                "                </div>\n" +
-                "            </div>\n" +
-                "        </td>");
+                "    <div info id='" + id + "_info' style='display: none;'>\n" +
+                "        <img id='_" + id + "_info' src='../resources/reporter/close.png'" +
+                "              width='18' style='float: right;' onclick='closeWindow(this)'/>\n" +
+                "        <div><pre>" + moreInfo + "</pre></div>\n" +
+                "    </div>\n" +
+                "</td>");
     }
 
 
     public void result(String rsltMsg, String moreInfo, boolean result) {
         if (result)
             message(rsltMsg, moreInfo);
-        else error(rsltMsg, moreInfo);
+        else
+            error(rsltMsg, moreInfo);
     }
 
-    public String levelImage(boolean open, String levelId, String parentId) {
-        String levelImage;
+    private String levelImage(boolean open, String levelId) {
         StringBuilder allIndent = new StringBuilder();
-        allIndent.append("<img src='../resources/reporter/levelIndent.png'/>".repeat(listLevelId.size() - 1));
+        for (int i = 1; i < listLevelId.size(); i++)
+            allIndent.append("<img src='../resources/reporter/levelIndent.png'/>");//.repeat(listLevelId.size() - 1));
+        String levelImage;
         if (open) {
             levelImage = "<img src='../resources/reporter/level.png' style='display: inline-block' onclick='showLevel(\"" + levelId + "\")'/>";
 
@@ -233,7 +320,7 @@ public class Reporter {
         return allIndent + levelImage;
     }
 
-    public String isOuter(String parentId) {
+    private String isOuter(String parentId) {
         String style;
         if (parentId.trim().isEmpty())
             style = "table-row";
@@ -252,11 +339,11 @@ public class Reporter {
         }
     }
 
-    private void _reportRow(String msg, String moreInfo, boolean isPass, boolean isOpen) {
+    private void _reportRow(String msg, String moreInfo, boolean isPass, boolean isLevel) {
 
-        String date = _createRowHtml(msg, moreInfo, isPass, isOpen);//האם יש ענין להחזיר את הdate
+        String date = _createRowHtml(msg, moreInfo, isPass, isLevel);//האם יש ענין להחזיר את הdate
 
-        System.out.println("[" + date + "][" + (isPass ? "MSG" : "ERR") + "]" + msg + (moreInfo == null ? "" : "\r\n\t" + moreInfo));
+        System.out.println("[" + date + "][" + (isPass ? "MSG" : "ERR") + "] " + msg + (moreInfo == null ? "" : "\r\n\t\t\t\t" + moreInfo));
     }
 
 
@@ -270,7 +357,7 @@ public class Reporter {
     }
 
     //func to take Screenshot
-    public static void takeScreenshot(int id) {
+    public void takeScreenshot() {
         if (!Browser.isOpen())
             return;
         String screenshotFileName = "reporter/screenshots/screenshot_" + id + ".png";
@@ -306,14 +393,13 @@ public class Reporter {
         }
     }
 
-    public void changeOuterLevelToError() {
+    private void changeOuterLevelToError() {
         for (int levelId : curPathStack) {
             levelWithErrorList.add(levelId);
-            String id = String.valueOf(levelId);
             appendHtml("<script>\n" +
-                    " document.getElementById('" + id + "_img').src = '../resources/reporter/failed.png';" +
-                    "\ndocument.querySelector(\"tr[id='" + id + "']\").error = 'true';" +
-                    "    </script>\n");
+                    "document.getElementById('" + levelId + "_img').src = '../resources/reporter/failed.png';\n" +
+                    "document.querySelector(\"tr[id='" + levelId + "']\").setAttribute('error', 'true');" +
+                    "</script>\n");
         }
     }
 

@@ -5,6 +5,7 @@ import infra.reporter.Reporter;
 import static infra.reporter.Reporter.reporter;
 
 public abstract class BasePage {
+
     public BasePage() {
         reporter().openLevel(this.getClass().getSimpleName(), null);
         if (!assertDisplay())
@@ -16,6 +17,5 @@ public abstract class BasePage {
     public void finish() {
         // Check if there is any error on the page
         Reporter.reporter().closeLevel();
-
     }
 }

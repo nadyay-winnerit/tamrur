@@ -1,4 +1,4 @@
-package infra;
+package infra.general;
 
 public class Utils {
 

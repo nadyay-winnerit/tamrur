@@ -1,6 +1,6 @@
 package infra.data;
 
-import infra.*;
+import infra.general.*;
 import objects.BaseData;
 import objects.tests.TestNewRegisterUserData;
 import org.apache.commons.lang3.StringUtils;
