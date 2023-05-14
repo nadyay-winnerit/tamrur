@@ -2,7 +2,9 @@ package infra.ui;
 
 import infra.general.Utils;
 import infra.reporter.Reporter;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
+import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
@@ -11,6 +13,7 @@ public class UiElement {
     private final By by;
     private final String desc;
     protected WebElement element;
+    private int index = 0;
 
     //אתחול הרוט מסוג UiElement הוא בעצם יכיל אלמנט שכבר אותר, וממנו יהיה אפשר להמשיך למצוא עוד אלמנטים אחריו
     private UiElement root = null;
@@ -20,6 +23,15 @@ public class UiElement {
     public UiElement(String desc, By by) {
         this.desc = desc;
         this.by = by;
+    }
+
+    public UiElement setIndex(int value) {
+        this.index = value - 1;
+        return this;
+    }
+
+    public int getIndex() {
+        return index;
     }
 
     public UiElement root(UiElement root) {
@@ -38,6 +50,37 @@ public class UiElement {
         //Utils.sleepMS(500);
 //        reporter.takeScreenshot();
     }
+
+    public void check(Boolean bool) {
+        if (bool == null) {
+            return;
+        }
+        findElement();
+        if (bool) {
+            doCheck();
+        } else {
+            if (!element.isSelected())
+                return;
+            Reporter.reporter().message("Unchecking the element [" + this.desc + "]", null);
+            element.click();
+            Utils.sleep(1);
+        }
+    }
+
+    public void chooseRadio() {
+        findElement();
+        doCheck();
+
+    }
+
+    private void doCheck() {
+        if (element.isSelected())
+            return;
+        Reporter.reporter().message("Check on the element [" + this.desc + "]", null);
+        element.click();
+        Utils.sleep(1);
+    }
+
 
     public String read() {
         String str = element.getText();
@@ -110,7 +153,7 @@ public class UiElement {
             //List<WebElement> elements = Browser.driver().findElements(_by);צריך להיות ככה אחרי הרוט של האפשרות השניה
 
             if (!elements.isEmpty()) {
-                this.element = elements.get(0);
+                this.element = elements.get(index);
                 break;
             }
             Utils.sleepMS(500);
