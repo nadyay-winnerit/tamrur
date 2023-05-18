@@ -1,14 +1,20 @@
 package infra.data;
 
-import infra.general.*;
+import infra.general.Config;
+import infra.general.Prop;
+import infra.general.Utils;
 import objects.BaseData;
-import objects.tests.TestNewRegisterUserData;
+import objects.pages.newTherapist.UserInformationPageData;
 import org.apache.commons.lang3.StringUtils;
 import org.jooq.tools.csv.CSVReader;
 
-import java.io.*;
+import java.io.FileReader;
+import java.io.Reader;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Random;
 
 public class DataProcessor {
 
@@ -40,21 +46,36 @@ public class DataProcessor {
                             break;
                         }
                     }
+
+                    if (rows.get(i)[j] == null)
+                        continue;
+
+                    String csvValue = rows.get(i)[j].trim();
                     if (method.getParameterTypes()[0] == String.class) {
-                        String value = getValue((rows.get(i)[j]).trim());
+                        String value = getValue(csvValue);
                         method.invoke(o, value);
                     } else if (BaseData.class.isAssignableFrom(method.getParameterTypes()[0])) {
                         BaseData parameterOfSetter = null;
                         List<BaseData> csv = readCSV((Class<? extends BaseData>) method.getParameterTypes()[0]);
                         for (BaseData bd : csv) {
-                            if (bd.getId().equals(rows.get(i)[j])) {
+                            if (bd.getId().equals(csvValue)) {
                                 parameterOfSetter = bd;
                                 break;
                             }
                         }
                         method.invoke(o, parameterOfSetter);
+                    } else if (method.getParameterTypes()[0].isEnum()) {
+                        for (Object enumc : method.getParameterTypes()[0].getEnumConstants()) {
+                            if (((Enum) enumc).name().equals(csvValue)) {
+                                method.invoke(o, enumc);
+                                break;
+                            }
+                        }
+
+                    } else if (method.getParameterTypes()[0] == Boolean.class) {
+                        method.invoke(o, Boolean.valueOf(csvValue));
                     } else {
-                        throw new Exception("UNKNOWN TYPE");
+                        throw new Exception("UNKNOWN TYPE - " + method.getParameterTypes()[0].getName());
                     }
                 }
                 result.add(o);
@@ -205,7 +226,8 @@ public class DataProcessor {
 
     public static void main(String[] args) {
         currentTestId = "22";
-        List<Object[]> objects = DataProcessor.createSuiteData(TestNewRegisterUserData.class);
+        //List<Object[]> objects = DataProcessor.createSuiteData(TestNewRegisterUserData.class);
+        List<Object[]> objects = DataProcessor.createSuiteData(UserInformationPageData.class);
         System.out.println(objects);
     }
 }

@@ -114,24 +114,27 @@ public class UiElement {
 //        reporter.takeScreenshot();
     }
 
-    public void validateText(String str) {
+    public boolean validateText(String str) {
         if (str == null) {
-            return;
+            return true;
         }
         if (isExists() == false) {
             reporter.error("The element [" + this.desc + "] is not exists", str + "\r\n" + by.toString());
-            return;
+            return false;
         }
+        boolean result = this.element.getText().equals(str);
         reporter.result("ValidateText: element Text [" + this.element.getText() + "] ,current Text [" + str + "]"
-                , by.toString()
-                , this.element.getText().equals(str));
+                , by.toString(), result);
+        return result;
     }
 
-    public void validateExists() {
+    public boolean validateExists() {
         if (isExists()) {
             reporter.message("The element [" + this.desc + "] is exists", by.toString());
+            return true;
         }
         reporter.error("The element [" + this.desc + "] is not exists", by.toString());
+        return false;
     }
 
 
