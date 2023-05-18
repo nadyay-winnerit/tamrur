@@ -1,7 +1,8 @@
 package pages;
 
-import infra.ui.*;
-import objects.pages.LoginPageData;
+import infra.enums.Users;
+import infra.ui.BasePage;
+import infra.ui.UiElement;
 import org.openqa.selenium.By;
 
 public class LoginPage extends BasePage {
@@ -19,16 +20,17 @@ public class LoginPage extends BasePage {
     }
 
     /**
-     * The func gets data obj and fill the login page with it
+     * The func gets users obj and fill the login page with it
      *
-     * @param data
+     * @param users
      */
-    public void fillPage(LoginPageData data) {
-        userNameUi.input(data.getUserNameUi());
-        passWordUi.input(data.getPassWordUi());
-        if (data.getRememberCheckBoxUi())
-            rememberCheckBoxUi.click();
-
+    public LoginPage fillPage(Users users) {
+        userNameUi.input(users.getEmail());
+        passWordUi.input(users.getPassword());
+        /*if (users.getRememberCheckBoxUi())
+            rememberCheckBoxUi.click();*/
+        connectionButtonClick();
+        return this;
     }
 
 
