@@ -13,16 +13,15 @@ import org.junit.runners.model.Statement;
 @RunWith(Parameterized.class)
 public abstract class TestBase {
 
-    private BaseData testData;
     public static Reporter report = Reporter.reporter();
+    private String testCase;
 
     public TestBase(String testCase,BaseData testData) {
-        this.testData = testData;
+        this.testCase = testCase;
     }
 
     @Test
     public abstract void test();
-
     @Rule
     public TestRule junitRule = new TestWatcher() {
         @Override
@@ -47,7 +46,7 @@ public abstract class TestBase {
         @Override
         protected void starting(Description description) {
             report.resetErrorCounter();
-            report.openLevel("the test" + description + " started", null);
+            report.openLevel(TestBase.this.getClass().getSimpleName() + " [[[" + TestBase.this.testCase + "]]]", null);
             before();
         }
 

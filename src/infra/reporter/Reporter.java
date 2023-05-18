@@ -208,14 +208,15 @@ public class Reporter {
     }
 
     private String _createRowHtml(String msg, String moreInfo, boolean isPass, boolean isLevel) {
+
         listLevelId.set(listLevelId.size() - 1, listLevelId.get(listLevelId.size() - 1) + 1);
         String levelId = getLevelId();
         String parentId = getParentId();
         String date = sdf1.format(new Date());
-        String imgSrc = (isPass ? "passed.png" : "failed.png");
+
         appendHtml("<tr id='" + id + "' levelId='" + levelId + "' parentId='" + parentId + "' style='display: " + isOuter(parentId) + "' error='" + !isPass + "'>\n" +
-                "        <td><img id='" + id + "_img' src='../resources/reporter/" + imgSrc + "'/></td>\n" +
-                "        <td>" + levelImage(isLevel, levelId) + msg + "</td>\n" +
+                "        <td><img id='" + id + "_img' src='../resources/reporter/" + (isPass ? "passed.png" : "failed.png") + "'/></td>\n" +
+                "        <td>" + levelImage(isLevel, levelId) + applyStyles(msg) + "</td>\n" +
                 "        <td>" + date + "</td>\n");
 
         screenshot(Browser.isOpen() && (!isPass || hasScreenshot));
@@ -232,6 +233,14 @@ public class Reporter {
 
         id++;
         return date;
+    }
+
+    private static String applyStyles(String msg) {
+        return msg.replace("[[[", "<b>[").replace("]]]", "]</b>")
+                .replace("[[", "<b>").replace("]]", "</b>")
+                .replace("{{", "<b style='color: dodgerblue'>").replace("}}", "</b>")
+                .replace("((", "<b style='color: forestgreen'>").replace("))", "</b>")
+                .replace("<<", "<b style='color: crimson'>").replace(">>", "</b>");
     }
 
     private void screenshot(boolean hasScreenshot) {

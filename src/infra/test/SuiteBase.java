@@ -18,8 +18,10 @@ import org.junit.runners.model.Statement;
 public abstract class SuiteBase {
 
     public static Reporter report = Reporter.reporter();
+    private String testCase;
 
     public SuiteBase(String testCase,BaseData data) {
+        this.testCase = testCase;
     }
 
     @Test
@@ -65,7 +67,7 @@ public abstract class SuiteBase {
         @Override
         protected void starting(Description description) {
             report.resetErrorCounter();
-            report.openLevel("the test" + description + " started", null);
+            report.openLevel(SuiteBase.this.getClass().getSimpleName() + " [[[" + SuiteBase.this.testCase + "]]]", null);
             before();
         }
 

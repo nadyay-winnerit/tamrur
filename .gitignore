@@ -4,5 +4,5 @@ bin/**/*
 .idea/uiDesigner.xml
 .idea/encodings.xml
 *.html
-/reporters
+/reporter
 config.properties

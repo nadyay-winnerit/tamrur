@@ -2,16 +2,15 @@ package suite;
 
 import infra.data.DataProcessor;
 import infra.test.SuiteBase;
-import objects.BaseData;
-import org.junit.runners.Parameterized;
 import objects.suite.SuiteExampleData;
+import org.junit.runners.Parameterized;
 import tests.TestExample;
 
 import java.util.Collection;
 
 public class SuiteExample extends SuiteBase {
 
-    SuiteExampleData suiteData;
+    private SuiteExampleData suiteData;
 
     public SuiteExample(String testCase,SuiteExampleData data) {
         super(testCase, data);

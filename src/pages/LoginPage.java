@@ -1,8 +1,7 @@
 package pages;
 
 import infra.enums.Users;
-import infra.ui.BasePage;
-import infra.ui.UiElement;
+import infra.ui.*;
 import org.openqa.selenium.By;
 
 public class LoginPage extends BasePage {
@@ -25,6 +24,7 @@ public class LoginPage extends BasePage {
      * @param users
      */
     public LoginPage fillPage(Users users) {
+
         userNameUi.input(users.getEmail());
         passWordUi.input(users.getPassword());
         /*if (users.getRememberCheckBoxUi())
