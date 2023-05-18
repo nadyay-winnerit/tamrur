@@ -51,7 +51,8 @@ public class Reporter {
 
     //constructor
     private Reporter() {
-        //create a new html file
+        new File("reporter/screenshots/").mkdirs();
+        new File("reporter/files/").mkdirs();
         html = new File("reporter/Reporter.html");
         html.delete();
         listLevelId.add(0);
@@ -191,7 +192,6 @@ public class Reporter {
 
     public void error(String errMsg, String moreInfo) {
         //counter to count the error's number
-        errCounter++;
         _reportRow(errMsg, moreInfo, false, false);
         changeOuterLevelToError();
     }
@@ -230,10 +230,6 @@ public class Reporter {
             curPathStack.add(id);
         }
 
-        appendHtml("<script>\n" +
-                "document.getElementById('errorCounter').innerHTML = '<b>" + errCounter + "</b>'\n" +
-                "</script>\n");
-
         id++;
         return date;
     }
@@ -265,7 +261,6 @@ public class Reporter {
 
     public void error(String errMsg, String moreInfo, Throwable e) {
         String moreInfoWithThrowable = (moreInfo != null ? moreInfo : "") + "/n/r " + AutomationException.printAble(e);
-        errCounter++;
         _reportRow(errMsg, moreInfoWithThrowable, false, false);
         changeOuterLevelToError();
     }
@@ -394,11 +389,13 @@ public class Reporter {
     }
 
     private void changeOuterLevelToError() {
+        errCounter++;
         for (int levelId : curPathStack) {
             levelWithErrorList.add(levelId);
             appendHtml("<script>\n" +
                     "document.getElementById('" + levelId + "_img').src = '../resources/reporter/failed.png';\n" +
-                    "document.querySelector(\"tr[id='" + levelId + "']\").setAttribute('error', 'true');" +
+                    "document.querySelector(\"tr[id='" + levelId + "']\").setAttribute('error', 'true');\n" +
+                    "document.getElementById('errorCounter').innerHTML = '<b>" + errCounter + "</b>'\n" +
                     "</script>\n");
         }
     }

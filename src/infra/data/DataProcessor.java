@@ -1,20 +1,13 @@
 package infra.data;
 
-import infra.general.Config;
-import infra.general.Prop;
-import infra.general.Utils;
+import infra.general.*;
 import objects.BaseData;
-import objects.pages.newTherapist.UserInformationPageData;
 import org.apache.commons.lang3.StringUtils;
 import org.jooq.tools.csv.CSVReader;
 
-import java.io.FileReader;
-import java.io.Reader;
+import java.io.*;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class DataProcessor {
 
@@ -227,7 +220,7 @@ public class DataProcessor {
     public static void main(String[] args) {
         currentTestId = "22";
         //List<Object[]> objects = DataProcessor.createSuiteData(TestNewRegisterUserData.class);
-        List<Object[]> objects = DataProcessor.createSuiteData(UserInformationPageData.class);
-        System.out.println(objects);
+//        List<Object[]> objects = DataProcessor.createSuiteData(UserInformationPageData.class);
+//        System.out.println(objects);
     }
 }
