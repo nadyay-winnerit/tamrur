@@ -20,10 +20,14 @@ public class UiElement {
 
     public static Reporter reporter = Reporter.reporter();
 
+    //constructor
+
     public UiElement(String desc, By by) {
         this.desc = desc;
         this.by = by;
     }
+
+    //getters & setters
 
     public UiElement setIndex(int value) {
         this.index = value - 1;
@@ -43,6 +47,9 @@ public class UiElement {
         return element;
     }
 
+
+    //methods
+
     public void click() {
 //        reporter.hasScreenshot().message("Click on the element [" + this.desc + "]", by.toString());
         findElement();
@@ -51,16 +58,22 @@ public class UiElement {
 //        reporter.takeScreenshot();
     }
 
-    public void check(Boolean bool) {
+    /* הפונקציה מקבלת משתנה דגל, המורה לה לבחור באפשרות של הcheckBox או להסיר את הבחירה ממנו
+     */
+    public void checkBox(Boolean bool) {
         if (bool == null) {
             return;
         }
-        findElement();
-        if (bool) {
-            doCheck();
-        } else {
+
+        findElement();  //מציב בשרת את האלמנט שנמצא במיפוי
+
+        if (bool) {  //אם הדגל אמת, בצע doChooseOption שזה בוחר באפשרות של הcheckBox , כמובן אם היא לא נבחרה כבר
+            doChooseOption();
+
+        } else {   //אם הדגל שקר, בצע הסרה של הבחירה מהcheckBox
             if (!element.isSelected())
                 return;
+
             Reporter.reporter().message("Unchecking the element [" + this.desc + "]", null);
             element.click();
             Utils.sleep(1);
@@ -69,18 +82,17 @@ public class UiElement {
 
     public void chooseRadio() {
         findElement();
-        doCheck();
-
+        doChooseOption();
     }
 
-    private void doCheck() {
+    private void doChooseOption() {
         if (element.isSelected())
             return;
+
         Reporter.reporter().message("Check on the element [" + this.desc + "]", null);
         element.click();
         Utils.sleep(1);
     }
-
 
     public String read() {
         String str = element.getText();
@@ -141,19 +153,13 @@ public class UiElement {
     protected void findElement() {
         int count = 10;
         while (count-- > 0) {
-
-            //אפשרות 1
             SearchContext _root = Browser.driver();
-            //אם הרוט ריק, זה אומר שלא נמצא אלמנט עדיין, אז הוא מאתחל אותו בדרייבר
+
             if (root != null) {
-                root.findElement(); // מציב בתוך הרוט את האלמנט שכבר נמצא, אבל הוא יכול לשלוח לאותה פונקציה שהוא נמצא בה?
+                root.findElement();
                 _root = root.element;
             }
-            List<WebElement> elements = _root.findElements(this.by);//  צריך להיות ככה אחרי הרוט של האפשרות הראשונה
-
-            //אפשרות 2
-            //By _by= new ByChained(root.by, by );
-            //List<WebElement> elements = Browser.driver().findElements(_by);צריך להיות ככה אחרי הרוט של האפשרות השניה
+            List<WebElement> elements = _root.findElements(this.by);
 
             if (!elements.isEmpty()) {
                 this.element = elements.get(index);
