@@ -34,6 +34,7 @@ public class Browser {
     public static void close() {
         if (driver != null) {
             driver.quit();
+            CmdUtil.run("taskkill /IM chromedriver.exe /F");
         }
     }
 
