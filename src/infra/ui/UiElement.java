@@ -2,9 +2,7 @@ package infra.ui;
 
 import infra.general.Utils;
 import infra.reporter.Reporter;
-import org.openqa.selenium.By;
-import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 
 import java.util.List;
 
@@ -168,4 +166,53 @@ public class UiElement {
             Utils.sleepMS(500);
         }
     }
+
+    /*
+    private void runJS(String s) {
+        ((JavascriptExecutor)Browser.driver()).executeScript("arguments[0]."+s, this.element);
+    }
+
+    public void clickJS() {
+        runJS("click()");
+    }
+
+    public void setColor(String color) {
+        runJS("style.color='" + color + "'");
+    }
+
+    public void dragAndDrop() {
+        new Actions(Browser.driver()).moveToElement(element)
+                .clickAndHold().moveByOffset(300, -30).release()
+                .perform();
+    }
+
+    public void ctrlClick() {
+        new Actions(Browser.driver()).keyDown(element, Keys.CONTROL).click().perform();
+    }
+
+    public void inputSeveralKey() {
+        element.sendKeys(Keys.chord(Keys.CONTROL, "p"));
+    }
+*/
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
