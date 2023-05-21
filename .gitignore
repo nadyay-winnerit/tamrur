@@ -6,3 +6,4 @@ bin/**/*
 *.html
 /reporter
 config.properties
+/dwh
