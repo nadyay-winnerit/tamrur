@@ -2,9 +2,11 @@ package infra.ui;
 
 import infra.general.*;
 import infra.reporter.Reporter;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.*;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 public class Browser {
@@ -39,4 +41,16 @@ public class Browser {
     }
 
 
+    public static File getPageSourceFile(int id) {
+        File file = null;
+        if (Browser.isOpen()) {
+            try {
+                file = new File("reporter/files/", "file_" + id + "_pageSource.html");
+                FileUtils.writeStringToFile(file, Browser.driver().getPageSource(), "UTF-8");
+            } catch (Throwable t) {
+                t.printStackTrace();
+            }
+        }
+        return file;
+    }
 }

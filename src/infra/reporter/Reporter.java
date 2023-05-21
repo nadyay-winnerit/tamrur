@@ -1,6 +1,6 @@
 package infra.reporter;
 
-import infra.general.AutomationException;
+import infra.general.*;
 import infra.ui.Browser;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
@@ -51,8 +51,12 @@ public class Reporter {
 
     //constructor
     private Reporter() {
-        new File("reporter/screenshots/").mkdirs();
-        new File("reporter/files/").mkdirs();
+        File screenshortsDir = new File("reporter/screenshots/");
+        screenshortsDir.delete();
+        screenshortsDir.mkdirs();
+        File filesDir = new File("reporter/files/");
+        filesDir.delete();
+        filesDir.mkdirs();
         html = new File("reporter/Reporter.html");
         html.delete();
         listLevelId.add(0);
@@ -65,9 +69,9 @@ public class Reporter {
                 "        #tree tr:hover {\n" +
                 "            background-color: #efefef;\n" +
                 "        }\n" +
-                "        #tree tr[error='true']:hover {\n" +
+                "        /*#tree tr[error='true']:hover {\n" +
                 "            background-color: #ffefef;\n" +
-                "        }\n" +
+                "        }\n*/" +
                 "        th, td {\n" +
                 "            padding: 5px 7px 5px 7px;\n" +
                 "        }\n" +
@@ -180,6 +184,7 @@ public class Reporter {
                 "        <th width='100%'>Message</th>\n" +
                 "        <th width='96'>Timestamp</th>\n" +
                 "        <th width='20'>&nbsp;&nbsp;&nbsp;&nbsp;</th>\n" +
+                "        <th width='20'>&nbsp;&nbsp;&nbsp;&nbsp;</th>\n" +
                 "        <th width='20'>More</th>\n" +
                 "    </tr>\n");
     }
@@ -187,18 +192,12 @@ public class Reporter {
     //Methods
 
     public void message(String msg, String moreInfo) {
-        _reportRow(msg, moreInfo, true, false);
-    }
-
-    public void error(String errMsg, String moreInfo) {
-        //counter to count the error's number
-        _reportRow(errMsg, moreInfo, false, false);
-        changeOuterLevelToError();
+        _reportRow(msg, moreInfo, null, true, false);
     }
 
     public void openLevel(String msg, String moreInfo) {
 
-        _reportRow(msg, moreInfo, true, true);
+        _reportRow(msg, moreInfo, null, true, true);
         listLevelId.add(0);
     }
 
@@ -207,7 +206,7 @@ public class Reporter {
         return this;
     }
 
-    private String _createRowHtml(String msg, String moreInfo, boolean isPass, boolean isLevel) {
+    private String _createRowHtml(String msg, String moreInfo, File attachment, boolean isPass, boolean isLevel) {
 
         listLevelId.set(listLevelId.size() - 1, listLevelId.get(listLevelId.size() - 1) + 1);
         String levelId = getLevelId();
@@ -223,7 +222,7 @@ public class Reporter {
         if (!isPass) {
             takeScreenshot();
         }
-
+        attachment(attachment);
         moreInfo(moreInfo);
         appendHtml("</tr>");
 
@@ -268,9 +267,10 @@ public class Reporter {
         return getReplaceToString(listLevelId);
     }
 
-    public void error(String errMsg, String moreInfo, Throwable e) {
-        String moreInfoWithThrowable = (moreInfo != null ? moreInfo : "") + "/n/r " + AutomationException.printAble(e);
-        _reportRow(errMsg, moreInfoWithThrowable, false, false);
+    public void error(String errMsg, String moreInfo, Throwable... e) {
+        if (e.length > 0)
+            moreInfo = (moreInfo != null ? moreInfo : "") + AutomationException.printable(e[0]);
+        _reportRow(errMsg, moreInfo, Browser.getPageSourceFile(id), false, false);
         changeOuterLevelToError();
     }
 
@@ -283,9 +283,23 @@ public class Reporter {
         listLevelId.remove(listLevelId.size() - 1);
     }
 
+    public void closeLevel(String msg) {
+        curPathStack.pop();
+        listLevelId.remove(listLevelId.size() - 1);
+    }
+
+    public void closeInnerLevels() {
+        curPathStack.pop();
+        listLevelId.remove(listLevelId.size() - 1);
+    }
+
+    public void closeAllLevels() {
+        curPathStack.pop();
+        listLevelId.remove(listLevelId.size() - 1);
+    }
 
     private void moreInfo(String moreInfo) {
-        if (moreInfo == null) {
+        if (Utils.isNullOrEmpty(moreInfo)) {
             appendHtml("<td/>");
             return;
         }
@@ -298,6 +312,17 @@ public class Reporter {
                 "</td>");
     }
 
+    private void attachment(File attachment) {
+        if (attachment == null) {
+            appendHtml("<td/>");
+            return;
+        }
+        appendHtml("<td>\n" +
+                "       <a href='files/" + attachment.getName() + "' target='_blank'/>\n" +
+                "           <img src='../resources/reporter/file.png' width='14'/>\n" +
+                "       </a>\n" +
+                "</td>");
+    }
 
     public void result(String rsltMsg, String moreInfo, boolean result) {
         if (result)
@@ -343,9 +368,9 @@ public class Reporter {
         }
     }
 
-    private void _reportRow(String msg, String moreInfo, boolean isPass, boolean isLevel) {
+    private void _reportRow(String msg, String moreInfo, File attachment, boolean isPass, boolean isLevel) {
 
-        String date = _createRowHtml(msg, moreInfo, isPass, isLevel);//האם יש ענין להחזיר את הdate
+        String date = _createRowHtml(msg, moreInfo, attachment, isPass, isLevel);//האם יש ענין להחזיר את הdate
 
         System.out.println("[" + date + "][" + (isPass ? "MSG" : "ERR") + "] " + msg + (moreInfo == null ? "" : "\r\n\t\t\t\t" + moreInfo));
     }

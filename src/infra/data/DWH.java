@@ -9,7 +9,6 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
-import java.util.Date;
 
 public class DWH {
 
@@ -56,7 +55,7 @@ public class DWH {
         RegisterUserPageData data = new RegisterUserPageData();
         data.setEmailInput("DD@RR.GG");
         data.setFNameInput("משה חג'ג'");
-        data.date = new Date();
+//        data.date = new Date();
         testData.setRegisterUserPageData(data);
         saveData(DataKeys.NewUser, data);
 
