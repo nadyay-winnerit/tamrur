@@ -3,6 +3,7 @@ package infra.ui;
 import infra.general.Utils;
 import infra.reporter.Reporter;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 
@@ -165,6 +166,25 @@ public class UiElement {
             }
             Utils.sleepMS(500);
         }
+    }
+
+    public void select(String str) {
+        findElement();
+        Select select = new Select(element);
+        select.selectByVisibleText(str);
+    }
+
+    public boolean validateChooseRadio() {
+        if (isExists() == false) {
+            reporter.error("The element [" + this.desc + "] is not exists",  by.toString());
+            return false;
+        }
+        if (element.isSelected()) {
+            reporter.message("The element [" + this.desc + "] is Selected", by.toString());
+            return true;
+        }
+        reporter.error("The element [" + this.desc + "] is not Selected", by.toString());
+        return false;
     }
 
     /*
