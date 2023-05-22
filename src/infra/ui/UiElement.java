@@ -129,7 +129,7 @@ public class UiElement {
         if (str == null) {
             return true;
         }
-        if (isExists() == false) {
+        if (!isExists()) {
             reporter.error("The element [" + this.desc + "] is not exists", str + "\r\n" + by.toString());
             return false;
         }
@@ -170,12 +170,13 @@ public class UiElement {
 
     public void select(String str) {
         findElement();
+        reporter.message("Select from drop-down [" + this.desc + "] the option: "+str, str + "\r\n" + by.toString());
         Select select = new Select(element);
         select.selectByVisibleText(str);
     }
 
     public boolean validateChooseRadio() {
-        if (isExists() == false) {
+        if (!isExists()) {
             reporter.error("The element [" + this.desc + "] is not exists",  by.toString());
             return false;
         }
