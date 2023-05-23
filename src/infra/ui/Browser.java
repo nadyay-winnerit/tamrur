@@ -3,10 +3,11 @@ package infra.ui;
 import infra.general.Config;
 import infra.general.Prop;
 import infra.reporter.Reporter;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.chrome.*;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 public class Browser {
@@ -37,8 +38,21 @@ public class Browser {
         if (driver != null) {
             driver.quit();
             driver = null;
+            CmdUtil.run("taskkill /IM chromedriver.exe /F");
         }
     }
 
 
+    public static File getPageSourceFile(int id) {
+        File file = null;
+        if (Browser.isOpen()) {
+            try {
+                file = new File("reporter/files/", "file_" + id + "_pageSource.html");
+                FileUtils.writeStringToFile(file, Browser.driver().getPageSource(), "UTF-8");
+            } catch (Throwable t) {
+                t.printStackTrace();
+            }
+        }
+        return file;
+    }
 }
