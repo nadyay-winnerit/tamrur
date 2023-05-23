@@ -2,11 +2,12 @@ package infra.data;
 
 import infra.general.*;
 import objects.BaseData;
+import objects.pages.medicalFile.PatientDetailsPageData;
 import org.apache.commons.lang3.StringUtils;
 import org.jooq.tools.csv.CSVReader;
 
 import java.io.*;
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
 import java.util.*;
 
 public class DataProcessor {
@@ -47,31 +48,38 @@ public class DataProcessor {
                         continue;
 
                     String csvValue = rows.get(i)[j].trim();
-                    if (method.getParameterTypes()[0] == String.class) {
+                    Class<?> setterType = method.getParameterTypes()[0];
+                    if (setterType == String.class) {
                         String value = getValue(csvValue);
                         method.invoke(o, value);
-                    } else if (BaseData.class.isAssignableFrom(method.getParameterTypes()[0])) {
-                        BaseData parameterOfSetter = null;
-                        List<BaseData> csv = readCSV((Class<? extends BaseData>) method.getParameterTypes()[0]);
-                        for (BaseData bd : csv) {
-                            if (bd.getId().equals(csvValue)) {
-                                parameterOfSetter = bd;
-                                break;
-                            }
-                        }
-                        method.invoke(o, parameterOfSetter);
-                    } else if (method.getParameterTypes()[0].isEnum()) {
-                        for (Object enumc : method.getParameterTypes()[0].getEnumConstants()) {
+                    } else if (setterType == Boolean.class) {
+                        method.invoke(o, Boolean.valueOf(csvValue));
+                    } else if (setterType.isEnum()) {
+                        for (Object enumc : setterType.getEnumConstants()) {
                             if (((Enum) enumc).name().equals(csvValue)) {
                                 method.invoke(o, enumc);
                                 break;
                             }
                         }
-
-                    } else if (method.getParameterTypes()[0] == Boolean.class) {
-                        method.invoke(o, Boolean.valueOf(csvValue));
+                    } else if (BaseData.class.isAssignableFrom(setterType)) {
+                        BaseData parameterOfSetter = getDataObjectById((Class<? extends BaseData>) setterType, csvValue);
+                        method.invoke(o, parameterOfSetter);
+                    } else if (setterType == List.class) {
+                        List<Object> listData = new ArrayList<>();
+                        String[] ids = csvValue.split(";");
+                        for (String id : ids) {
+                            Class<?> actualTypeArgument = (Class<?>) ((ParameterizedType) method.getGenericParameterTypes()[0]).getActualTypeArguments()[0];
+                            BaseData parameterOfSetter = null;
+                            if (BaseData.class.isAssignableFrom(actualTypeArgument)) {
+                                parameterOfSetter = getDataObjectById((Class<? extends BaseData>) actualTypeArgument, id);
+                            } else {
+                                throw new AutomationException("UNKNOWN TYPE for list - " + (actualTypeArgument).getName(), null, null);
+                            }
+                            listData.add(parameterOfSetter);
+                        }
+                        method.invoke(o, listData);
                     } else {
-                        throw new Exception("UNKNOWN TYPE - " + method.getParameterTypes()[0].getName());
+                        throw new AutomationException("UNKNOWN TYPE - " + setterType.getName(), null, null);
                     }
                 }
                 result.add(o);
@@ -82,6 +90,16 @@ public class DataProcessor {
         }
 
         return result;
+    }
+
+    private static BaseData getDataObjectById(Class<? extends BaseData> dataClass, String id) {
+        List<BaseData> csv = readCSV(dataClass);
+        for (BaseData bd : csv) {
+            if (bd.getId().equals(id)) {
+                return bd;
+            }
+        }
+        return null;
     }
 
     public static List<Object[]> createTestData(Class<? extends BaseData> clazz) {
@@ -222,9 +240,10 @@ public class DataProcessor {
 
 
     public static void main(String[] args) {
-        currentTestId = "22";
+//        currentTestId = "22";
         //List<Object[]> objects = DataProcessor.createSuiteData(TestNewRegisterUserData.class);
 //        List<Object[]> objects = DataProcessor.createSuiteData(UserInformationPageData.class);
-//        System.out.println(objects);
+        List<BaseData> objects = readCSV(PatientDetailsPageData.class);
+        System.out.println(objects);
     }
 }

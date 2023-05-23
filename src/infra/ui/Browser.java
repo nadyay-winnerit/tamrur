@@ -1,7 +1,6 @@
 package infra.ui;
 
-import infra.general.Config;
-import infra.general.Prop;
+import infra.general.*;
 import infra.reporter.Reporter;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.WebDriver;
