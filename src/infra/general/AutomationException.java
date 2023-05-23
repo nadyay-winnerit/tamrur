@@ -13,9 +13,9 @@ public class AutomationException extends RuntimeException {
         StringBuilder strStack = new StringBuilder();
         StackTraceElement[] arrStack = e.getStackTrace();
         for (StackTraceElement stackTraceElement : arrStack) {
-            strStack.append(stackTraceElement).append("/r/n");
+            strStack.append(stackTraceElement).append("\r\n");
         }
-        return e.getMessage() + "/r/n" + strStack;
+        return e.getMessage() + "\r\n" + strStack;
     }
 
 }
