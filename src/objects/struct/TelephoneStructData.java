@@ -1,8 +1,8 @@
-package objects.component;
+package objects.struct;
 
 import objects.BaseData;
 
-public class TelephoneCmpData extends BaseData {
+public class TelephoneStructData extends BaseData {
 
     private String phoneNumber;
     private String phoneType;
