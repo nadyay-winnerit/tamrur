@@ -1,17 +1,17 @@
 package objects.suite;
 
 import objects.BaseData;
-import objects.tests.TestExampleData;
+import objects.tests.TestTherapistData;
 
 public class SuiteExampleData extends BaseData {
 
-    TestExampleData testExampleData;
+    TestTherapistData testExampleData;
 
-    public TestExampleData getTestExampleData() {
+    public TestTherapistData getTestExampleData() {
         return testExampleData;
     }
 
-    public void setTestExampleData(TestExampleData testExampleData) {
+    public void setTestExampleData(TestTherapistData testExampleData) {
         this.testExampleData = testExampleData;
     }
 }

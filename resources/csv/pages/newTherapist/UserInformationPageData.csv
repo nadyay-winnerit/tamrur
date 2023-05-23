@@ -1,0 +1,3 @@
+id             |firstName|lastName|gender|loginPassword|isActive|isExternal
+male active    |david    |levi    |male  |automation   |true    |false
+female external|miriam   |cohen   |female|aaa          |false   |True

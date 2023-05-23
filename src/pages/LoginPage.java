@@ -1,7 +1,9 @@
 package pages;
 
 import infra.enums.Users;
-import infra.ui.*;
+import infra.ui.BasePage;
+import infra.ui.Browser;
+import infra.ui.UiElement;
 import org.openqa.selenium.By;
 
 public class LoginPage extends BasePage {
@@ -13,9 +15,14 @@ public class LoginPage extends BasePage {
     UiElement forgotPasswordLinkUi = new UiElement("שכחתי ססמא", By.linkText("שכחתי סיסמא"));
     UiElement newUserLinkUi = new UiElement("משתמש חדש?", By.linkText("משתמש חדש?"));
 
+    public LoginPage() {
+
+    }
+
     @Override
     public boolean assertDisplay() {
-        return false;
+        return Browser.driver().getTitle().equals("מושיע")
+                && new UiElement("כותרת", By.cssSelector("h4")).validateText("ברוכים הבאים למערכת מושיע");
     }
 
     /**
@@ -24,7 +31,6 @@ public class LoginPage extends BasePage {
      * @param users
      */
     public LoginPage fillPage(Users users) {
-
         userNameUi.input(users.getEmail());
         passWordUi.input(users.getPassword());
         /*if (users.getRememberCheckBoxUi())

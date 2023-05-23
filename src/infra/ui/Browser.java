@@ -1,6 +1,7 @@
 package infra.ui;
 
-import infra.general.*;
+import infra.general.Config;
+import infra.general.Prop;
 import infra.reporter.Reporter;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.WebDriver;
@@ -36,6 +37,7 @@ public class Browser {
     public static void close() {
         if (driver != null) {
             driver.quit();
+            driver = null;
             CmdUtil.run("taskkill /IM chromedriver.exe /F");
         }
     }

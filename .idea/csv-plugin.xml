@@ -17,7 +17,56 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\resources\csv\pages\newTherapist\ContactInformationPageData.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="|" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\resources\csv\pages\newTherapist\DaysAndHoursOfOperationPageData.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="|" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\resources\csv\pages\newTherapist\ProfessionalDetailsPageData.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="|" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\resources\csv\pages\newTherapist\UserInformationPageData.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="|" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\resources\csv\suite\SuiteExampleData.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="|" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\resources\csv\tests\TestNewRegisterUserData.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="|" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\resources\csv\tests\TestTherapistData.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="|" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\resources\csv\tests\_TestTherapistData.csv">
           <value>
             <Attribute>
               <option name="separator" value="|" />

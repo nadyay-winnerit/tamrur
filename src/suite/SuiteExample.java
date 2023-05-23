@@ -4,6 +4,7 @@ import infra.data.DataProcessor;
 import infra.test.SuiteBase;
 import objects.suite.SuiteExampleData;
 import org.junit.runners.Parameterized;
+import tests.TestTherapist;
 
 import java.util.Collection;
 
@@ -22,6 +23,8 @@ public class SuiteExample extends SuiteBase {
     }
 
     public void suite() {
+        runTest(TestTherapist.class, suiteData.getTestExampleData());
+        runTest(TestTherapist.class, suiteData.getTestExampleData().getId());
 //        runTest(TestCreateUser.class, suiteData.getTestExampleData().getId());
 //        runTest(TestEditUser.class, suiteData.getTestExampleData().getId());
         //runStep(ContactsTest.class, suiteData.getContactTest());
