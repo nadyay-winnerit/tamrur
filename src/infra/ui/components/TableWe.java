@@ -32,7 +32,7 @@ public class TableWe extends UiElement {
             for (TableCell tableCell : tableCells) {
                 int indexColumn = getColumnIndex(tableCell.column);
                 if (indexColumn == -1) {
-                    throw new AutomationException("The received key is invalid for this table", null);
+                    throw new AutomationException("The received key is invalid for this table " + tableCell.column, null, null);
                     //break outerFor;
                 }
 

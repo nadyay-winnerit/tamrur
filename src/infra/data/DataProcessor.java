@@ -18,6 +18,8 @@ public class DataProcessor {
     private static List<BaseData> readCSV(Class<? extends BaseData> clazz) {
 
         List<BaseData> result = new ArrayList<>();
+        String currentColumn = null;
+        Method[] methodList = null;
         try {
             String classPath = clazz.getName().replace("objects.", "").replace(".", "\\");
             Reader reader = new FileReader("resources\\csv\\" + classPath + ".csv");
@@ -27,14 +29,15 @@ public class DataProcessor {
             for (int k = 0; k < rows.get(0).length; k++) {
                 namesOfMethods.add("set" + StringUtils.capitalize((rows.get(0)[k]).trim()));
             }
-            Method[] methodList = clazz.getMethods();
+            methodList = clazz.getMethods();
             for (int i = 1; i < rows.size(); i++) {
-                // create new Object (newInstance)
-                BaseData o = clazz.newInstance();
+
+                BaseData o = clazz.newInstance(); // create new Object (newInstance)
                 for (int j = 0; j < (rows.get(i)).length; j++) {
                     Method method = null;
                     for (Method m : methodList) {
-                        if (m.getName().equals(namesOfMethods.get(j))) {
+                        currentColumn = namesOfMethods.get(j);
+                        if (m.getName().equals(currentColumn)) {
                             method = m;
                             break;
                         }
@@ -74,7 +77,8 @@ public class DataProcessor {
                 result.add(o);
             }
         } catch (Throwable e) {
-            throw new RuntimeException(e);
+            throw new AutomationException("כשלון ב CSV " + clazz.getSimpleName() + " for method " + currentColumn
+                    , clazz.getSimpleName() + " Class Methods :\r\n" + Arrays.asList(methodList).toString().replace(", public", "\r\npublic"), e);
         }
 
         return result;

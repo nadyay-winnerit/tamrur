@@ -21,7 +21,7 @@ public class DWH {
             File file = new File("dwh/" + key + ".json");
             FileUtils.writeStringToFile(file, json, StandardCharsets.UTF_8);
         } catch (Throwable t) {
-            throw new AutomationException("כשלון בשמירת אובייקט למפתח " + key, t);
+            throw new AutomationException("כשלון בשמירת אובייקט למפתח " + key, null, t);
         }
     }
 
@@ -31,7 +31,7 @@ public class DWH {
             String json = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
             return (T) gson.fromJson(json, clazz);
         } catch (Throwable t) {
-            throw new AutomationException("כשלון בקריאת אובייקט למפתח " + key, t);
+            throw new AutomationException("כשלון בקריאת אובייקט למפתח " + key, null, t);
         }
     }
 
@@ -46,7 +46,7 @@ public class DWH {
             String json = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
             return gson.fromJson(json, RegisterUserPageData.class);
         } catch (Throwable t) {
-            throw new AutomationException("כשלון בקריאת אובייקט למפתח " + key, t);
+            throw new AutomationException("כשלון בקריאת אובייקט למפתח " + key, null, t);
         }
     }
 

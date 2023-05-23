@@ -21,6 +21,7 @@ public class UiElement {
 
     //constructor
 
+    @Deprecated
     public UiElement(String desc, By by) {
         this.desc = desc;
         this.by = by;

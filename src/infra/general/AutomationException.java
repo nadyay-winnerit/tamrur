@@ -4,9 +4,9 @@ import infra.reporter.Reporter;
 
 public class AutomationException extends RuntimeException {
 
-    public AutomationException(String message, Throwable cause) {
+    public AutomationException(String message, String moreInfo, Throwable cause) {
         super(message, cause);
-        Reporter.reporter().error(message, null, this);
+        Reporter.reporter().error(message, moreInfo, this);
     }
 
     public static String printable(Throwable e) {

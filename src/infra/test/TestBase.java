@@ -53,14 +53,14 @@ public abstract class TestBase {
         @Override
         protected void succeeded(Description description) {
             if (!report.ifNoErrors()) {
-                throw new AutomationException("the test ended, but has errors", null);
+                throw new AutomationException("the test ended, but has errors", null, null);
             }
         }
 
         @Override
         protected void failed(Throwable e, Description description) {
             //if the test failed, the reporter writes an error msg, and counts the errors
-            throw new AutomationException("the test has been failed", e);
+            throw new AutomationException("the test has been failed", null, e);
         }
 
         @Override
