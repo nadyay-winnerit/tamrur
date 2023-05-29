@@ -18,11 +18,11 @@ public class TestMedicalFileData extends BaseData {
     //דוחות
 
     //get& set
-    public PatientDetailsPageData getPatientDetailsData() {
+    public PatientDetailsPageData getPatientDetailsPageData() {
         return patientDetailsData;
     }
 
-    public void setPatientDetailsData(PatientDetailsPageData patientDetailsData) {
+    public void setPatientDetailsPageData(PatientDetailsPageData patientDetailsData) {
         this.patientDetailsData = patientDetailsData;
     }
 

@@ -268,8 +268,11 @@ public class Reporter {
     }
 
     public void error(String errMsg, String moreInfo, Throwable... e) {
-        if (e.length > 0)
+        if (e.length > 0) {
             moreInfo = (moreInfo != null ? moreInfo : "") + AutomationException.printable(e[0]);
+        } else {
+            moreInfo = (moreInfo != null ? moreInfo : "") + AutomationException.printable(new Error(errMsg));
+        }
         _reportRow(errMsg, moreInfo, Browser.getPageSourceFile(id), false, false);
         changeOuterLevelToError();
     }
@@ -294,8 +297,9 @@ public class Reporter {
     }
 
     public void closeAllLevels() {
-        curPathStack.pop();
-        listLevelId.remove(listLevelId.size() - 1);
+        while (!curPathStack.empty()) {
+            closeLevel();
+        }
     }
 
     private void moreInfo(String moreInfo) {

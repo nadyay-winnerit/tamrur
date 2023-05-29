@@ -13,14 +13,14 @@ public class AutomationException extends RuntimeException {
         StringBuilder strStack = new StringBuilder("\r\n[Exception]::" + e.getMessage());
         StackTraceElement[] arrStack = e.getStackTrace();
         for (StackTraceElement stackTraceElement : arrStack) {
-            strStack.append(stackTraceElement).append("/r/n");
+            strStack.append("\r\n\t\t").append(stackTraceElement);
         }
         while (e.getCause() != null) {
             e = e.getCause();
             strStack.append("\r\n[Cause]::" + e.getMessage());
             arrStack = e.getStackTrace();
             for (StackTraceElement stackTraceElement : arrStack) {
-                strStack.append("\r\n\t\t\t\t").append(stackTraceElement);
+                strStack.append("\r\n\t\t").append(stackTraceElement);
             }
         }
         return strStack.toString();

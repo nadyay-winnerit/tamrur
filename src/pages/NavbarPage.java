@@ -1,12 +1,11 @@
 package pages;
 
-import infra.ui.Browser;
 import infra.ui.UiElement;
 import org.openqa.selenium.By;
 
 public class NavbarPage {
 
-    public static UiElement medicalFiles=new UiElement("medicalFiles", By.cssSelector("a[href=#/home/dashboard]"));
+    public static UiElement medicalFiles = new UiElement("medicalFiles", By.cssSelector("a.nav-link[href='#/home/dashboard']"));
 
     public static UiElement plus=new UiElement("הוסף", By.cssSelector("button.btn-primary[title*='הוסף']"));
 

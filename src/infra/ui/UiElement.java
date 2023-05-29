@@ -163,9 +163,10 @@ public class UiElement {
 
             if (!elements.isEmpty()) {
                 this.element = elements.get(index);
+                Browser.runJS("arguments[0].scrollIntoView()", element);
+                Utils.sleepMS(500);
                 break;
             }
-            Utils.sleepMS(500);
         }
     }
 

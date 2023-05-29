@@ -29,7 +29,7 @@ public abstract class BasePage {
     }
 
     public static void chooseMenu(MenuMain menuMain) {
-        new UiElement(" מתפריט ראשי" + menuMain.nameInHebrew(), By.cssSelector("a[ng-reflect-router-link='/" + menuMain.rootMenu() + "/" + menuMain.name() + "']")).click();
+        new UiElement(" מתפריט ראשי" + menuMain.nameInHebrew(), By.cssSelector("a.nav-link[ng-reflect-router-link='/" + menuMain.rootMenu() + "/" + menuMain.name() + "']")).click();
     }
 
 

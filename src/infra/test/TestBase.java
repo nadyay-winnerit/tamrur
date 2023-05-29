@@ -67,7 +67,7 @@ public abstract class TestBase {
         protected void finished(Description description) {
             after();
             Browser.close();
-            report.closeLevel();
+            report.closeAllLevels();
         }
     };
 

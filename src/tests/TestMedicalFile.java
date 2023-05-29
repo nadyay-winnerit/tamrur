@@ -1,13 +1,12 @@
 package tests;
 
 import infra.data.DataProcessor;
+import infra.enums.Users;
 import infra.test.TestBase;
-import objects.pages.medicalFile.RelatedMedicalFilePageData;
 import objects.tests.TestMedicalFileData;
 import org.junit.runners.Parameterized;
-import pages.NavbarPage;
+import pages.*;
 import pages.medicalFile.*;
-
 
 import java.util.Collection;
 
@@ -26,10 +25,11 @@ public class TestMedicalFile extends TestBase {
 
     @Override
     public void test() {
+        new LoginPage().fillPage(Users.manager).finish();
         NavbarPage.medicalFilesClick();
         NavbarPage.plusClick();
         new FileDetailsPage().assertPage().fillPage(testMedicalFile.getFileDetailsPageData()).finish();
-        new PatientDetailsPage().assertPage().fillPage(testMedicalFile.getPatientDetailsData()).finish();
+        new PatientDetailsPage().assertPage().fillPage(testMedicalFile.getPatientDetailsPageData()).finish();
         NavbarPage.nextClick();
         new ReferenceDetailsPage().finish();
         NavbarPage.nextClick();
