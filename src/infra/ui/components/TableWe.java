@@ -2,9 +2,11 @@ package infra.ui.components;
 
 import infra.general.AutomationException;
 import infra.ui.UiElement;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TableWe extends UiElement {
 
@@ -97,6 +99,11 @@ public class TableWe extends UiElement {
     private int getCountRows() {
         List<WebElement> rowElements = this.element.findElements(By.cssSelector("tbody tr"));
         return rowElements.size();
+    }
+
+    @Override
+    public TableWe setIndex(int value) {
+        return (TableWe) super.setIndex(value);
     }
 
     private String caseSelect(WebElement webElement) {

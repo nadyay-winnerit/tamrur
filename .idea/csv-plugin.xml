@@ -17,6 +17,41 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\resources\csv\pages\medicalFile\ContactPageData.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="|" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\resources\csv\pages\medicalFile\FileDetailsPageData.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="|" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\resources\csv\pages\medicalFile\PatientDetailsPageData.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="|" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\resources\csv\pages\medicalFile\ReferenceDetailsPageData.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="|" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\resources\csv\pages\medicalFile\RelatedMedicalFilePageData.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="|" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\resources\csv\pages\newTherapist\ContactInformationPageData.csv">
           <value>
             <Attribute>
@@ -46,6 +81,20 @@
           </value>
         </entry>
         <entry key="\resources\csv\suite\SuiteExampleData.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="|" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\resources\csv\tests\TestExampleData.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="|" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\resources\csv\tests\TestMedicalFileData.csv">
           <value>
             <Attribute>
               <option name="separator" value="|" />

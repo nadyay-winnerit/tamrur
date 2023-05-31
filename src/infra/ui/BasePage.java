@@ -8,14 +8,15 @@ import org.openqa.selenium.By;
 import static infra.reporter.Reporter.reporter;
 
 public abstract class BasePage {
-    private final UiElement nav = new UiElement(" סרגל הטאבים (nav)", By.cssSelector("ul.nav a[class*='pointer']"));
+
     protected int indexOfNav = 0;
+
 
     public BasePage() {
         init();
         if (indexOfNav != 0) {
             Reporter.reporter().message("Choosing the right tab", null);
-            nav.setIndex(indexOfNav).click();
+            new UiElement(" סרגל הטאבים (nav)", By.cssSelector("ul.nav a[class*='pointer']")).setIndex(indexOfNav).click();
         }
         reporter().openLevel("[[[" + this.getClass().getSimpleName() + "]]]", null);
 
@@ -46,4 +47,5 @@ public abstract class BasePage {
         // Check if there is any error on the page
         Reporter.reporter().closeLevel();
     }
+
 }

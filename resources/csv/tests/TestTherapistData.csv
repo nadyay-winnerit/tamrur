@@ -1,3 +1,5 @@
-id|UserInformationPageData|ContactInformationPageData
-1 |male active            |fax
-2 |female external        |landline
+id|UserInformationPageData|ProfessionalDetailsPageData|ContactInformationPageData|DaysAndHoursOfOperationPageData
+1 |male active            |אבחונים:קשב וריכוז         |fax                       |בוקר
+2 |female external        |מוזיקה:טיפול רגשי          |landline                  |
+3 |female active          |אבחונים:קשב וריכוז         |fax                       |ערב
+4 |male external          |                           |landline                  |

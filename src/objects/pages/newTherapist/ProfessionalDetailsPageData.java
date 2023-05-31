@@ -1,6 +1,8 @@
 package objects.pages.newTherapist;
 
-public class ProfessionalDetailsPageData {
+import objects.BaseData;
+
+public class ProfessionalDetailsPageData extends BaseData {
     private String SpecializationMenu;
     private String treatmentType;
     private String treatmentPrice;

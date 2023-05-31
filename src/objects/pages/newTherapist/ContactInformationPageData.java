@@ -8,8 +8,8 @@ public class ContactInformationPageData extends BaseData {
     private String cityMenu;
     private String country;
     private String emailAddress;
-    private String agreeReceiveSMS;
-    private String agreeReceiveEmail;
+    private Boolean agreeReceiveSMS;
+    private Boolean agreeReceiveEmail;
     private String phoneNumber;
     private TypePhone typePhone;
 
@@ -31,11 +31,11 @@ public class ContactInformationPageData extends BaseData {
         this.emailAddress = emailAddress;
     }
 
-    public void setAgreeReceiveSMS(String agreeReceiveSMS) {
+    public void setAgreeReceiveSMS(Boolean agreeReceiveSMS) {
         this.agreeReceiveSMS = agreeReceiveSMS;
     }
 
-    public void setAgreeReceiveEmail(String agreeReceiveEmail) {
+    public void setAgreeReceiveEmail(Boolean agreeReceiveEmail) {
         this.agreeReceiveEmail = agreeReceiveEmail;
     }
 
@@ -64,11 +64,11 @@ public class ContactInformationPageData extends BaseData {
         return emailAddress;
     }
 
-    public String getAgreeReceiveSMS() {
+    public Boolean getAgreeReceiveSMS() {
         return agreeReceiveSMS;
     }
 
-    public String getAgreeReceiveEmail() {
+    public Boolean getAgreeReceiveEmail() {
         return agreeReceiveEmail;
     }
 

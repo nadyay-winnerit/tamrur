@@ -1,3 +1,4 @@
+
 package tests;
 
 import infra.data.DataProcessor;
@@ -5,7 +6,8 @@ import infra.enums.Users;
 import infra.test.TestBase;
 import objects.tests.TestMedicalFileData;
 import org.junit.runners.Parameterized;
-import pages.*;
+import pages.LoginPage;
+import pages.NavbarPage;
 import pages.medicalFile.*;
 
 import java.util.Collection;
@@ -51,3 +53,4 @@ public class TestMedicalFile extends TestBase {
         NavbarPage.saveClick();
     }
 }
+

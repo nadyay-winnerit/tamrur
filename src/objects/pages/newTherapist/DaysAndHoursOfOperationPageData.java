@@ -1,6 +1,8 @@
 package objects.pages.newTherapist;
 
-public class DaysAndHoursOfOperationPageData {
+import objects.BaseData;
+
+public class DaysAndHoursOfOperationPageData extends BaseData {
     private String dayMenu;
     private String fromHour;
     private String toAnHour;

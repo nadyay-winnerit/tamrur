@@ -1,1 +1,3 @@
-id|dayMenu|fromHour|toAnHour|remarks
+id  |dayMenu|fromHour|toAnHour|remarks
+בוקר|שני    |08:30   |10:30   |10 דק הפסקה
+ערב |שלישי  |19:30   |22:00   |20 דק הפסקה
