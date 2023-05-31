@@ -19,8 +19,14 @@ public abstract class BasePage {
         }
         reporter().openLevel(this.getClass().getSimpleName(), null);
 
-        if (!assertDisplay())
-            reporter().error("Page did not come up as expected", null);
+        reporter().openLevel("בדיקת הופעת הדף", null);
+        try {
+            if (!assertDisplay())
+                reporter().error("Page did not come up as expected", null);
+        } catch (Throwable e) {
+            reporter().error("כשלון בבדיקת הופעת הדף", null, e);
+        }
+        reporter().closeLevel();
 
     }
 
