@@ -17,7 +17,7 @@ public abstract class BasePage {
             Reporter.reporter().message("Choosing the right tab", null);
             nav.setIndex(indexOfNav).click();
         }
-        reporter().openLevel(this.getClass().getSimpleName(), null);
+        reporter().openLevel("[[[" + this.getClass().getSimpleName() + "]]]", null);
 
         reporter().openLevel("בדיקת הופעת הדף", null);
         try {
