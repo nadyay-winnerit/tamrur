@@ -13,7 +13,8 @@ public class NavbarPage {
     public static UiElement next = new UiElement("הבא", By.xpath("//button[text()='הבא']"));
 
     public static UiElement save = new UiElement("שמירה", By.xpath("//button[text()='שמור שינויים']"));
-    public static UiElement plusTherapist = new UiElement("הוסף", By.cssSelector("svg[class*=plus]>path"));
+
+    public static UiElement plusBtn = new UiElement("הוסף", By.cssSelector("svg[class*=plus]>path"));
 
 
     public static void medicalFilesClick() {
@@ -33,8 +34,8 @@ public class NavbarPage {
     }
 
 
-    public static void plusTherapistClick() {
-        plusTherapist.click();
+    public static void plusBtnClick() {
+        plusBtn.click();
     }
 
 
