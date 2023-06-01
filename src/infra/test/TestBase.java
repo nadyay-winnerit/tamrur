@@ -4,9 +4,12 @@ import infra.general.AutomationException;
 import infra.reporter.Reporter;
 import infra.ui.Browser;
 import objects.BaseData;
-import org.junit.*;
-import org.junit.rules.*;
-import org.junit.runner.*;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TestRule;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
+import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.model.Statement;
 
@@ -16,7 +19,7 @@ public abstract class TestBase {
     public static Reporter report = Reporter.reporter();
     private String testCase;
 
-    public TestBase(String testCase,BaseData testData) {
+    public TestBase(String testCase, BaseData testData) {
         this.testCase = testCase;
     }
 
@@ -31,7 +34,7 @@ public abstract class TestBase {
                 public void evaluate() {
                     try {
                         starting(description);
-                        base.evaluate();  //לולאה?
+                        base.evaluate();
                         succeeded(description);
                     } catch (Throwable t) {
                         failed(t, description);

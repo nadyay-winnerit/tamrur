@@ -1,0 +1,5 @@
+id|emailInput|fNameInput|pwdInput  |lrSelect|activeInput
+משתמש אקטיב|AA@QQ.DD  |ישראל משה |automation|        |true
+סיסמה עם תו |DD@TT.BB  |aharon    |password! |        |false
+אימייל זהה|DD@TT.BB  |משה       |password  |        |true
+שם וסיסמה זהים|tD@TT.BB  |משה       |password  |        |false

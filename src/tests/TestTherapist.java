@@ -46,7 +46,7 @@ public class TestTherapist extends TestBase {
         new LoginPage().fillPage(Users.manager).finish();
         BasePage.chooseMenu(MenuMain.terapists);
         Utils.sleep(3);
-        NavbarPage.plusTherapistClick();
+        NavbarPage.plusBtnClick();
         new UserInformationPage().fillPage(testData.getUserInformationPageData()).finish();
         new ProfessionalDetailsPage().fillPage(testData.getProfessionalDetailsPageData()).finish();
         new ContactInformationPage().fillPage(testData.getContactInformationPageData()).finish();
