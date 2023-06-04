@@ -3,11 +3,9 @@ package infra.ui.components;
 import infra.general.AutomationException;
 import infra.reporter.Reporter;
 import infra.ui.UiElement;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class TableWe extends UiElement {
 
@@ -71,7 +69,7 @@ public class TableWe extends UiElement {
     public TableWe validate(List<TableCell> list, int numLine) {
         super.findElement();
         boolean bool = false;
-        WebElement tr = element.findElement(By.cssSelector("tr:nth-child(" + numLine + ")"));
+        WebElement tr = element.findElement(By.cssSelector("tbody tr:nth-child(" + numLine + ")"));
         List<WebElement> tdList = tr.findElements(By.cssSelector("td"));
         for (TableCell tableCell : list) {
             int indexColumn = getColumnIndex(tableCell.column);
@@ -86,11 +84,11 @@ public class TableWe extends UiElement {
         }
         //return bool;
         if (bool) {
-            Reporter.reporter().message("The validation was successful, the row in the table was found", null);
+            Reporter.reporter().hasScreenshot().message("The validation was successful, the row in the table was found", null);
+            Reporter.reporter().takeScreenshot();
         } else {
-            Reporter.reporter().error("Validation failed, the row in the table was not found", null, null);
+            Reporter.reporter().error("Validation failed, the row in the table was not found", null);
         }
-        Reporter.reporter().takeScreenshot();
         return this;
     }
 
