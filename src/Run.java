@@ -7,14 +7,15 @@ public class Run {
         Reporter.reporter().message("msg parent", null);
         Reporter.reporter().error("fail after close level1", null);
         Reporter.reporter().result("ok ", "info info", true);
-        Reporter.reporter().openLevel("open another level1", "image change");
+        Reporter.reporter().openLevel("open another level1122", "image change");
+        Reporter.reporter().openLevel("open another level1111", "image change");
         Reporter.reporter().message("msg inside level1", null);
         Reporter.reporter().error("errorl in the Level", null);
         Reporter.reporter().openLevel("open another level1", "image change");
         Reporter.reporter().message("msg inside level1", null);
         Reporter.reporter().error("errorl in the Level", null);
-        Reporter.reporter().closeLevel();
-        Reporter.reporter().openLevel("open level2 inside level 1", "image change");
+        Reporter.reporter().closeLevel("open another level1111");
+        Reporter.reporter().openLevel("open level2 inside level 1 after 1111", "image change");
         Reporter.reporter().message("msg inside level2 ", null);
         Reporter.reporter().openLevel("open level3 inside level2", "image change");
         Reporter.reporter().message("msg inside level3", null);
@@ -33,6 +34,7 @@ public class Run {
         Reporter.reporter().message("msg2 parent after close", "more more");
         Reporter.reporter().message("msg3 parent after close", "more more");
         Reporter.reporter().result("parent error", null, false);
+        Reporter.reporter().closeAllLevels();
 
 
         // Reporter.reporter().error("xxxxx");

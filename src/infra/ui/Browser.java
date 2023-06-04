@@ -58,7 +58,7 @@ public class Browser {
                 logs.append("\r\n").append(le.toString());
             }
             if (logs.length() > 0) {
-                reporter.error("Browser Errors", logs.toString());
+                reporter.warning("Browser Errors", logs.toString());
             }
             driver.quit();
             driver = null;

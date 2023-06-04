@@ -23,7 +23,8 @@ public class Reporter {
     private File html;
     private static int errCounter = 0;
 
-    Stack<Integer> curPathStack = new Stack<>();
+    Stack<Integer> currPathStack = new Stack<>();
+    Stack<String> currPathStackMsg = new Stack<>();
     List<Integer> levelWithErrorList = new ArrayList<>();
 
     private int id = 1;
@@ -192,12 +193,25 @@ public class Reporter {
     //Methods
 
     public void message(String msg, String moreInfo) {
-        _reportRow(msg, moreInfo, null, true, false);
+        _reportRow(msg, moreInfo, null, Severity.INFO, false);
+    }
+
+    public void warning(String msg, String moreInfo) {
+        _reportRow(msg, moreInfo, null, Severity.WARN, false);
+    }
+
+    public void error(String errMsg, String moreInfo, Throwable... e) {
+        if (e.length > 0) {
+            moreInfo = (moreInfo != null ? moreInfo : "") + AutomationException.printable(e[0]);
+        } else {
+            moreInfo = (moreInfo != null ? moreInfo : "") + AutomationException.printable(new Error(errMsg));
+        }
+        _reportRow(errMsg, moreInfo, Browser.getPageSourceFile(id), Severity.ERROR, false);
+        changeOuterLevelToError();
     }
 
     public void openLevel(String msg, String moreInfo) {
-
-        _reportRow(msg, moreInfo, null, true, true);
+        _reportRow(msg, moreInfo, null, Severity.INFO, true);
         listLevelId.add(0);
     }
 
@@ -206,20 +220,20 @@ public class Reporter {
         return this;
     }
 
-    private String _createRowHtml(String msg, String moreInfo, File attachment, boolean isPass, boolean isLevel) {
+    private String _createRowHtml(String msg, String moreInfo, File attachment, Severity severity, boolean isLevel) {
 
         listLevelId.set(listLevelId.size() - 1, listLevelId.get(listLevelId.size() - 1) + 1);
         String levelId = getLevelId();
         String parentId = getParentId();
         String date = sdf1.format(new Date());
 
-        appendHtml("<tr id='" + id + "' levelId='" + levelId + "' parentId='" + parentId + "' style='display: " + isOuter(parentId) + "' error='" + !isPass + "'>\n" +
-                "        <td><img id='" + id + "_img' src='../resources/reporter/" + (isPass ? "passed.png" : "failed.png") + "'/></td>\n" +
+        appendHtml("<tr id='" + id + "' levelId='" + levelId + "' parentId='" + parentId + "' style='display: " + isOuter(parentId) + "' error='" + (severity == Severity.ERROR) + "'>\n" +
+                "        <td><img id='" + id + "_img' src='../resources/reporter/" + severity.iconPng + "'/></td>\n" +
                 "        <td>" + levelImage(isLevel, levelId) + applyStyles(msg) + "</td>\n" +
                 "        <td>" + date + "</td>\n");
 
-        screenshot(Browser.isOpen() && (!isPass || hasScreenshot));
-        if (!isPass) {
+        screenshot(Browser.isOpen() && (severity == Severity.ERROR || hasScreenshot));
+        if (severity == Severity.ERROR) {
             takeScreenshot();
         }
         attachment(attachment);
@@ -227,7 +241,8 @@ public class Reporter {
         appendHtml("</tr>");
 
         if (isLevel) {
-            curPathStack.add(id);
+            currPathStack.add(id);
+            currPathStackMsg.add(msg);
         }
 
         id++;
@@ -267,37 +282,34 @@ public class Reporter {
         return getReplaceToString(listLevelId);
     }
 
-    public void error(String errMsg, String moreInfo, Throwable... e) {
-        if (e.length > 0) {
-            moreInfo = (moreInfo != null ? moreInfo : "") + AutomationException.printable(e[0]);
-        } else {
-            moreInfo = (moreInfo != null ? moreInfo : "") + AutomationException.printable(new Error(errMsg));
-        }
-        _reportRow(errMsg, moreInfo, Browser.getPageSourceFile(id), false, false);
-        changeOuterLevelToError();
-    }
-
     private String getReplaceToString(List<Integer> list) {
         return list.toString().replace("[", "").replace("]", "").replace(", ", "_");
     }
 
     public void closeLevel() {
-        curPathStack.pop();
+        currPathStack.pop();
+        currPathStackMsg.pop();
         listLevelId.remove(listLevelId.size() - 1);
     }
 
     public void closeLevel(String msg) {
-        curPathStack.pop();
-        listLevelId.remove(listLevelId.size() - 1);
+        while (!currPathStackMsg.empty()) {
+            closeLevel();
+            if (currPathStackMsg.peek().equals(msg)) {
+                closeLevel();
+                break;
+            }
+        }
     }
 
     public void closeInnerLevels() {
-        curPathStack.pop();
-        listLevelId.remove(listLevelId.size() - 1);
+        while (currPathStack.size() > 1) {
+            closeLevel();
+        }
     }
 
     public void closeAllLevels() {
-        while (!curPathStack.empty()) {
+        while (!currPathStack.empty()) {
             closeLevel();
         }
     }
@@ -372,11 +384,11 @@ public class Reporter {
         }
     }
 
-    private void _reportRow(String msg, String moreInfo, File attachment, boolean isPass, boolean isLevel) {
+    private void _reportRow(String msg, String moreInfo, File attachment, Severity severity, boolean isLevel) {
 
-        String date = _createRowHtml(msg, moreInfo, attachment, isPass, isLevel);//האם יש ענין להחזיר את הdate
+        String date = _createRowHtml(msg, moreInfo, attachment, severity, isLevel);//האם יש ענין להחזיר את הdate
 
-        System.out.println("[" + date + "][" + (isPass ? "MSG" : "ERR") + "] " + msg + (moreInfo == null ? "" : "\r\n\t\t\t\t" + moreInfo));
+        System.out.println("[" + date + "][" + severity.consoleTxt + "] " + msg + (moreInfo == null ? "" : "\r\n\t\t  [MoreInfo] " + moreInfo));
     }
 
 
@@ -428,13 +440,28 @@ public class Reporter {
 
     private void changeOuterLevelToError() {
         errCounter++;
-        for (int levelId : curPathStack) {
+        for (int levelId : currPathStack) {
             levelWithErrorList.add(levelId);
             appendHtml("<script>\n" +
                     "document.getElementById('" + levelId + "_img').src = '../resources/reporter/failed.png';\n" +
                     "document.querySelector(\"tr[id='" + levelId + "']\").setAttribute('error', 'true');\n" +
                     "document.getElementById('errorCounter').innerHTML = '<b>" + errCounter + "</b>'\n" +
                     "</script>\n");
+        }
+    }
+
+    private enum Severity {
+        INFO("MSG", "passed.png"),
+        WARN("WRN", "warn.png"),
+        ERROR("ERR", "failed.png"),
+        //
+        ;
+        private String consoleTxt;
+        private String iconPng;
+
+        private Severity(String consoleTxt, String iconPng) {
+            this.consoleTxt = consoleTxt;
+            this.iconPng = iconPng;
         }
     }
 
