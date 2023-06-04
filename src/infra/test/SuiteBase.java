@@ -1,13 +1,18 @@
 package infra.test;
 
 import infra.data.DataProcessor;
-import infra.general.*;
+import infra.general.AutomationException;
+import infra.general.Utils;
 import infra.reporter.Reporter;
 import infra.ui.Browser;
 import objects.BaseData;
-import org.junit.*;
-import org.junit.rules.*;
-import org.junit.runner.*;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TestRule;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
+import org.junit.runner.JUnitCore;
+import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.model.Statement;
 
@@ -52,7 +57,7 @@ public abstract class SuiteBase {
                 public void evaluate() {
                     try {
                         starting(description);
-                        base.evaluate();  //לולאה?
+                        base.evaluate();
                         succeeded(description);
                     } catch (Throwable t) {
                         failed(t, description);

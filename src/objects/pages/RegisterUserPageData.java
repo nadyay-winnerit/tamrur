@@ -8,7 +8,7 @@ public class RegisterUserPageData extends BaseData {
     private String fNameInput;
     private String pwdInput;
     private String lrSelect;
-    private String activeInput;
+    private boolean activeInput;
 
     public String getEmailInput() {
       return  emailInput;
@@ -26,7 +26,7 @@ public class RegisterUserPageData extends BaseData {
         return lrSelect;
     }
 
-    public String getActiveInput() {
+    public boolean getActiveInput() {
         return activeInput;
     }
 
@@ -46,7 +46,7 @@ public class RegisterUserPageData extends BaseData {
         this.lrSelect = lrSelect;
     }
 
-    public void setActiveInput(String activeInput) {
+    public void setActiveInput(boolean activeInput) {
         this.activeInput = activeInput;
     }
 

@@ -1,13 +1,17 @@
 package infra.data;
 
-import infra.general.*;
+import infra.general.AutomationException;
+import infra.general.Config;
+import infra.general.Prop;
+import infra.general.Utils;
 import objects.BaseData;
-import objects.pages.medicalFile.PatientDetailsPageData;
 import org.apache.commons.lang3.StringUtils;
 import org.jooq.tools.csv.CSVReader;
 
-import java.io.*;
-import java.lang.reflect.*;
+import java.io.FileReader;
+import java.io.Reader;
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.util.*;
 
 public class DataProcessor {
@@ -243,7 +247,6 @@ public class DataProcessor {
 //        currentTestId = "22";
         //List<Object[]> objects = DataProcessor.createSuiteData(TestNewRegisterUserData.class);
 //        List<Object[]> objects = DataProcessor.createSuiteData(UserInformationPageData.class);
-        List<BaseData> objects = readCSV(PatientDetailsPageData.class);
-        System.out.println(objects);
+//        System.out.println(objects);
     }
 }

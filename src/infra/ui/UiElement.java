@@ -2,7 +2,9 @@ package infra.ui;
 
 import infra.general.Utils;
 import infra.reporter.Reporter;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
@@ -108,10 +110,6 @@ public class UiElement {
         return str;
     }
 
-    public boolean isExists() {
-        findElement();
-        return this.element != null;
-    }
 
     public void input(String str) {
         if (str == null) {
@@ -130,10 +128,12 @@ public class UiElement {
         if (str == null) {
             return true;
         }
+
         if (!isExists()) {
             reporter.error("The element [" + this.desc + "] is not exists", str + "\r\n" + by.toString());
             return false;
         }
+
         boolean result = this.element.getText().equals(str);
         reporter.result("ValidateText: element Text [" + this.element.getText() + "] ,current Text [" + str + "]"
                 , by.toString(), result);
@@ -145,10 +145,15 @@ public class UiElement {
             reporter.message("The element [" + this.desc + "] is exists", by.toString());
             return true;
         }
+
         reporter.error("The element [" + this.desc + "] is not exists", by.toString());
         return false;
     }
 
+    public boolean isExists() {
+        findElement();
+        return this.element != null;
+    }
 
     protected void findElement() {
         int count = 10;
@@ -159,11 +164,13 @@ public class UiElement {
                 root.findElement();
                 _root = root.element;
             }
+
             List<WebElement> elements = _root.findElements(this.by);
 
             if (!elements.isEmpty()) {
                 this.element = elements.get(index);
                 Browser.runJS("arguments[0].scrollIntoView()", element);
+
                 Utils.sleepMS(500);
                 break;
             }
@@ -172,16 +179,17 @@ public class UiElement {
 
     public void select(String str) {
         findElement();
-        reporter.message("Select from drop-down [" + this.desc + "] the option: "+str, str + "\r\n" + by.toString());
+        reporter.message("Select from drop-down [" + this.desc + "] the option: " + str, str + "\r\n" + by.toString());
         Select select = new Select(element);
         select.selectByVisibleText(str);
     }
 
     public boolean validateChooseRadio() {
         if (!isExists()) {
-            reporter.error("The element [" + this.desc + "] is not exists",  by.toString());
+            reporter.error("The element [" + this.desc + "] is not exists", by.toString());
             return false;
         }
+
         if (element.isSelected()) {
             reporter.message("The element [" + this.desc + "] is Selected", by.toString());
             return true;
