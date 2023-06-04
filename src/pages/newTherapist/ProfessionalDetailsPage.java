@@ -6,7 +6,6 @@ import objects.pages.newTherapist.ProfessionalDetailsPageData;
 import org.openqa.selenium.By;
 
 public class ProfessionalDetailsPage extends BasePage {
-    private final UiElement title = new UiElement("כותרת", By.xpath("//h3[text()='פרטים מקצועיים']"));
     UiElement specializationMenu = new UiElement("תפריט תחומי התמחות", By.cssSelector("select[ng-reflect-model]"));
     UiElement treatmentType = new UiElement("סוג טיפול", By.cssSelector("select[ng-reflect-name='t0']"));
     UiElement treatmentPrice = new UiElement("מחיר טיפול", By.cssSelector("input[ng-reflect-name*='price']"));
@@ -28,6 +27,6 @@ public class ProfessionalDetailsPage extends BasePage {
 
     @Override
     public boolean assertDisplay() {
-        return title.isExists();
+        return new UiElement("כותרת", By.xpath("//h3[text()='פרטים מקצועיים']")).isExists();
     }
 }

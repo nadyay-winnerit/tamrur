@@ -6,10 +6,12 @@ import infra.enums.Users;
 import infra.general.Utils;
 import infra.test.TestBase;
 import infra.ui.BasePage;
+import infra.ui.Browser;
 import infra.ui.components.TableCell;
 import infra.ui.components.TableWe;
 import objects.tests.TestTherapistData;
 import org.junit.runners.Parameterized;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import pages.LoginPage;
 import pages.NavbarPage;
@@ -50,12 +52,16 @@ public class TestTherapist extends TestBase {
         new UserInformationPage().fillPage(testData.getUserInformationPageData()).finish();
         new ProfessionalDetailsPage().fillPage(testData.getProfessionalDetailsPageData()).finish();
         new ContactInformationPage().fillPage(testData.getContactInformationPageData()).finish();
-        if (testData.getUserInformationPageData().getExternal()) {
+        if (!testData.getUserInformationPageData().getExternal()) {
             new DaysAndHoursOfOperationPage().fillPage(testData.getDaysAndHoursOfOperationPageData()).finish();
             indexTable = 2;
         }
         Utils.sleep(1);
         NavbarPage.saveClick();
+        Utils.sleep(1);
+        Alert alert = Browser.driver().switchTo().alert();
+        alert.accept();
+        Utils.sleep(1);
         BasePage.chooseMenu(MenuMain.terapists);
         createTherapistListValues();
         new TableWe("טבלה", By.cssSelector("table")).setIndex(indexTable).validate(therapistListValues, 1);
@@ -67,5 +73,6 @@ public class TestTherapist extends TestBase {
         therapistListValues.add(new TableCell("טלפון", testData.getContactInformationPageData().getPhoneNumber(), false));
         therapistListValues.add(new TableCell("אימייל", testData.getContactInformationPageData().getEmailAddress(), false));
         therapistListValues.add(new TableCell("מגדר", testData.getUserInformationPageData().getGender().name(), false));
+
     }
 }

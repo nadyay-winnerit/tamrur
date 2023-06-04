@@ -7,7 +7,6 @@ import org.openqa.selenium.By;
 
 
 public class ContactInformationPage extends BasePage {
-    private final UiElement title = new UiElement("כותרת", By.xpath("//h3[text()='פרטי התקשרות']"));
     private final UiElement address = new UiElement("כתובת", By.cssSelector("input[name='address']"));
     private final UiElement cityMenu = new UiElement("עיר", By.cssSelector("select[name='city']"));
     private final UiElement country = new UiElement("ארץ", By.cssSelector("[name='land']"));
@@ -25,9 +24,9 @@ public class ContactInformationPage extends BasePage {
         address.input(data.getAddress());
         cityMenu.select(data.getCityMenu());
         country.input(data.getCountry());
+        emailAddress.input(data.getEmailAddress());
         agreeReceiveSMS.checkBox(data.getAgreeReceiveSMS());
         agreeReceiveEmail.checkBox(data.getAgreeReceiveEmail());
-        emailAddress.input(data.getEmailAddress());
         phoneNumber.input(data.getPhoneNumber());
         typePhone.setIndex(data.getTypePhone().getValue()).chooseRadio();
         return this;
@@ -35,6 +34,6 @@ public class ContactInformationPage extends BasePage {
 
     @Override
     public boolean assertDisplay() {
-        return title.isExists();
+        return new UiElement("כותרת", By.xpath("//h3[text()='פרטי התקשרות']")).isExists();
     }
 }

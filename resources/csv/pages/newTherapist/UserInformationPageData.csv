@@ -1,3 +1,5 @@
 id             |firstName|lastName|gender|loginPassword|isActive|isExternal
-male active    |david    |levi    |male  |automation   |true    |false
-female external|miriam   |cohen   |female|aaa          |false   |True
+male active    |dodo     |kempe   |male  |automation   |true    |false
+male external  |moshe    |levi    |male  |automation   |false   |true
+female external|miriam   |cohen   |female|automation   |false   |true
+female active  |sara bela|cohen   |female|automation   |true    |false

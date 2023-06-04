@@ -1,6 +1,7 @@
 package infra.ui.components;
 
 import infra.general.AutomationException;
+import infra.reporter.Reporter;
 import infra.ui.UiElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -66,7 +67,8 @@ public class TableWe extends UiElement {
      * @param numLine - number of line
      * @return
      */
-    public boolean validate(List<TableCell> list, int numLine) {
+    //public boolean validate(List<TableCell> list, int numLine) {
+    public TableWe validate(List<TableCell> list, int numLine) {
         super.findElement();
         boolean bool = false;
         WebElement tr = element.findElement(By.cssSelector("tr:nth-child(" + numLine + ")"));
@@ -82,7 +84,14 @@ public class TableWe extends UiElement {
             if (!bool)
                 break;
         }
-        return bool;
+        //return bool;
+        if (bool) {
+            Reporter.reporter().message("The validation was successful, the row in the table was found", null);
+        } else {
+            Reporter.reporter().error("Validation failed, the row in the table was not found", null, null);
+        }
+        Reporter.reporter().takeScreenshot();
+        return this;
     }
 
 

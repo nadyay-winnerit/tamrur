@@ -7,7 +7,6 @@ import org.openqa.selenium.By;
 
 public class UserInformationPage extends BasePage {
 
-    private final UiElement title = new UiElement("כותרת", By.xpath("//h3[text()='פרטי משתמש']"));
     private final UiElement firstName = new UiElement("שם פרטי", By.cssSelector("input[name='f1Name']"));
     private final UiElement lastName = new UiElement("שם משפחה", By.cssSelector("input[name='l1Name']"));
     private final UiElement gender = new UiElement("מגדר", By.cssSelector("[name='gender']"));
@@ -34,7 +33,7 @@ public class UserInformationPage extends BasePage {
 
     @Override
     public boolean assertDisplay() {
-        return title.isExists();
+        return new UiElement("כותרת", By.xpath("//h3[text()='פרטי משתמש']")).isExists();
 
     }
 }
