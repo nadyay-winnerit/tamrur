@@ -184,6 +184,10 @@ public class DataProcessor {
                     splitList = str.split("_");
                     int n = Integer.parseInt(splitList[2].substring(0, splitList[2].length() - 1));
                     return getAlphaNumericString(n);
+                } else if (str.startsWith("[RANDOM_EMAIL")) {
+                    splitList = str.split("_");
+                    int n = Integer.parseInt(splitList[2].substring(0, splitList[2].length() - 1));
+                    return getEmail(n);
                 }
 
             }
@@ -203,6 +207,22 @@ public class DataProcessor {
         }
         return sb.toString();
     }
+
+    public static String getEmail(int n) {
+        String alphaString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "abcdefghijklmnopqrstuvxyz";
+        String alphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "abcdefghijklmnopqrstuvxyz" + "0123456789";
+        String endEmail = "@gmail.com";
+        StringBuilder sb = new StringBuilder(n);
+        int indexForFirstLetter = (int) (alphaString.length() * Math.random());
+        sb.append(alphaString.charAt(indexForFirstLetter));
+        for (int i = 0; i < n - 1; i++) {
+            int index = (int) (alphaNumericString.length() * Math.random());
+            sb.append(alphaNumericString.charAt(index));
+        }
+        sb.append(endEmail);
+        return sb.toString();
+    }
+
 
     //return string in format dayOfMonth/month/year
     public static String getDate(String str) {
