@@ -1,17 +1,12 @@
 package infra.data;
 
-import infra.general.AutomationException;
-import infra.general.Config;
-import infra.general.Prop;
-import infra.general.Utils;
+import infra.general.*;
 import objects.BaseData;
 import org.apache.commons.lang3.StringUtils;
 import org.jooq.tools.csv.CSVReader;
 
-import java.io.FileReader;
-import java.io.Reader;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
+import java.io.*;
+import java.lang.reflect.*;
 import java.util.*;
 
 public class DataProcessor {
@@ -162,40 +157,40 @@ public class DataProcessor {
     }
 
     private static String getValue(String str) {
-        Random random = new Random();
-        String value = str;
-        String[] splitList = null;
         if (str.startsWith("[") && str.endsWith("]")) {
             if (str.startsWith("[TODAY")) {
                 //[TODAY-18Y+1M-2D]
-                value = getDate(str);
+                return getDate(str);
             } else if (str.startsWith("[RANDOM")) {
                 //[RANDOM_N_100_1000]
                 if (str.startsWith("[RANDOM_N")) {
-                    splitList = str.split("_");
+                    String[] splitList = str.split("_");
                     int origin = Integer.parseInt(splitList[2]);
                     int bound = Integer.parseInt(splitList[3].substring(0, splitList[3].length() - 1));
                     int n = bound - origin;
                     if (n > 0) {
-                        return String.valueOf(random.nextInt(n) + origin);
+                        return String.valueOf(new Random().nextInt(n) + origin);
                     }
                     //[RANDOM_S_50]
                 } else if (str.startsWith("[RANDOM_S")) {
-                    splitList = str.split("_");
+                    String[] splitList = str.split("_");
                     int n = Integer.parseInt(splitList[2].substring(0, splitList[2].length() - 1));
                     return getAlphaNumericString(n);
                 } else if (str.startsWith("[RANDOM_EMAIL")) {
-                    splitList = str.split("_");
+                    String[] splitList = str.split("_");
                     int n = Integer.parseInt(splitList[2].substring(0, splitList[2].length() - 1));
                     return getEmail(n);
+                } else {
+                    throw new AutomationException("Unknown Formula :: " + str, null, null);
                 }
-
+            } else {
+                throw new AutomationException("Unknown Formula :: " + str, null, null);
             }
         }
-        return value;
+        return str;
     }
 
-    public static String getAlphaNumericString(int n) {
+    private static String getAlphaNumericString(int n) {
         String alphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 + "0123456789"
                 + "abcdefghijklmnopqrstuvxyz"
@@ -208,7 +203,7 @@ public class DataProcessor {
         return sb.toString();
     }
 
-    public static String getEmail(int n) {
+    private static String getEmail(int n) {
         String alphaString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "abcdefghijklmnopqrstuvxyz";
         String alphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "abcdefghijklmnopqrstuvxyz" + "0123456789";
         String endEmail = "@gmail.com";
@@ -225,7 +220,7 @@ public class DataProcessor {
 
 
     //return string in format dayOfMonth/month/year
-    public static String getDate(String str) {
+    private static String getDate(String str) {
         String[] splitList = null;
         Calendar calendar = Calendar.getInstance();
         splitList = StringUtils.split(str.substring(6, str.length() - 1), "-+");
@@ -254,6 +249,8 @@ public class DataProcessor {
                 } else {
                     calendar.add(Calendar.DAY_OF_MONTH, n);
                 }
+            } else {
+                throw new AutomationException("Unknown Formula :: " + s + " in " + str, null, null);
             }
         }
         int year = calendar.get(Calendar.YEAR);
