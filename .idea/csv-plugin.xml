@@ -3,20 +3,6 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
-        <entry key="\bin\production\tamrur\csv\pages\RegisterUserPageData.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="|" />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\resources\csv\pages\RegisterUserPageData.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="|" />
-            </Attribute>
-          </value>
-        </entry>
         <entry key="\resources\csv\pages\medicalFile\ContactPageData.csv">
           <value>
             <Attribute>

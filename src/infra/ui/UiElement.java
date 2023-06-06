@@ -53,7 +53,8 @@ public class UiElement {
     //methods
 
     public void click() {
-//        reporter.hasScreenshot().message("Click on the element [" + this.desc + "]", by.toString());
+        //reporter.hasScreenshot().message("Click on the element [" + this.desc + "]", by.toString());
+        reporter.message("Click on the element [" + this.desc + "]", by.toString());
         findElement();
         element.click();
         //Utils.sleepMS(500);
