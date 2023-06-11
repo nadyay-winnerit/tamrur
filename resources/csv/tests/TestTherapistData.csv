@@ -1,5 +1,5 @@
-id|UserInformationPageData|ProfessionalDetailsPageData|ContactInformationPageData|DaysAndHoursOfOperationPageData
-1 |male active            |אבחונים:קשב וריכוז         |fax1                      |בוקר
-2 |female external        |מוזיקה:טיפול רגשי          |landline1                 |
-3 |female active          |אבחונים:קשב וריכוז         |fax2                      |ערב
-4 |male external          |                           |landline2                 |
+id             |UserInformationPageData|ProfessionalDetailsPageData|ContactInformationPageData|DaysAndHoursOfOperationPageData
+מטפל פעיל,בוקר |male active            |אבחונים:קשב וריכוז         |fax1                      |בוקר
+מטפלת חיצונית  |female external        |מוזיקה:טיפול רגשי          |landline1                 |
+מטפלת פעילה,ערב|female active          |אבחונים:קשב וריכוז         |fax2                      |ערב
+מטפל חיצוני    |male external          |מוזיקה:טיפול רגשי          |landline2                 |

@@ -77,7 +77,7 @@ public class TestTherapist extends TestBase {
         therapistListValues.add(new TableCell("שם", testData.getUserInformationPageData().getFirstName().concat(" " + testData.getUserInformationPageData().getLastName()), false));
         therapistListValues.add(new TableCell("טלפון", testData.getContactInformationPageData().getPhoneNumber(), false));
         therapistListValues.add(new TableCell("אימייל", testData.getContactInformationPageData().getEmailAddress(), false));
-        therapistListValues.add(new TableCell("מגדר", testData.getUserInformationPageData().getGender().name(), false));
+        //therapistListValues.add(new TableCell("מגדר", testData.getUserInformationPageData().getGender().name(), false));
 
     }
 }

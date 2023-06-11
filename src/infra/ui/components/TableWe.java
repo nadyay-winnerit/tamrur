@@ -90,7 +90,7 @@ public class TableWe extends UiElement {
             Reporter.reporter().message("The validation was successful, the row in the table was found", null);
             Reporter.reporter().takeScreenshot();
         } else {
-            Reporter.reporter().error("Validation failed, the row in the table was not found", null, null);
+            Reporter.reporter().error("Validation failed, the row in the table was not found", null);
         }
 
         return bool;

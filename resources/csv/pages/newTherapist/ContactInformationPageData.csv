@@ -1,5 +1,5 @@
-id      |address  |cityMenu|country|emailAddress    |agreeReceiveSMS|agreeReceiveEmail|phoneNumber|typePhone
-fax1    |חפץ חיים	|אופקים  |       |[RANDOM_EMAIL_5]|true           |                 |089345432  |fax
-fax2    |חפץ חיים	|אופקים  |       |[RANDOM_EMAIL_5]|true           |                 |089345432  |fax
-landline|הקישון   |בית שמש |       |[RANDOM_EMAIL_5]|false          |                 |025712456  |landline
-landline|הקישון   |בית שמש |       |[RANDOM_EMAIL_5]|false          |                 |025712456  |landline
+id       |address  |cityMenu|country|emailAddress    |agreeReceiveSMS|agreeReceiveEmail|phoneNumber|typePhone
+fax1     |חפץ חיים	|אופקים  |       |[RANDOM_EMAIL_5]|true           |                 |089345432  |fax
+fax2     |חפץ חיים	|אופקים  |       |[RANDOM_EMAIL_5]|true           |                 |089345432  |fax
+landline1|הקישון   |בית שמש |       |[RANDOM_EMAIL_5]|false          |                 |025712456  |landline
+landline2|הקישון   |בית שמש |       |[RANDOM_EMAIL_5]|false          |                 |025712456  |landline
