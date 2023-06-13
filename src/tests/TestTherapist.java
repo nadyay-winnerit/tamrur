@@ -29,9 +29,7 @@ public class TestTherapist extends TestBase {
     private final TestTherapistData testData;
     private final List<TableCell> therapistListValues = new ArrayList<>();
 
-    private enum IndexTable {
 
-    }
 
 
     public TestTherapist(String testCase, TestTherapistData testData) {
