@@ -1,17 +1,12 @@
 package infra.data;
 
-import infra.general.AutomationException;
-import infra.general.Config;
-import infra.general.Prop;
-import infra.general.Utils;
+import infra.general.*;
 import objects.BaseData;
 import org.apache.commons.lang3.StringUtils;
 import org.jooq.tools.csv.CSVReader;
 
-import java.io.FileReader;
-import java.io.Reader;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
+import java.io.*;
+import java.lang.reflect.*;
 import java.util.*;
 
 public class DataProcessor {
@@ -131,6 +126,11 @@ public class DataProcessor {
 
         currentTestId = null;
 
+        if (filteredResult.isEmpty()) {
+            throw new AutomationException("There is nothing to run - please check your filter (on config.properties file?)"
+                    , "Prop.TESTCASE = " + testCase + "; currentTestId = " + currentTestId, null);
+        }
+
         for (BaseData d : filteredResult) {
             data.add(new Object[]{d.getId(), d});
         }
@@ -152,6 +152,11 @@ public class DataProcessor {
             }
         } else {
             filteredResult.addAll(csvData);
+        }
+
+        if (filteredResult.isEmpty()) {
+            throw new AutomationException("There is nothing to run - please check your filter (on config.properties file?)"
+                    , "Prop.SUITECASE = " + suiteCase, null);
         }
 
         List<Object[]> data = new ArrayList<>();
