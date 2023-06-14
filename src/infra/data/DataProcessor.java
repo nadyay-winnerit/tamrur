@@ -2,17 +2,12 @@ package infra.data;
 
 import data.BaseData;
 import data.pages.newTherapist.ContactInformationPageData;
-import infra.general.AutomationException;
-import infra.general.Config;
-import infra.general.Prop;
-import infra.general.Utils;
+import infra.general.*;
 import org.apache.commons.lang3.StringUtils;
 import org.jooq.tools.csv.CSVReader;
 
-import java.io.FileReader;
-import java.io.Reader;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
+import java.io.*;
+import java.lang.reflect.*;
 import java.util.*;
 
 public class DataProcessor {
@@ -27,7 +22,7 @@ public class DataProcessor {
         String currentColumn = null;
         Method[] methodList = null;
         try {
-            String classPath = clazz.getName().replace("objects.", "").replace(".", "\\");
+            String classPath = clazz.getName().replace("data.", "").replace(".", "\\");
             Reader reader = new FileReader("resources\\csv\\" + classPath + ".csv");
             CSVReader csvReader = new CSVReader(reader, '|');
             List<String[]> rows = csvReader.readAll();
@@ -90,8 +85,9 @@ public class DataProcessor {
                 result.add(o);
             }
         } catch (Throwable e) {
+            String methodsList = methodList == null ? "no methods determined" : Arrays.asList(methodList).toString().replace(", public", "\r\npublic");
             throw new AutomationException("כשלון ב CSV " + clazz.getSimpleName() + " for method " + currentColumn
-                    , clazz.getSimpleName() + " Class Methods :\r\n" + Arrays.asList(methodList).toString().replace(", public", "\r\npublic"), e);
+                    , clazz.getSimpleName() + " Class Methods :\r\n" + methodsList, e);
         }
 
         return result;
