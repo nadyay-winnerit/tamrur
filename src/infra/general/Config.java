@@ -1,6 +1,7 @@
 package infra.general;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 public class Config {
@@ -13,7 +14,7 @@ public class Config {
         try {
             properties = new Properties();
             FileInputStream in = new FileInputStream("config.properties");
-            properties.load(in);
+            properties.load(new InputStreamReader(in, StandardCharsets.UTF_8));
             in.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
