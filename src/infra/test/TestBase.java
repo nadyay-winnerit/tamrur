@@ -1,12 +1,16 @@
 package infra.test;
 
+import data.BaseData;
 import infra.general.AutomationException;
 import infra.reporter.Reporter;
 import infra.ui.Browser;
-import objects.BaseData;
-import org.junit.*;
-import org.junit.rules.*;
-import org.junit.runner.*;
+import org.junit.Assert;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TestRule;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
+import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.model.Statement;
 

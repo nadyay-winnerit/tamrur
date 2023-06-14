@@ -1,11 +1,11 @@
 package infra.test;
 
+import data.BaseData;
 import infra.data.DataProcessor;
 import infra.general.AutomationException;
 import infra.general.Utils;
 import infra.reporter.Reporter;
 import infra.ui.Browser;
-import objects.BaseData;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;

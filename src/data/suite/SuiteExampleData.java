@@ -1,7 +1,7 @@
-package objects.suite;
+package data.suite;
 
-import objects.BaseData;
-import objects.tests.TestTherapistData;
+import data.BaseData;
+import data.tests.TestTherapistData;
 
 public class SuiteExampleData extends BaseData {
 

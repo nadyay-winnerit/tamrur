@@ -1,10 +1,9 @@
 package pages.medicalFile;
 
+import data.pages.medicalFile.ContactPageData;
 import infra.reporter.Reporter;
 import infra.ui.BasePage;
 import infra.ui.UiElement;
-import objects.pages.medicalFile.ContactPageData;
-import objects.pages.medicalFile.PatientDetailsPageData;
 import org.openqa.selenium.By;
 
 public class ContactPage extends BasePage {

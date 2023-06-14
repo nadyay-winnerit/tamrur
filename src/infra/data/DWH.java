@@ -1,10 +1,11 @@
 package infra.data;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import data.BaseData;
+import data.pages.RegisterUserPageData;
+import data.tests.TestExampleData;
 import infra.general.AutomationException;
-import objects.BaseData;
-import objects.pages.RegisterUserPageData;
-import objects.tests.TestExampleData;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;

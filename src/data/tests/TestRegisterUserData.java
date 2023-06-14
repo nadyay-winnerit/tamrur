@@ -1,8 +1,8 @@
-package objects.tests;
+package data.tests;
 
+import data.BaseData;
+import data.pages.RegisterUserPageData;
 import infra.enums.Users;
-import objects.BaseData;
-import objects.pages.RegisterUserPageData;
 
 public class TestRegisterUserData extends BaseData {
 

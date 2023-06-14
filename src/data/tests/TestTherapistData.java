@@ -1,10 +1,10 @@
-package objects.tests;
+package data.tests;
 
-import objects.BaseData;
-import objects.pages.newTherapist.ContactInformationPageData;
-import objects.pages.newTherapist.DaysAndHoursOfOperationPageData;
-import objects.pages.newTherapist.ProfessionalDetailsPageData;
-import objects.pages.newTherapist.UserInformationPageData;
+import data.BaseData;
+import data.pages.newTherapist.ContactInformationPageData;
+import data.pages.newTherapist.DaysAndHoursOfOperationPageData;
+import data.pages.newTherapist.ProfessionalDetailsPageData;
+import data.pages.newTherapist.UserInformationPageData;
 
 public class TestTherapistData extends BaseData {
 

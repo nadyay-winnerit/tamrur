@@ -1,0 +1,5 @@
+id|address  |cityMenu|country|emailAddress    |agreeReceiveSMS|agreeReceiveEmail
+1 |חפץ חיים	|אופקים  |       |[RANDOM_EMAIL_5]|true           |false
+2 |חפץ חיים	|אופקים  |       |[RANDOM_EMAIL_5]|true           |true
+3 |הקישון   |בית שמש |       |[RANDOM_EMAIL_5]|false          |false
+4 |הקישון   |בית שמש |       |[RANDOM_EMAIL_5]|true           |true

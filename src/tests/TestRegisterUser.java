@@ -1,11 +1,11 @@
 package tests;
 
+import data.tests.TestRegisterUserData;
 import infra.data.DataProcessor;
 import infra.enums.MenuMain;
 import infra.test.TestBase;
 import infra.ui.BasePage;
 import infra.ui.UiElement;
-import objects.tests.TestRegisterUserData;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.By;
 import pages.LoginPage;

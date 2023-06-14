@@ -1,6 +1,6 @@
-package objects.struct;
+package data.struct;
 
-import objects.BaseData;
+import data.BaseData;
 
 public class TelephoneStructData extends BaseData {
 

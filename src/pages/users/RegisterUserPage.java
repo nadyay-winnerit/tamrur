@@ -1,11 +1,11 @@
 package pages.users;
 
+import data.pages.RegisterUserPageData;
 import infra.data.DWH;
 import infra.data.DataKeys;
 import infra.ui.BasePage;
 import infra.ui.Browser;
 import infra.ui.UiElement;
-import objects.pages.RegisterUserPageData;
 import org.openqa.selenium.By;
 
 public class RegisterUserPage extends BasePage {

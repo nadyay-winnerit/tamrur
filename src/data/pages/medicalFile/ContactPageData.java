@@ -1,6 +1,6 @@
-package objects.pages.medicalFile;
+package data.pages.medicalFile;
 
-import objects.BaseData;
+import data.BaseData;
 
 public class ContactPageData extends BaseData {
 

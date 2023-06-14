@@ -1,7 +1,7 @@
-package objects.pages.newTherapist;
+package data.pages.newTherapist;
 
+import data.BaseData;
 import infra.enums.Gender;
-import objects.BaseData;
 
 public class UserInformationPageData extends BaseData {
     private String firstName;

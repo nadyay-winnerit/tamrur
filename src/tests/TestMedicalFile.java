@@ -1,10 +1,10 @@
 
 package tests;
 
+import data.tests.TestMedicalFileData;
 import infra.data.DataProcessor;
 import infra.enums.Users;
 import infra.test.TestBase;
-import objects.tests.TestMedicalFileData;
 import org.junit.runners.Parameterized;
 import pages.LoginPage;
 import pages.NavbarPage;

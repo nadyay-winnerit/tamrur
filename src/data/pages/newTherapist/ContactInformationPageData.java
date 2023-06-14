@@ -1,0 +1,94 @@
+package data.pages.newTherapist;
+
+import data.BaseData;
+import data.component.AddressComponentData;
+import infra.enums.TypePhone;
+
+public class ContactInformationPageData extends BaseData {
+   /* private String address;
+    private String cityMenu;
+    private String country;
+    private String emailAddress;
+    private Boolean agreeReceiveSMS;
+    private Boolean agreeReceiveEmail;*/
+
+    private String phoneNumber;
+    private TypePhone typePhone;
+    private AddressComponentData address = new AddressComponentData();
+
+    public void setAddress(AddressComponentData address) {
+        this.address = address;
+    }
+//setter
+
+    /*public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setCityMenu(String cityMenu) {
+        this.cityMenu = cityMenu;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public void setAgreeReceiveSMS(Boolean agreeReceiveSMS) {
+        this.agreeReceiveSMS = agreeReceiveSMS;
+    }
+
+    public void setAgreeReceiveEmail(Boolean agreeReceiveEmail) {
+        this.agreeReceiveEmail = agreeReceiveEmail;
+    }
+*/
+
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setTypePhone(TypePhone typePhone) {
+        this.typePhone = typePhone;
+    }
+
+    //getter
+   /* public String getAddress() {
+        return address;
+    }
+
+    public String getCityMenu() {
+        return cityMenu;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public Boolean getAgreeReceiveSMS() {
+        return agreeReceiveSMS;
+    }
+
+    public Boolean getAgreeReceiveEmail() {
+        return agreeReceiveEmail;
+    }*/
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public TypePhone getTypePhone() {
+        return typePhone;
+    }
+
+    public AddressComponentData getAddress() {
+        return address;
+    }
+}

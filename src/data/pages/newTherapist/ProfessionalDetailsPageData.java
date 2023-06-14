@@ -1,6 +1,6 @@
-package objects.pages.newTherapist;
+package data.pages.newTherapist;
 
-import objects.BaseData;
+import data.BaseData;
 
 public class ProfessionalDetailsPageData extends BaseData {
     private String SpecializationMenu;

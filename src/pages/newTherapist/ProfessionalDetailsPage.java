@@ -1,8 +1,8 @@
 package pages.newTherapist;
 
+import data.pages.newTherapist.ProfessionalDetailsPageData;
 import infra.ui.BasePage;
 import infra.ui.UiElement;
-import objects.pages.newTherapist.ProfessionalDetailsPageData;
 import org.openqa.selenium.By;
 
 public class ProfessionalDetailsPage extends BasePage {

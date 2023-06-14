@@ -1,6 +1,6 @@
-package objects.pages;
+package data.pages;
 
-import objects.BaseData;
+import data.BaseData;
 
 public class RegisterUserPageData extends BaseData {
 

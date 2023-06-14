@@ -1,5 +1,6 @@
 package tests;
 
+import data.tests.TestTherapistData;
 import infra.data.DataProcessor;
 import infra.enums.MenuMain;
 import infra.enums.TypesOfTherapists;
@@ -10,7 +11,6 @@ import infra.ui.BasePage;
 import infra.ui.components.DialogWE;
 import infra.ui.components.TableCell;
 import infra.ui.components.TableWe;
-import objects.tests.TestTherapistData;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.By;
 import pages.LoginPage;
@@ -23,6 +23,7 @@ import pages.newTherapist.UserInformationPage;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 
 public class TestTherapist extends TestBase {
 
@@ -74,7 +75,7 @@ public class TestTherapist extends TestBase {
     private void createTherapistListValues() {
         therapistListValues.add(new TableCell("שם", testData.getUserInformationPageData().getFirstName().concat(" " + testData.getUserInformationPageData().getLastName()), false));
         therapistListValues.add(new TableCell("טלפון", testData.getContactInformationPageData().getPhoneNumber(), false));
-        therapistListValues.add(new TableCell("אימייל", testData.getContactInformationPageData().getEmailAddress(), false));
+        // therapistListValues.add(new TableCell("אימייל", testData.getContactInformationPageData().getEmailAddress(), false));
         //therapistListValues.add(new TableCell("מגדר", testData.getUserInformationPageData().getGender().name(), false));
 
     }

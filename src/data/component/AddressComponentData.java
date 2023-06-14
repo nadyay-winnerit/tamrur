@@ -1,19 +1,14 @@
-package objects.pages.newTherapist;
+package data.component;
 
-import infra.enums.TypePhone;
-import objects.BaseData;
+import data.BaseData;
 
-public class ContactInformationPageData extends BaseData {
+public class AddressComponentData extends BaseData {
     private String address;
     private String cityMenu;
     private String country;
     private String emailAddress;
     private Boolean agreeReceiveSMS;
     private Boolean agreeReceiveEmail;
-    private String phoneNumber;
-    private TypePhone typePhone;
-
-    //setter
 
     public void setAddress(String address) {
         this.address = address;
@@ -39,15 +34,6 @@ public class ContactInformationPageData extends BaseData {
         this.agreeReceiveEmail = agreeReceiveEmail;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public void setTypePhone(TypePhone typePhone) {
-        this.typePhone = typePhone;
-    }
-
-    //getter
     public String getAddress() {
         return address;
     }
@@ -72,11 +58,5 @@ public class ContactInformationPageData extends BaseData {
         return agreeReceiveEmail;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
 
-    public TypePhone getTypePhone() {
-        return typePhone;
-    }
 }

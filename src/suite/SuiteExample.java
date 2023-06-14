@@ -1,8 +1,8 @@
 package suite;
 
+import data.suite.SuiteExampleData;
 import infra.data.DataProcessor;
 import infra.test.SuiteBase;
-import objects.suite.SuiteExampleData;
 import org.junit.runners.Parameterized;
 import tests.TestTherapist;
 

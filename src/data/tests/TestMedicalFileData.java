@@ -1,7 +1,9 @@
-package objects.tests;
+package data.tests;
 
-import objects.BaseData;
-import objects.pages.medicalFile.*;
+import data.BaseData;
+import data.pages.medicalFile.ContactPageData;
+import data.pages.medicalFile.FileDetailsPageData;
+import data.pages.medicalFile.PatientDetailsPageData;
 
 
 public class TestMedicalFileData extends BaseData {

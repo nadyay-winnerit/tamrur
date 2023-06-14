@@ -1,7 +1,7 @@
 package struct;
 
+import data.struct.TelephoneStructData;
 import infra.ui.UiElement;
-import objects.struct.TelephoneStructData;
 import org.openqa.selenium.By;
 
 public class TelephoneStruct {

@@ -1,8 +1,8 @@
 package pages.newTherapist;
 
+import data.pages.newTherapist.DaysAndHoursOfOperationPageData;
 import infra.ui.BasePage;
 import infra.ui.UiElement;
-import objects.pages.newTherapist.DaysAndHoursOfOperationPageData;
 import org.openqa.selenium.By;
 
 public class DaysAndHoursOfOperationPage extends BasePage {

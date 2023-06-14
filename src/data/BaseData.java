@@ -1,4 +1,4 @@
-package objects;
+package data;
 
 public class BaseData {
     String id;

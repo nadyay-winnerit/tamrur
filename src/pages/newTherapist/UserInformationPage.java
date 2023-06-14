@@ -1,8 +1,8 @@
 package pages.newTherapist;
 
+import data.pages.newTherapist.UserInformationPageData;
 import infra.ui.BasePage;
 import infra.ui.UiElement;
-import objects.pages.newTherapist.UserInformationPageData;
 import org.openqa.selenium.By;
 
 public class UserInformationPage extends BasePage {

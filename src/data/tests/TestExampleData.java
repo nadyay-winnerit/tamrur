@@ -1,7 +1,7 @@
-package objects.tests;
+package data.tests;
 
-import objects.BaseData;
-import objects.pages.RegisterUserPageData;
+import data.BaseData;
+import data.pages.RegisterUserPageData;
 
 public class TestExampleData extends BaseData {
 

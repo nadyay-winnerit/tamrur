@@ -1,9 +1,9 @@
 package pages.medicalFile;
 
+import data.pages.medicalFile.FileDetailsPageData;
 import infra.reporter.Reporter;
 import infra.ui.BasePage;
 import infra.ui.UiElement;
-import objects.pages.medicalFile.*;
 import org.openqa.selenium.By;
 
 public class FileDetailsPage extends BasePage {
