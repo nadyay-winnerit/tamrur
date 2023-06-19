@@ -1,5 +1,5 @@
-id       |address|phoneNumber|typePhone
-fax1     |1      |089345432  |fax
-fax2     |2      |089345432  |fax
-landline1|3      |025712456  |landline
-landline2|4      |025712456  |landline
+id       |address    |phoneNumber|typePhone
+fax1     |true true  |089345432  |fax
+fax2     |false false|089345432  |fax
+landline1|false true |025712456  |landline
+landline2|true false |025712456  |landline

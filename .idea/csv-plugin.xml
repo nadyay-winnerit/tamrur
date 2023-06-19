@@ -3,13 +3,6 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
-        <entry key="\resources\csv\component\AddressComponentData.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="|" />
-            </Attribute>
-          </value>
-        </entry>
         <entry key="\resources\csv\pages\medicalFile\ContactPageData.csv">
           <value>
             <Attribute>
@@ -67,6 +60,20 @@
           </value>
         </entry>
         <entry key="\resources\csv\pages\newTherapist\UserInformationPageData.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="|" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\resources\csv\struct\AddressStructData.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="|" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\resources\csv\struct\TelephoneStructData.csv">
           <value>
             <Attribute>
               <option name="separator" value="|" />

@@ -1,8 +1,8 @@
-package data.component;
+package data.struct;
 
 import data.BaseData;
 
-public class AddressComponentData extends BaseData {
+public class AddressStructData extends BaseData {
     private String address;
     private String cityMenu;
     private String country;

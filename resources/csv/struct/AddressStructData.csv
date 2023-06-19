@@ -1,0 +1,5 @@
+id         |address  |cityMenu|country|emailAddress    |agreeReceiveSMS|agreeReceiveEmail
+true true  |חפץ חיים	|אופקים  |       |[RANDOM_EMAIL_5]|true           |true
+false false|הדקל	    |ירושלים |       |[RANDOM_EMAIL_5]|false          |false
+true false |הקישון   |בית שמש |       |[RANDOM_EMAIL_5]|true           |false
+false true |חזון איש |בני ברק |       |[RANDOM_EMAIL_5]|false          |true

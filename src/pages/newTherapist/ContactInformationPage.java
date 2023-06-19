@@ -1,10 +1,10 @@
 package pages.newTherapist;
 
-import component.AddressComponent;
 import data.pages.newTherapist.ContactInformationPageData;
 import infra.ui.BasePage;
 import infra.ui.UiElement;
 import org.openqa.selenium.By;
+import struct.AddressStruct;
 
 
 public class ContactInformationPage extends BasePage {
@@ -16,7 +16,7 @@ public class ContactInformationPage extends BasePage {
     private final UiElement agreeReceiveEmail = new UiElement("מסכים לקבל אימייל", By.cssSelector("[name='agree']"));
 
 */
-    private final AddressComponent address = new AddressComponent();
+    private final AddressStruct address = new AddressStruct();
     private final UiElement phoneNumber = new UiElement("מספר טלפון", By.cssSelector("[ng-reflect-name='p0']"));
     private final UiElement typePhone = new UiElement("סוג טלפון", By.cssSelector("[ng-reflect-name='typePhone0']"));
 
@@ -25,12 +25,6 @@ public class ContactInformationPage extends BasePage {
     }
 
     public ContactInformationPage fillPage(ContactInformationPageData data) {
-       /* address.input(data.getAddress());
-        cityMenu.select(data.getCityMenu());
-        country.input(data.getCountry());
-        emailAddress.input(data.getEmailAddress());
-        agreeReceiveSMS.checkBox(data.getAgreeReceiveSMS());
-        agreeReceiveEmail.checkBox(data.getAgreeReceiveEmail());*/
         address.fill(data.getAddress());
         phoneNumber.input(data.getPhoneNumber());
         typePhone.setIndex(data.getTypePhone().getValue()).chooseRadio();

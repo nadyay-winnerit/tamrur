@@ -1,10 +1,10 @@
-package component;
+package struct;
 
-import data.component.AddressComponentData;
+import data.struct.AddressStructData;
 import infra.ui.UiElement;
 import org.openqa.selenium.By;
 
-public class AddressComponent {
+public class AddressStruct {
     private final UiElement address = new UiElement("כתובת", By.cssSelector("input[name='address']"));
     private final UiElement cityMenu = new UiElement("עיר", By.cssSelector("select[name='city']"));
     private final UiElement country = new UiElement("ארץ", By.cssSelector("[name='land']"));
@@ -12,7 +12,7 @@ public class AddressComponent {
     private final UiElement agreeReceiveSMS = new UiElement("מסכים לקבל SMS", By.cssSelector("[name='agreeSMS']"));
     private final UiElement agreeReceiveEmail = new UiElement("מסכים לקבל אימייל", By.cssSelector("[name='agree']"));
 
-    public void fill(AddressComponentData data) {
+    public void fill(AddressStructData data) {
         address.input(data.getAddress());
         cityMenu.select(data.getCityMenu());
         country.input(data.getCountry());
